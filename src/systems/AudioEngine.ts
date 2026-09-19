@@ -1,3 +1,4 @@
+import type { GardenCare } from './GardenCare';
 /** Local synthesized ambience. No recordings, requests or third-party assets. */
 export class AudioEngine {
   private context?: AudioContext;
@@ -5,6 +6,10 @@ export class AudioEngine {
   private voices: OscillatorNode[] = [];
   private windSource?: AudioBufferSourceNode;
   private windGain?: GainNode;
+  private care: GardenCare = 'light';
+  setCare(care: GardenCare) {
+    this.care = care;
+  }
   async enable() {
     if (!this.context) {
       this.context = new AudioContext();
@@ -49,15 +54,18 @@ export class AudioEngine {
       this.master.gain.setTargetAtTime(0, this.context.currentTime, 0.15);
   }
   chime(index = 0) {
+    this.note(index, 1, 0.15);
+    if (this.care === 'music') this.note(index, 1.5, 0.055);
+  }
+  private note(index: number, ratio: number, volume: number) {
     if (!this.context || !this.master) return;
     const oscillator = this.context.createOscillator();
     const gain = this.context.createGain();
     const now = this.context.currentTime;
-    oscillator.frequency.value = [523.25, 587.33, 659.25, 783.99, 880][
-      index % 5
-    ];
+    oscillator.frequency.value =
+      ratio * [523.25, 587.33, 659.25, 783.99, 880][index % 5];
     gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(0.15, now + 0.02);
+    gain.gain.linearRampToValueAtTime(volume, now + 0.02);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
     oscillator.connect(gain).connect(this.master);
     oscillator.start();

@@ -31,6 +31,8 @@ npm run test:e2e
 
 El sonido comienza desactivado y se genera con Web Audio en el dispositivo. El botón de descubrimiento ofrece una alternativa de teclado a tocar las flores. El movimiento reducido acorta crecimiento, floración, formación del ramo y revelado de la carta, y elimina el movimiento ambiental. Sin WebGL2, se muestra el mensaje del regalo y la opción de reintentar.
 
+Antes de plantar puedes elegir **Luz**, **Agua** o **Música**. Luz refuerza la iluminación cálida; Agua añade gotas y una luz azul suave; Música añade un ritmo visual lento y armoniza los sonidos de las interacciones. Elegir Música no activa el sonido: usa el control **Activar sonido** si quieres escucharlo. Con movimiento reducido, las gotas quedan quietas y la luz no pulsa. La elección se conserva al reiniciar el recorrido y vuelve a Luz al recargar la página.
+
 Después de florecer, pulsa **Crear mi ramo**. Arrastra la cinta dorada o el control **Tira de la cinta** hacia la derecha. Un gesto corto vuelve a la posición inicial; un gesto completo revela la tarjeta. También puedes usar **Desatar sin arrastrar** o enfocar el control de cinta y pulsar Enter/Espacio. Toca la tarjeta o pulsa **Leer mi carta** para leerla; Escape cierra la nota y devuelve el foco al control. La dedicatoria sigue disponible directamente desde el jardín, sin obligar a completar el gesto.
 
 **Un último deseo** inicia el viento desde el jardín o desde la tarjeta. Mantén pulsado y suelta, con dedo, ratón, Espacio o Enter. **Continuar sin mantener pulsado** ofrece una alternativa de un solo paso. Escape, la cancelación del puntero o salir de la pestaña cancelan la pulsación. Las partículas se dispersan y forman un corazón con profundidad; después puedes quedarte explorando el jardín, repetir el deseo o empezar de nuevo. Con movimiento reducido, el corazón aparece estático sin ráfaga ni pulso.
@@ -45,7 +47,7 @@ Implementado: jardín nocturno, semilla, tallos y hojas, tres tipos de flores pr
 
 Después de volver al jardín desde el corazón o el mensaje, **¿Una última sorpresa?** convierte el girasol principal en una flor gigante con un breve destello de polen. **Volver a mi primavera** recupera la composición original. Con movimiento reducido aparece directamente, sin destello ni transición; `secrets: false` también oculta esta sorpresa.
 
-Pendiente del plan maestro: secretos adicionales (mariposa y estrellas), variantes de luz/agua/música y un pase de calidad/rendimiento en hardware real. La tarjeta se revela en 3D y el texto completo se lee en un diálogo HTML accesible. No se presenta como la implementación completa de las 15 fases.
+Pendiente del plan maestro: secretos adicionales (mariposa y estrellas), reflejos de agua más elaborados, capas musicales continuas y un pase de calidad/rendimiento en hardware real. La tarjeta se revela en 3D y el texto completo se lee en un diálogo HTML accesible. No se presenta como la implementación completa de las 15 fases.
 
 ## Publicar en GitHub Pages
 

@@ -32,6 +32,8 @@ Vitest comprueba determinismo, límites, disposición del ramo y transiciones. P
 
 La sorpresa opcional añade FREE_EXPLORE → SECRET_BLOOM → SECRET_READY → FREE_EXPLORE. `SecretBloomSystem.ts` reutiliza la flor protagonista y aplica las escalas después de las actualizaciones de botánica, ramo y viento. Estas restauran sus valores base en cada frame, evitando acumulación al repetir. Un buffer de 120 puntos reproduce el destello en GPU; no se muestra con movimiento reducido y se libera con el resto de la escena. GSAP cancela la transición al salir del estado.
 
+`interactions/CareChoice.svelte` ofrece radios nativos para la elección local de cuidado. No modifica el recorrido XState. `systems/GardenCare.ts` mantiene un buffer de 150 gotas, oculta el agua durante el final de partículas y aplica una variante a la luz existente, sin luces adicionales. Su tiempo queda fijo con movimiento reducido. `AudioEngine.setCare` selecciona armonías para los chimes sin crear ni activar un AudioContext; todas las notas pasan por el mismo volumen maestro.
+
 ## Siguiente incremento
 
-Validar en teléfonos reales, perfilar GPU/memoria y revisar accesibilidad con ampliación de texto. Los secretos adicionales y las elecciones de luz/agua/música quedan para ampliaciones posteriores.
+Validar en teléfonos reales, perfilar GPU/memoria y revisar accesibilidad con ampliación de texto. Los secretos adicionales, reflejos y capas musicales continuas quedan para ampliaciones posteriores.

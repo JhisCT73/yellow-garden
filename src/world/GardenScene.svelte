@@ -16,6 +16,7 @@
   import { createHeartFormation } from '../particles/HeartFormation';
   import { createWindSystem } from '../systems/WindSystem';
   import { createSecretBloom } from '../systems/SecretBloomSystem';
+  import { createGardenCare, type GardenCare } from '../systems/GardenCare';
 
   let {
     stage,
@@ -31,6 +32,7 @@
     onpull,
     onuntie,
     windCharge,
+    care,
   }: {
     stage: GardenStage;
     seed: string;
@@ -45,6 +47,7 @@
     onpull: (value: number) => void;
     onuntie: () => void;
     windCharge: number;
+    care: GardenCare;
   } = $props();
   const { scene, camera, renderer, size } = useThrelte();
   const root = new THREE.Group();
@@ -56,6 +59,7 @@
   const meadow = createMeadow(initialSeed, quality.grass);
   const wind = createWindSystem(flowers.flowers, meadow);
   const secret = createSecretBloom(flowers.flowers, initialSeed, quality.dpr);
+  const careEffect = createGardenCare(initialSeed, quality.dpr);
   const surprise = { value: 0 };
   const heart = createHeartFormation(
     initialSeed,
@@ -169,6 +173,7 @@
       gift.root,
       heart.points,
       secret.points,
+      careEffect.rain,
     );
     scene.add(root);
     const canvas = renderer.domElement;
@@ -482,6 +487,7 @@
     halo.visible = growth.value < 0.5;
     halo.scale.setScalar(1 + Math.sin(time * 1.6) * 0.08);
     light.intensity = 3 + (1 - growth.value) * 4;
+    careEffect.update(care, time, reducedMotion, finale.opacity === 0, light);
     (particles.material as THREE.ShaderMaterial).uniforms.time.value = time;
     const mobile = size.current.width < 720;
     const cam = camera.current as THREE.PerspectiveCamera;

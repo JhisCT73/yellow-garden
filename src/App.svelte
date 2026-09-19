@@ -15,6 +15,9 @@
   import WindInteraction from './interactions/WindInteraction.svelte';
   import GardenSecret from './interactions/GardenSecret.svelte';
   import { gardenLayout } from './utils/random';
+  import CareChoice from './interactions/CareChoice.svelte';
+  import type { GardenCare } from './systems/GardenCare';
+  let care = $state<GardenCare>('light');
 
   const actor = createActor(gardenMachine);
   let stage = $state<GardenStage>('INTRO');
@@ -47,6 +50,9 @@
     ].includes(stage),
   );
   const audio = new AudioEngine();
+  $effect(() => {
+    audio.setCare(care);
+  });
   $effect(() => {
     audio.setWind(stage === 'WIND' ? windCharge : stage === 'BURST' ? 0.7 : 0);
   });
@@ -218,6 +224,7 @@
   class:bouquet-mode={hasBouquet}
   class:finale-mode={isFinale}
   data-stage={stage}
+  data-care={care}
 >
   <div class="world" aria-hidden="true">
     {#if mounted && !failed}
@@ -231,6 +238,7 @@
             {stage}
             {seed}
             {reducedMotion}
+            {care}
             oncomplete={sceneComplete}
             {ribbonPull}
             {windCharge}
@@ -319,7 +327,7 @@
         {ready ? 'Plantar mi semilla' : 'Preparando tu jardín…'}
         <span>↗</span></button
       >
-      <span class="microcopy">Sin prisa. Este momento es tuyo.</span>
+      <CareChoice bind:value={care} />
     {:else if isGrowing}
       <h1>
         {stage === 'GROWING' ? 'Lo pequeño' : 'Un poquito'}<br />{stage ===

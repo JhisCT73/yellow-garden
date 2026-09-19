@@ -1,5 +1,14 @@
 # Validación de las entregas
 
+## Sexta entrega — 0.6.0
+
+- TypeScript/Svelte sin errores ni advertencias; lint y compilación de producción correctos.
+- 12 pruebas unitarias aprobadas. La nueva prueba verifica gotas estáticas con movimiento reducido, ocultación en el final y cambios de luz sin conservar el efecto anterior.
+- 32 pruebas de navegador aprobadas en Chromium de escritorio y móvil emulado. La elección se verifica con flechas del teclado y puntero, persistencia al reiniciar, activación explícita y silencio del audio, sin errores de consola o ejecución.
+- Corregidos el solapamiento del pie con el selector de escritorio y los eventos táctiles que interceptaba la escena móvil. Capturas revisadas: `care-intro-desktop.png`, `care-intro-mobile.png`, `care-water-mobile.png`.
+- JavaScript de producción: aproximadamente 262 kB gzip. Permanece la advertencia de tamaño de Three.js. Las gotas usan un solo buffer de 150 puntos; no se añadieron dependencias ni recursos externos.
+- Pendientes pruebas físicas, medición sostenida de rendimiento y revisión auditiva manual; las pruebas de audio verifican controles y ejecución, no calidad perceptual.
+
 ## Quinta entrega — 0.5.0
 
 - TypeScript/Svelte sin errores ni advertencias; lint y compilación de producción correctos.

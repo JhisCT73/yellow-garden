@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0
+
+Elección opcional de luz, agua o música antes de plantar. Iluminación cálida, gotas procedurales o pulso visual con sonidos armonizados, respetando silencio y movimiento reducido. Selector accesible por teclado y tacto, conservado al reiniciar. Ajuste de espacio en la introducción para evitar solapamientos con el pie.
+
 ## 0.5.0
 
 Final sorpresa opcional después de explorar: el girasol principal crece con un destello de partículas y permite regresar al jardín. Reutiliza la geometría existente, admite teclado y movimiento reducido, y cancela la animación al reiniciar.
