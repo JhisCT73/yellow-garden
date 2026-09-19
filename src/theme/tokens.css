@@ -204,6 +204,24 @@ h1 em {
 .direct-note {
   margin-right: 20px;
 }
+.next-wind {
+  margin-left: 14px;
+}
+.bouquet-mode .next-wind {
+  margin-left: 0;
+}
+.finale-date {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--sun);
+  margin-bottom: 18px;
+}
+.finale-mode .eyebrow {
+  margin-bottom: 20px;
+}
+.finale-mode .scene-caption {
+  bottom: 19%;
+}
 .ribbon-instruction {
   color: var(--sun) !important;
   margin-bottom: 4px !important;
@@ -466,6 +484,27 @@ dialog .card-closing {
   }
 }
 @media (max-width: 719px) {
+  .finale-mode .story h1 {
+    font-size: 34px;
+  }
+  .finale-mode .world {
+    top: 290px;
+  }
+  .finale-mode .scene-caption {
+    bottom: 112px;
+  }
+  .finale-mode .story {
+    top: 104px;
+  }
+  .finale-date {
+    margin-bottom: 12px;
+    font-size: 11px;
+  }
+  .next-wind {
+    font-size: 12px;
+    margin-left: 0;
+    margin-right: 12px;
+  }
   .bouquet-mode .scene-caption {
     bottom: 105px;
   }

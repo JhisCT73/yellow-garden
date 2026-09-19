@@ -8,4 +8,6 @@ export const gardenConfig = {
   bloomDuration: 3.2,
   bouquetDuration: 3.6,
   unwrapDuration: 1.5,
+  scatterDuration: 2.2,
+  heartDuration: 2.8,
 };

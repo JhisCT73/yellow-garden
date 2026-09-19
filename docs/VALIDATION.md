@@ -1,5 +1,15 @@
 # Validación de la primera entrega
 
+## Tercera entrega — 0.3.0
+
+- TypeScript/Svelte sin errores ni advertencias; lint y compilación de producción correctos.
+- 7 pruebas unitarias aprobadas, incluyendo límites, profundidad y reproducción de la nube del corazón, y la ruta final sin secretos obligatorios.
+- 20 pruebas de navegador aprobadas en Chromium de escritorio y móvil emulado. Incluyen pulsación con ratón y tacto, teclado, Escape, cancelación del puntero, alternativa de un paso, movimiento reducido, final después de la carta, exploración posterior y reinicio durante dispersión.
+- El test del final captura errores de consola y de página: sin errores de shaders ni de ejecución en el recorrido verificado.
+- Corazón revisado visualmente en las capturas `heart-desktop.png` y `heart-mobile.png`. La versión reducida omite ráfaga, viento y pulso.
+- Compilación: aproximadamente 258 kB gzip de JavaScript; permanece la advertencia del chunk de Three.js. No se añadieron dependencias ni servicios externos.
+- Continúan pendientes pruebas físicas de Android/iPhone, Safari/Firefox/Edge y medición de rendimiento sostenido. Las pruebas automatizadas no verifican la calidad perceptual del audio.
+
 ## Segunda entrega — 0.2.0
 
 - Tipos y lint sin errores; compilación de producción correcta.

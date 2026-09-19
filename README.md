@@ -33,11 +33,13 @@ El sonido comienza desactivado y se genera con Web Audio en el dispositivo. El b
 
 Después de florecer, pulsa **Crear mi ramo**. Arrastra la cinta dorada o el control **Tira de la cinta** hacia la derecha. Un gesto corto vuelve a la posición inicial; un gesto completo revela la tarjeta. También puedes usar **Desatar sin arrastrar** o enfocar el control de cinta y pulsar Enter/Espacio. Toca la tarjeta o pulsa **Leer mi carta** para leerla; Escape cierra la nota y devuelve el foco al control. La dedicatoria sigue disponible directamente desde el jardín, sin obligar a completar el gesto.
 
+**Un último deseo** inicia el viento desde el jardín o desde la tarjeta. Mantén pulsado y suelta, con dedo, ratón, Espacio o Enter. **Continuar sin mantener pulsado** ofrece una alternativa de un solo paso. Escape, la cancelación del puntero o salir de la pestaña cancelan la pulsación. Las partículas se dispersan y forman un corazón con profundidad; después puedes quedarte explorando el jardín, repetir el deseo o empezar de nuevo. Con movimiento reducido, el corazón aparece estático sin ráfaga ni pulso.
+
 ## Alcance de esta versión
 
-Implementado: jardín nocturno, semilla, tallos y hojas, girasoles procedurales, floración, jardín reproducible, mensajes, formación animada del ramo, cinta 3D arrastrable, tarjeta tridimensional con textura local, lectura accesible, reinicio, audio opcional y ajuste básico de calidad.
+Implementado: jardín nocturno, semilla, tallos y hojas, girasoles procedurales, floración, jardín reproducible, mensajes, formación animada del ramo, cinta 3D arrastrable, tarjeta tridimensional con textura local, lectura accesible, viento interactivo, corazón de partículas, exploración posterior al final, reinicio, audio opcional y ajuste básico de calidad.
 
-Pendiente del plan maestro: viento por pulsación, corazón de partículas, otras especies y secretos. La tarjeta se revela en 3D y el texto completo se lee en un diálogo HTML accesible. No se presenta como la implementación completa de las 15 fases.
+Pendiente del plan maestro: texto formado por partículas, otras especies, secretos adicionales y un pase de calidad/rendimiento en hardware real. La tarjeta se revela en 3D y el texto completo se lee en un diálogo HTML accesible. La felicitación final también es HTML. No se presenta como la implementación completa de las 15 fases.
 
 ## Publicar en GitHub Pages
 

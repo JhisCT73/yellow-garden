@@ -7,9 +7,14 @@
   import { seededRandom } from '../utils/random';
   import { gardenConfig } from '../config/garden.config';
   import { qualityForDevice } from '../systems/PerformanceManager';
-  import type { GardenStage } from '../machines/garden.machine';
+  import type {
+    GardenStage,
+    SceneCompletion,
+  } from '../machines/garden.machine';
   import { createBouquetSystem } from '../systems/BouquetSystem';
   import { createBotanicalGift } from '../objects/BotanicalGift';
+  import { createHeartFormation } from '../particles/HeartFormation';
+  import { createWindSystem } from '../systems/WindSystem';
 
   let {
     stage,
@@ -24,13 +29,12 @@
     oncard,
     onpull,
     onuntie,
+    windCharge,
   }: {
     stage: GardenStage;
     seed: string;
     reducedMotion: boolean;
-    oncomplete: (
-      event: 'GROWN' | 'BLOOMED' | 'BOUQUET_READY' | 'CARD_REVEALED',
-    ) => void;
+    oncomplete: (event: SceneCompletion) => void;
     onflower: (index: number) => void;
     onplant: () => void;
     onready: () => void;
@@ -39,6 +43,7 @@
     oncard: () => void;
     onpull: (value: number) => void;
     onuntie: () => void;
+    windCharge: number;
   } = $props();
   const { scene, camera, renderer, size } = useThrelte();
   const root = new THREE.Group();
@@ -47,6 +52,26 @@
   const flowers = createFlowers(initialSeed, gardenConfig.flowerCount);
   const bouquet = createBouquetSystem(flowers.flowers, initialSeed);
   const gift = createBotanicalGift();
+  const meadow = createMeadow(initialSeed, quality.grass);
+  const wind = createWindSystem(flowers.flowers, meadow);
+  const heart = createHeartFormation(
+    initialSeed,
+    quality.particles <= 180 ? 650 : 1200,
+    quality.dpr,
+  );
+  const finale = { flight: 0, formation: 0, opacity: 0, fade: 0 };
+  const fadingMaterials: THREE.Material[] = [];
+  for (const group of [flowers.root, gift.root])
+    group.traverse((object) => {
+      if (object instanceof THREE.Mesh) {
+        for (const material of Array.isArray(object.material)
+          ? object.material
+          : [object.material]) {
+          if (!fadingMaterials.includes(material))
+            fadingMaterials.push(material);
+        }
+      }
+    });
   const growth = { value: 0 },
     bloom = { value: 0 };
   const gather = { value: 0 },
@@ -133,12 +158,13 @@
       rim,
       ground,
       flowers.root,
-      createMeadow(seed, quality.grass),
+      meadow,
       seedMesh,
       halo,
       light,
       particles,
       gift.root,
+      heart.points,
     );
     scene.add(root);
     const canvas = renderer.domElement;
@@ -191,7 +217,9 @@
         return;
       }
       if (
-        !['GARDEN', 'INTRO', 'BOUQUET', 'CARD_READY'].includes(stage) ||
+        !['GARDEN', 'INTRO', 'BOUQUET', 'CARD_READY', 'FREE_EXPLORE'].includes(
+          stage,
+        ) ||
         Math.hypot(
           event.clientX - pointerDown.x,
           event.clientY - pointerDown.y,
@@ -247,6 +275,7 @@
       gsap.killTweensOf(gather);
       gsap.killTweensOf(unwrap);
       gsap.killTweensOf(cardOpen);
+      gsap.killTweensOf(finale);
       gift.texture.dispose();
       canvas.removeEventListener('webglcontextlost', lost);
       canvas.removeEventListener('pointerdown', down);
@@ -335,6 +364,50 @@
       });
   });
   const target = new THREE.Vector3();
+  $effect(() => {
+    if (!ready) return;
+    gsap.killTweensOf(finale);
+    if (stage === 'INTRO' || stage === 'FREE_EXPLORE' || stage === 'WIND') {
+      finale.flight = 0;
+      finale.formation = 0;
+      finale.opacity = 0;
+      finale.fade = 0;
+      wind.reset();
+    }
+    if (stage === 'FREE_EXPLORE') {
+      gather.value = 0;
+      unwrap.value = 0;
+      cardOpen.value = 0;
+    }
+    if (stage === 'BURST') {
+      if (reducedMotion) {
+        // Avoid a fast burst: show the static shape immediately, then advance the story.
+        finale.flight = 1;
+        finale.formation = 1;
+        finale.opacity = 1;
+        finale.fade = 1;
+        gsap.to(finale, {
+          duration: 0.1,
+          onComplete: () => oncomplete('SCATTERED'),
+        });
+      } else
+        gsap.to(finale, {
+          flight: 1,
+          opacity: 1,
+          fade: 1,
+          duration: gardenConfig.scatterDuration,
+          ease: 'power2.out',
+          onComplete: () => oncomplete('SCATTERED'),
+        });
+    }
+    if (stage === 'HEART')
+      gsap.to(finale, {
+        formation: 1,
+        duration: reducedMotion ? 0.1 : gardenConfig.heartDuration,
+        ease: 'power2.inOut',
+        onComplete: () => oncomplete('HEART_READY'),
+      });
+  });
   useTask((delta) => {
     if (!ready) return;
     if (!reducedMotion) time += Math.min(delta, 0.05);
@@ -347,6 +420,30 @@
       time,
       !reducedMotion,
     );
+    const strength = wind.update(
+      stage === 'WIND' ? windCharge : stage === 'BURST' ? 1 - finale.flight : 0,
+      time,
+      delta,
+      reducedMotion,
+    );
+    gift.ribbon.rotation.z += strength * Math.sin(time * 2) * 0.12;
+    for (const material of fadingMaterials) {
+      const transparent = finale.fade > 0;
+      if (material.transparent !== transparent) {
+        material.transparent = transparent;
+        material.needsUpdate = true;
+      }
+      material.opacity = 1 - finale.fade;
+      material.depthWrite = !transparent;
+    }
+    flowers.root.visible = finale.fade < 0.999;
+    gift.root.visible = gift.root.visible && finale.fade < 0.999;
+    heart.points.visible = finale.opacity > 0;
+    heart.uniforms.flight.value = finale.flight;
+    heart.uniforms.formation.value = finale.formation;
+    heart.uniforms.opacity.value = finale.opacity;
+    heart.uniforms.time.value = time;
+    heart.uniforms.motion.value = reducedMotion ? 0 : 1;
     seedMesh.visible = growth.value < 0.08;
     seedMesh.position.y = 0.5 + Math.sin(time * 1.6) * 0.06;
     seedMesh.rotation.z = Math.sin(time) * 0.2;

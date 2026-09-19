@@ -14,6 +14,11 @@ export const gardenMachine = setup({
         | 'CARD_REVEALED'
         | 'OPEN_CARD'
         | 'CLOSE_CARD'
+        | 'START_WIND'
+        | 'RELEASE_WIND'
+        | 'SCATTERED'
+        | 'HEART_READY'
+        | 'EXPLORE'
         | 'RESTART';
     },
   },
@@ -31,6 +36,7 @@ export const gardenMachine = setup({
     GARDEN: {
       on: {
         GATHER: 'GATHERING',
+        START_WIND: 'WIND',
         OPEN_CARD: {
           target: 'FINALE',
           actions: assign({ cardOrigin: 'GARDEN' }),
@@ -42,12 +48,18 @@ export const gardenMachine = setup({
     UNWRAPPING: { on: { CARD_REVEALED: 'CARD_READY' } },
     CARD_READY: {
       on: {
+        START_WIND: 'WIND',
         OPEN_CARD: {
           target: 'FINALE',
           actions: assign({ cardOrigin: 'CARD_READY' }),
         },
       },
     },
+    WIND: { on: { RELEASE_WIND: 'BURST' } },
+    BURST: { on: { SCATTERED: 'HEART' } },
+    HEART: { on: { HEART_READY: 'CELEBRATION' } },
+    CELEBRATION: { on: { EXPLORE: 'FREE_EXPLORE' } },
+    FREE_EXPLORE: { on: { START_WIND: 'WIND' } },
     FINALE: {
       on: {
         CLOSE_CARD: [
@@ -70,4 +82,17 @@ export type GardenStage =
   | 'BOUQUET'
   | 'UNWRAPPING'
   | 'CARD_READY'
-  | 'FINALE';
+  | 'FINALE'
+  | 'WIND'
+  | 'BURST'
+  | 'HEART'
+  | 'CELEBRATION'
+  | 'FREE_EXPLORE';
+
+export type SceneCompletion =
+  | 'GROWN'
+  | 'BLOOMED'
+  | 'BOUQUET_READY'
+  | 'CARD_REVEALED'
+  | 'SCATTERED'
+  | 'HEART_READY';

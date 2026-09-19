@@ -3,11 +3,16 @@
   import { Canvas } from '@threlte/core';
   import { createActor } from 'xstate';
   import GardenScene from './world/GardenScene.svelte';
-  import { gardenMachine, type GardenStage } from './machines/garden.machine';
+  import {
+    gardenMachine,
+    type GardenStage,
+    type SceneCompletion,
+  } from './machines/garden.machine';
   import { gardenConfig } from './config/garden.config';
   import { card, flowerMessages } from './content/messages';
   import { AudioEngine } from './systems/AudioEngine';
   import RibbonInteraction from './interactions/RibbonInteraction.svelte';
+  import WindInteraction from './interactions/WindInteraction.svelte';
 
   const actor = createActor(gardenMachine);
   let stage = $state<GardenStage>('INTRO');
@@ -24,7 +29,15 @@
   let ribbonPull = $state(0),
     hasBouquet = $state(false);
   let ribbonShortcut = $state<HTMLButtonElement>();
+  let windCharge = $state(0);
+  let exploreButton = $state<HTMLButtonElement>();
+  const isFinale = $derived(
+    ['WIND', 'BURST', 'HEART', 'CELEBRATION', 'FREE_EXPLORE'].includes(stage),
+  );
   const audio = new AudioEngine();
+  $effect(() => {
+    audio.setWind(stage === 'WIND' ? windCharge : stage === 'BURST' ? 0.7 : 0);
+  });
   const seed =
     new URLSearchParams(window.location.search).get('seed')?.slice(0, 100) ||
     gardenConfig.defaultSeed;
@@ -123,20 +136,35 @@
     actor.send({ type: 'UNTIE' });
     audio.chime(3);
   }
-  async function sceneComplete(
-    type: 'GROWN' | 'BLOOMED' | 'BOUQUET_READY' | 'CARD_REVEALED',
-  ) {
+  function startWind() {
+    message = '';
+    windCharge = 0;
+    actor.send({ type: 'START_WIND' });
+  }
+  function releaseWind() {
+    windCharge = 0;
+    actor.send({ type: 'RELEASE_WIND' });
+    audio.chime(4);
+  }
+  function explore() {
+    hasBouquet = false;
+    windCharge = 0;
+    actor.send({ type: 'EXPLORE' });
+  }
+  async function sceneComplete(type: SceneCompletion) {
     actor.send({ type });
     await tick();
     if (type === 'BOUQUET_READY')
       ribbonShortcut?.focus({ preventScroll: true });
     if (type === 'CARD_REVEALED') cardButton?.focus({ preventScroll: true });
+    if (type === 'HEART_READY') exploreButton?.focus({ preventScroll: true });
   }
   function restart() {
     message = '';
     discovered = [];
     hasBouquet = false;
     ribbonPull = 0;
+    windCharge = 0;
     clearTimeout(messageTimeout);
     actor.send({ type: 'RESTART' });
   }
@@ -146,7 +174,12 @@
   ><title>{gardenConfig.title} · Un regalo que florece</title></svelte:head
 >
 
-<main class:grown={isGarden} class:bouquet-mode={hasBouquet} data-stage={stage}>
+<main
+  class:grown={isGarden}
+  class:bouquet-mode={hasBouquet}
+  class:finale-mode={isFinale}
+  data-stage={stage}
+>
   <div class="world" aria-hidden="true">
     {#if mounted && !failed}
       <svelte:boundary
@@ -161,6 +194,7 @@
             {reducedMotion}
             oncomplete={sceneComplete}
             {ribbonPull}
+            {windCharge}
             oncard={openCard}
             onpull={(value) => {
               ribbonPull = value;
@@ -258,6 +292,45 @@
         <span class="breathing-dot"></span>
         {stage === 'GROWING' ? 'ECHANDO RAÍCES' : 'ABRIENDO LOS PÉTALOS'}
       </div>
+    {:else if isFinale}
+      {#if stage === 'WIND'}
+        <h1>Un soplo,<br />un pequeño<br /><em>deseo.</em></h1>
+        <p>Algo bonito todavía está por venir.</p>
+        <WindInteraction
+          oncharge={(value) => {
+            windCharge = value;
+          }}
+          onrelease={releaseWind}
+        />
+      {:else if stage === 'BURST' || stage === 'HEART'}
+        <h1>Hay cosas<br />que se dicen<br /><em>con luz.</em></h1>
+        <p aria-live="polite">
+          {stage === 'BURST'
+            ? 'Un deseo, un soplo, un nuevo comienzo.'
+            : 'Todo lo bonito encuentra su forma.'}
+        </p>
+        <div class="growing-label">
+          <span class="breathing-dot"></span>UN ÚLTIMO REGALO
+        </div>
+      {:else if stage === 'CELEBRATION'}
+        <div class="finale-date">{gardenConfig.date} · FELIZ PRIMAVERA</div>
+        <h1>Que nunca te<br />falten motivos<br /><em>para florecer.</em></h1>
+        <p>Estas flores son para ti.<br />Y este pequeño universo, también.</p>
+        <button class="primary" bind:this={exploreButton} onclick={explore}
+          >Quedarme en el jardín <span>✧</span></button
+        >
+      {:else}
+        <h1>Tu primavera<br />se queda<br /><em>contigo.</em></h1>
+        <p>Sin prisa. Todavía hay flores por descubrir.</p>
+        <button
+          class="primary"
+          onclick={() => discover(discovered.length % gardenConfig.flowerCount)}
+          >Descubrir una flor <span>✧</span></button
+        >
+        <button class="text-button" onclick={startWind}
+          >Pedir otro deseo ↗</button
+        >
+      {/if}
     {:else if hasBouquet}
       <h1>Un pedacito<br />de primavera,<br /><em>para ti.</em></h1>
       <p aria-live="polite">
@@ -285,6 +358,9 @@
           >Leer mi carta <span>↗</span></button
         >
         <span class="microcopy">También puedes tocar la tarjeta.</span>
+        <button class="text-button next-wind" onclick={startWind}
+          >Un último deseo <span>↗</span></button
+        >
       {/if}
     {:else}
       <h1>Lo bonito<br />también sabe<br /><em>florecer.</em></h1>
@@ -302,12 +378,24 @@
         onclick={() => discover(discovered.length % gardenConfig.flowerCount)}
         >Descubrir una flor <span>✧</span></button
       >
+      <button class="text-button next-wind" onclick={startWind}
+        >Un último deseo ↗</button
+      >
     {/if}
   </section>
 
   {#if !failed}
     <div class="scene-caption" aria-live="polite">
-      {#if stage === 'BOUQUET'}
+      {#if isFinale}
+        <span class="caption-line"></span>
+        <span
+          >{stage === 'WIND'
+            ? 'Cada deseo empieza con un soplo'
+            : stage === 'FREE_EXPLORE'
+              ? 'Este jardín siempre será tuyo'
+              : 'Estas flores no se marchitan'}</span
+        >
+      {:else if stage === 'BOUQUET'}
         <RibbonInteraction
           onpull={(value) => {
             ribbonPull = value;
@@ -329,9 +417,11 @@
         >
       {/if}
       <span class="caption-coordinates"
-        >{isGarden
-          ? `${String(discovered.length).padStart(2, '0')} FLORES DESCUBIERTAS`
-          : 'UNA SEMILLA · INFINITAS POSIBILIDADES'}</span
+        >{isFinale && stage !== 'FREE_EXPLORE'
+          ? 'UN POQUITO DE LUZ · PARA TI'
+          : isGarden
+            ? `${String(discovered.length).padStart(2, '0')} FLORES DESCUBIERTAS`
+            : 'UNA SEMILLA · INFINITAS POSIBILIDADES'}</span
       >
     </div>
   {/if}

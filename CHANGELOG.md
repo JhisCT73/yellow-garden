@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0
+
+Viento por pulsación con ratón, tacto o teclado, síntesis sonora local, movimiento de hojas y hierba, dispersión y formación de corazón 3D con partículas. Cierre de primavera y retorno a exploración libre. Alternativa de un solo paso, cancelación de gestos y final estático para movimiento reducido.
+
 ## 0.2.0
 
 Formación animada del ramo, composición reproducible, cinta tridimensional con arrastre y alternativa de teclado, tarjeta que emerge al desatar el lazo y retorno a la escena correcta tras leerla. Reinicio seguro durante las transiciones y corrección del salto del botón por hover con movimiento reducido.
