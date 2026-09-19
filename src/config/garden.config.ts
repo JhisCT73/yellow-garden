@@ -12,4 +12,5 @@ export const gardenConfig = {
   scatterDuration: 2.2,
   heartDuration: 2.8,
   messageDuration: 3,
+  surpriseDuration: 3.5,
 };

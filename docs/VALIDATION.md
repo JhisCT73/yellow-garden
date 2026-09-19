@@ -1,5 +1,14 @@
 # Validación de las entregas
 
+## Quinta entrega — 0.5.0
+
+- TypeScript/Svelte sin errores ni advertencias; lint y compilación de producción correctos.
+- 11 pruebas unitarias aprobadas: incluye restauración de escalas después de la sorpresa, acceso solo desde exploración y rechazo de una finalización cancelada.
+- 30 pruebas de navegador aprobadas en Chromium de escritorio y móvil emulado. La nueva sorpresa se comprueba con animación, movimiento reducido, teclado, repetición, retorno al jardín y reinicio durante la transición. Sin errores de consola o ejecución en este recorrido.
+- Capturas `surprise-desktop.png` y `surprise-mobile.png` inspeccionadas visualmente. Se conserva el girasol en la zona de escena sin tapar los controles.
+- JavaScript de producción: aproximadamente 261 kB gzip. Permanece la advertencia de tamaño del chunk de Three.js; no se añadieron dependencias ni servicios externos.
+- Continúan pendientes teléfonos físicos, otros motores de navegador y mediciones de FPS/memoria sostenidos.
+
 ## Cuarta entrega — 0.4.0
 
 - TypeScript/Svelte sin errores ni advertencias; lint y compilación de producción correctos.

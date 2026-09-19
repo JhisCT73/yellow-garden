@@ -30,6 +30,8 @@ CELEBRATION también permite TEXT_FORMING → TEXT_READY → FREE_EXPLORE. El me
 
 Vitest comprueba determinismo, límites, disposición del ramo y transiciones. Playwright prueba el recorrido completo, nota/modal, foco, reinicio, movimiento reducido, fallback sin WebGL, arrastre parcial/completo, entrada táctil y cancelación de una formación en curso. Las capturas se guardan en `test-results/`. La emulación móvil no sustituye pruebas en hardware real.
 
+La sorpresa opcional añade FREE_EXPLORE → SECRET_BLOOM → SECRET_READY → FREE_EXPLORE. `SecretBloomSystem.ts` reutiliza la flor protagonista y aplica las escalas después de las actualizaciones de botánica, ramo y viento. Estas restauran sus valores base en cada frame, evitando acumulación al repetir. Un buffer de 120 puntos reproduce el destello en GPU; no se muestra con movimiento reducido y se libera con el resto de la escena. GSAP cancela la transición al salir del estado.
+
 ## Siguiente incremento
 
 Validar en teléfonos reales, perfilar GPU/memoria y revisar accesibilidad con ampliación de texto. Los secretos adicionales y las elecciones de luz/agua/música quedan para ampliaciones posteriores.

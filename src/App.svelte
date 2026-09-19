@@ -42,6 +42,8 @@
       'TEXT_FORMING',
       'TEXT_READY',
       'FREE_EXPLORE',
+      'SECRET_BLOOM',
+      'SECRET_READY',
     ].includes(stage),
   );
   const audio = new AudioEngine();
@@ -176,13 +178,23 @@
     windCharge = 0;
     actor.send({ type: 'EXPLORE' });
   }
+  function lastSurprise() {
+    message = '';
+    clearTimeout(messageTimeout);
+    actor.send({ type: 'LAST_SURPRISE' });
+    audio.chime(5);
+  }
   async function sceneComplete(type: SceneCompletion) {
     actor.send({ type });
     await tick();
     if (type === 'BOUQUET_READY')
       ribbonShortcut?.focus({ preventScroll: true });
     if (type === 'CARD_REVEALED') cardButton?.focus({ preventScroll: true });
-    if (type === 'HEART_READY' || type === 'MESSAGE_READY')
+    if (
+      type === 'HEART_READY' ||
+      type === 'MESSAGE_READY' ||
+      type === 'SURPRISE_READY'
+    )
       exploreButton?.focus({ preventScroll: true });
   }
   function restart() {
@@ -374,6 +386,22 @@
             >Quedarme en el jardín <span>✧</span></button
           >
         {/if}
+      {:else if stage === 'SECRET_BLOOM' || stage === 'SECRET_READY'}
+        <h1>Una última<br />forma de decir<br /><em>para ti.</em></h1>
+        <p aria-live="polite">
+          {stage === 'SECRET_BLOOM'
+            ? '¿Ya terminamos? Todavía quedaba una flor.'
+            : 'Hay alegrías que no caben en una flor pequeña.'}
+        </p>
+        {#if stage === 'SECRET_BLOOM'}
+          <div class="growing-label">
+            <span class="breathing-dot"></span>UNA ÚLTIMA SORPRESA
+          </div>
+        {:else}
+          <button class="primary" bind:this={exploreButton} onclick={explore}
+            >Volver a mi primavera <span>✧</span></button
+          >
+        {/if}
       {:else}
         <h1>Tu primavera<br />se queda<br /><em>contigo.</em></h1>
         <p>Sin prisa. Todavía hay flores por descubrir.</p>
@@ -383,6 +411,11 @@
         <button class="text-button" onclick={startWind}
           >Pedir otro deseo ↗</button
         >
+        {#if gardenConfig.secrets}
+          <button class="text-button" onclick={lastSurprise}
+            >¿Una última sorpresa? ✧</button
+          >
+        {/if}
       {/if}
     {:else if hasBouquet}
       <h1>Un pedacito<br />de primavera,<br /><em>para ti.</em></h1>

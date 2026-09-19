@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0
+
+Final sorpresa opcional después de explorar: el girasol principal crece con un destello de partículas y permite regresar al jardín. Reutiliza la geometría existente, admite teclado y movimiento reducido, y cancela la animación al reiniciar.
+
 ## 0.4.0
 
 El corazón se transforma opcionalmente en un mensaje de partículas con fecha. Tres perfiles de flores conservan el girasol protagonista y añaden variedad al jardín y al ramo. Secreto de terminal de juguete con soporte de teclado. Menos actualizaciones de pétalos tras la floración y descubrimiento secuencial sin atascarse después de tocar flores fuera de orden.

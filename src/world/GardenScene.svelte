@@ -15,6 +15,7 @@
   import { createBotanicalGift } from '../objects/BotanicalGift';
   import { createHeartFormation } from '../particles/HeartFormation';
   import { createWindSystem } from '../systems/WindSystem';
+  import { createSecretBloom } from '../systems/SecretBloomSystem';
 
   let {
     stage,
@@ -54,6 +55,8 @@
   const gift = createBotanicalGift();
   const meadow = createMeadow(initialSeed, quality.grass);
   const wind = createWindSystem(flowers.flowers, meadow);
+  const secret = createSecretBloom(flowers.flowers, initialSeed, quality.dpr);
+  const surprise = { value: 0 };
   const heart = createHeartFormation(
     initialSeed,
     quality.particles <= 180 ? 1200 : 1800,
@@ -165,6 +168,7 @@
       particles,
       gift.root,
       heart.points,
+      secret.points,
     );
     scene.add(root);
     const canvas = renderer.domElement;
@@ -276,6 +280,7 @@
       gsap.killTweensOf(unwrap);
       gsap.killTweensOf(cardOpen);
       gsap.killTweensOf(finale);
+      gsap.killTweensOf(surprise);
       gift.texture.dispose();
       canvas.removeEventListener('webglcontextlost', lost);
       canvas.removeEventListener('pointerdown', down);
@@ -366,6 +371,19 @@
   const target = new THREE.Vector3();
   $effect(() => {
     if (!ready) return;
+    gsap.killTweensOf(surprise);
+    if (stage === 'SECRET_BLOOM') {
+      surprise.value = 0;
+      gsap.to(surprise, {
+        value: 1,
+        duration: reducedMotion ? 0 : gardenConfig.surpriseDuration,
+        ease: 'power2.inOut',
+        onComplete: () => oncomplete('SURPRISE_READY'),
+      });
+    } else if (stage !== 'SECRET_READY') surprise.value = 0;
+  });
+  $effect(() => {
+    if (!ready) return;
     gsap.killTweensOf(finale);
     if (stage === 'INTRO' || stage === 'FREE_EXPLORE' || stage === 'WIND') {
       finale.flight = 0;
@@ -435,6 +453,11 @@
       reducedMotion,
     );
     gift.ribbon.rotation.z += strength * Math.sin(time * 2) * 0.12;
+    secret.update(
+      stage === 'SECRET_BLOOM' || stage === 'SECRET_READY',
+      surprise.value,
+      reducedMotion,
+    );
     for (const material of fadingMaterials) {
       const transparent = finale.fade > 0;
       if (material.transparent !== transparent) {

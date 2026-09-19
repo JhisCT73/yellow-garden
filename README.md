@@ -43,7 +43,9 @@ El símbolo dorado junto al título esconde una pequeña terminal de juguete. Se
 
 Implementado: jardín nocturno, semilla, tallos y hojas, tres tipos de flores procedurales, floración, jardín reproducible, mensajes, formación animada del ramo, cinta 3D arrastrable, tarjeta tridimensional con textura local, lectura accesible, viento interactivo, corazón y texto de partículas, exploración posterior al final, secreto opcional, reinicio, audio opcional y ajuste básico de calidad.
 
-Pendiente del plan maestro: secretos adicionales (mariposa, estrellas y flor gigante), variantes de luz/agua/música y un pase de calidad/rendimiento en hardware real. La tarjeta se revela en 3D y el texto completo se lee en un diálogo HTML accesible. No se presenta como la implementación completa de las 15 fases.
+Después de volver al jardín desde el corazón o el mensaje, **¿Una última sorpresa?** convierte el girasol principal en una flor gigante con un breve destello de polen. **Volver a mi primavera** recupera la composición original. Con movimiento reducido aparece directamente, sin destello ni transición; `secrets: false` también oculta esta sorpresa.
+
+Pendiente del plan maestro: secretos adicionales (mariposa y estrellas), variantes de luz/agua/música y un pase de calidad/rendimiento en hardware real. La tarjeta se revela en 3D y el texto completo se lee en un diálogo HTML accesible. No se presenta como la implementación completa de las 15 fases.
 
 ## Publicar en GitHub Pages
 
