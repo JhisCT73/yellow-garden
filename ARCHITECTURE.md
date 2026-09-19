@@ -47,3 +47,11 @@ Validar en teléfonos reales, perfilar GPU/memoria y revisar accesibilidad con a
 ## Jardín y ramo (0.9)
 
 `gardenFrame` interpola el plano amplio y el ramo usando el progreso de reunión. `BouquetSystem` combina la posición inicial, los laterales del sendero y el destino del ramo; no asigna vectores nuevos dentro del bucle de animación. `gardenReveal` anima la aparición del paisaje y reduce la opacidad del suelo de macro. El tamaño del plano lejano varía con el viewport y la reunión para cubrir el encuadre. El desenfoque también se aplica al ramo, desatado y tarjeta en perfiles medio/alto, con menor apertura que en el macro.
+
+## Tarjeta y cierre (0.10)
+
+`BotanicalGift` pinta una ilustración local en su CanvasTexture al cargar y conserva una portada tipográfica de respaldo. `dispose()` desconecta la devolución de carga y libera la textura. El mismo JPG se usa como fondo de la lectura HTML. La tarjeta vuelve al ramo al entrar en WIND.
+
+`finaleFrame` centra corazón y mensaje, separa más la cámara móvil para el texto y alinea cámara/foco con la flor final para evitar ver el borde del fondo. `WindTrails` anima 280 puntos en shader (100 en Ligera); se libera con el resto de geometrías de la escena y respeta movimiento reducido.
+
+El único consumidor de GSAP de la aplicación desactiva lag smoothing durante el montaje y restablece 500/33 al desmontar. Se evita así extender indefinidamente la duración de una fase cuando hay pausas de render. Al volver de una pestaña detenida, la fase en curso puede terminar en el siguiente frame; no se garantiza reproducir cada frame que no se dibujó. La interpolación de cámara también usa tiempo transcurrido; el movimiento ambiental mantiene su delta limitado.

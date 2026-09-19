@@ -59,11 +59,11 @@ export function createHeartFormation(seed: string, count: number, dpr: number) {
         p.z+=sin(lettering*3.14159265)*scatter.z*.4*motion;
         vec4 mv=modelViewMatrix*vec4(p,1.); gl_Position=projectionMatrix*mv;
         sparkle=mix(.65+.35*sin(heart.x*30.+heart.y*20.+time*motion),1.,lettering);
-        gl_PointSize=clamp(mix(48.,38.,lettering)/-mv.z,2.5,7.)*dpr;
+        gl_PointSize=clamp(mix(85.,58.,lettering)/-mv.z,3.5,10.)*dpr;
       }`,
     fragmentShader: `uniform float opacity; varying float sparkle;
       void main(){ float r=length(gl_PointCoord-.5)*2.; if(r>1.)discard;
-        float glow=pow(1.-r,1.4); gl_FragColor=vec4(1.,.72+.16*sparkle,.22,glow*opacity*sparkle); }`,
+        float glow=pow(1.-r,1.4); gl_FragColor=vec4(1.,.63+.16*sparkle,.18,glow*opacity*sparkle); }`,
   });
   const points = new THREE.Points(geometry, material);
   points.frustumCulled = false;

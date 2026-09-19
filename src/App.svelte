@@ -233,8 +233,7 @@
   class:grown={isGarden}
   class:bouquet-mode={hasBouquet}
   class:finale-mode={isFinale}
-  class:cinematic-opening={!failed &&
-    (stage === 'INTRO' || isGrowing || stage === 'GARDEN' || hasBouquet)}
+  class:cinematic-opening={!failed}
   data-stage={stage}
   data-care={care}
   data-quality={qualityLevel}
@@ -361,7 +360,7 @@
       </div>
     {:else if isFinale}
       {#if stage === 'WIND'}
-        <h1>Un soplo,<br />un pequeño<br /><em>deseo.</em></h1>
+        <h1>Siente el poder de <em>soltar.</em></h1>
         <p>Algo bonito todavía está por venir.</p>
         <WindInteraction
           oncharge={(value) => {
@@ -370,7 +369,7 @@
           onrelease={releaseWind}
         />
       {:else if stage === 'BURST' || stage === 'HEART'}
-        <h1>Hay cosas<br />que se dicen<br /><em>con luz.</em></h1>
+        <h1>Las luces encuentran <em>su forma.</em></h1>
         <p aria-live="polite">
           {stage === 'BURST'
             ? 'Un deseo, un soplo, un nuevo comienzo.'
@@ -381,7 +380,7 @@
         </div>
       {:else if stage === 'CELEBRATION'}
         <div class="finale-date">{gardenConfig.date} · FELIZ PRIMAVERA</div>
-        <h1>Que nunca te<br />falten motivos<br /><em>para florecer.</em></h1>
+        <h1>Estas flores son <em>para ti.</em></h1>
         <p>Estas flores son para ti.<br />Y este pequeño universo, también.</p>
         <div class="finale-actions">
           <button class="primary" bind:this={exploreButton} onclick={explore}
@@ -392,7 +391,7 @@
           >
         </div>
       {:else if stage === 'TEXT_FORMING' || stage === 'TEXT_READY'}
-        <h1>Hay palabras<br />que también<br /><em>florecen.</em></h1>
+        <h1>Algo bonito siempre <em>florece.</em></h1>
         <p aria-live="polite">
           {stage === 'TEXT_FORMING'
             ? 'Unas luces, unas letras y un deseo para ti.'
@@ -408,7 +407,7 @@
           >
         {/if}
       {:else if stage === 'SECRET_BLOOM' || stage === 'SECRET_READY'}
-        <h1>Una última<br />forma de decir<br /><em>para ti.</em></h1>
+        <h1>Estas flores no se <em>marchitan.</em></h1>
         <p aria-live="polite">
           {stage === 'SECRET_BLOOM'
             ? '¿Ya terminamos? Todavía quedaba una flor.'
@@ -424,13 +423,16 @@
           >
         {/if}
       {:else}
-        <h1>Tu primavera<br />se queda<br /><em>contigo.</em></h1>
+        <h1>Tu primavera se queda <em>contigo.</em></h1>
         <p>Sin prisa. Todavía hay flores por descubrir.</p>
         <button class="primary" onclick={discoverNext}
           >Descubrir una flor <span>✧</span></button
         >
         <button class="text-button" onclick={startWind}
           >Pedir otro deseo ↗</button
+        >
+        <button class="text-button" onclick={restart}
+          >Volver a florecer ↻</button
         >
         {#if gardenConfig.secrets}
           <button class="text-button" onclick={lastSurprise}
@@ -439,7 +441,11 @@
         {/if}
       {/if}
     {:else if hasBouquet}
-      <h1>Las flores se unen <em>para ti.</em></h1>
+      <h1>
+        {stage === 'CARD_READY' || stage === 'FINALE'
+          ? 'Unas palabras'
+          : 'Las flores se unen'} <em>para ti.</em>
+      </h1>
       <p aria-live="polite">
         {stage === 'GATHERING'
           ? 'Cada flor encuentra su lugar.'
@@ -556,6 +562,7 @@
 </main>
 
 <dialog
+  class="botanical-letter"
   bind:this={dialog}
   oncancel={(event) => {
     event.preventDefault();
@@ -566,13 +573,14 @@
   <button class="close-card" aria-label="Cerrar nota" onclick={closeCard}
     >×</button
   >
-  <span class="card-kicker">YELLOW GARDEN · {gardenConfig.date}</span>
-  <span class="card-flower" aria-hidden="true">✳</span>
-  <h2 id="card-title">{card.heading}</h2>
-  {#each card.paragraphs as paragraph (paragraph)}<p>{paragraph}</p>{/each}
-  <p class="card-closing">{card.closing}</p>
-  <span class="card-signature">Con un poquito de luz, para ti.</span>
-  <button class="card-return" onclick={closeCard}
-    >Volver a mi jardín <span>↗</span></button
-  >
+  <div class="letter-content">
+    <span class="card-kicker">YELLOW GARDEN · {gardenConfig.date}</span>
+    <h2 id="card-title">{card.heading}</h2>
+    {#each card.paragraphs as paragraph (paragraph)}<p>{paragraph}</p>{/each}
+    <p class="card-closing">{card.closing}</p>
+    <span class="card-signature">Con un poquito de luz, para ti.</span>
+    <button class="card-return" onclick={closeCard}
+      >Volver a mi jardín <span>↗</span></button
+    >
+  </div>
 </dialog>

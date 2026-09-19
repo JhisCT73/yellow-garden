@@ -20,11 +20,16 @@
   import { createBouquetSystem } from '../systems/BouquetSystem';
   import { createBotanicalGift } from '../objects/BotanicalGift';
   import { createHeartFormation } from '../particles/HeartFormation';
+  import { createWindTrails } from '../particles/WindTrails';
   import { createWindSystem } from '../systems/WindSystem';
   import { createSecretBloom } from '../systems/SecretBloomSystem';
   import { createGardenCare, type GardenCare } from '../systems/GardenCare';
   import { createSeedbed } from './Seedbed';
-  import { openingFrame, gardenFrame } from '../cinematics/OpeningCamera';
+  import {
+    openingFrame,
+    gardenFrame,
+    finaleFrame,
+  } from '../cinematics/OpeningCamera';
   import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
   import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
   import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
@@ -146,6 +151,7 @@
   const careEffect = createGardenCare(initialSeed, quality.dpr);
   const surprise = { value: 0 };
   const heart = createHeartFormation(initialSeed, 1800, quality.dpr);
+  const air = createWindTrails(initialSeed, quality.dpr);
   const finale = { flight: 0, formation: 0, opacity: 0, fade: 0, lettering: 0 };
   const fadingMaterials: THREE.Material[] = [];
   for (const group of [flowers.root, gift.root])
@@ -224,6 +230,8 @@
   let ribbonPointer: number | null = null;
   let dragProgress = 0;
   onMount(() => {
+    // Narrative phases follow elapsed time even after a slow frame or tab pause.
+    gsap.ticker.lagSmoothing(0);
     autoRender.set(false);
     composer = new EffectComposer(renderer);
     composer.setPixelRatio(1);
@@ -288,6 +296,7 @@
       particles,
       gift.root,
       heart.points,
+      air.points,
       secret.points,
       careEffect.rain,
       seedbed.root,
@@ -399,6 +408,7 @@
     ready = true;
     onready();
     return () => {
+      gsap.ticker.lagSmoothing(500, 33);
       gsap.killTweensOf(growth);
       gsap.killTweensOf(gardenReveal);
       gsap.killTweensOf(bloom);
@@ -407,7 +417,7 @@
       gsap.killTweensOf(cardOpen);
       gsap.killTweensOf(finale);
       gsap.killTweensOf(surprise);
-      gift.texture.dispose();
+      gift.dispose();
       soil.dispose();
       gardenBackdrop.dispose();
       landscapeTexture.dispose();
@@ -496,6 +506,12 @@
     if (!ready) return;
     gsap.killTweensOf(unwrap);
     if (stage === 'INTRO') unwrap.value = 0;
+    if (stage === 'WIND')
+      gsap.to(unwrap, {
+        value: 0,
+        duration: reducedMotion ? 0 : 0.8,
+        ease: 'power2.inOut',
+      });
     if (stage === 'BOUQUET')
       gsap.to(unwrap, {
         value: ribbonPull * 0.75,
@@ -515,6 +531,7 @@
   const opticalFocus = new THREE.Vector3();
   const focusTarget = new THREE.Vector3();
   let cameraInitialized = false;
+  let previousCameraTime = performance.now();
   function applyQuality(level: QualityLevel) {
     effectiveLevel = level;
     const profile = qualityProfile(level, window.devicePixelRatio);
@@ -522,6 +539,7 @@
     meadow.count = profile.grass;
     particleGeometry.setDrawRange(0, profile.particles);
     careEffect.rain.geometry.setDrawRange(0, level === 'low' ? 70 : 150);
+    air.points.geometry.setDrawRange(0, level === 'low' ? 100 : 280);
     // Update point sizes together with the drawing buffer so they retain their CSS size.
     root.traverse((object) => {
       if (
@@ -635,6 +653,11 @@
       reducedMotion,
     );
     gift.ribbon.rotation.z += strength * Math.sin(time * 2) * 0.12;
+    air.points.visible = stage === 'WIND' || stage === 'BURST';
+    air.uniforms.time.value = time;
+    air.uniforms.strength.value =
+      stage === 'WIND' ? 0.2 + strength * 0.8 : (1 - finale.flight) * 0.8;
+    air.uniforms.motion.value = reducedMotion ? 0 : 1;
     secret.update(
       stage === 'SECRET_BLOOM' || stage === 'SECRET_READY',
       surprise.value,
@@ -668,7 +691,7 @@
     backdrop.visible = seedbed.dust.visible;
     landscape.visible = !seedbed.dust.visible && gardenReveal.value > 0;
     landscape.material.opacity =
-      gardenReveal.value * (1 - finale.opacity * 0.55);
+      gardenReveal.value * (1 - finale.opacity * 0.35);
     soilSurface.opacity = 1 - gardenReveal.value * 0.9;
     seedbed.root.visible = gardenReveal.value < 0.9;
     sprouts.root.visible = gardenReveal.value < 0.9;
@@ -684,7 +707,8 @@
     const shift = mobile ? 0 : -2.65;
     const opening =
       openingFrame(stage, growth.value, mobile) ??
-      gardenFrame(stage, gather.value, mobile);
+      gardenFrame(stage, gather.value, mobile) ??
+      finaleFrame(stage, mobile);
     if (opening) {
       target.fromArray(opening.position);
       focusTarget.fromArray(opening.focus);
@@ -702,8 +726,13 @@
       );
       cam.fov = mobile ? 43 : 39;
     }
+    const cameraTime = performance.now();
+    const cameraDelta = Math.max(0, (cameraTime - previousCameraTime) / 1000);
+    previousCameraTime = cameraTime;
     const cameraBlend =
-      reducedMotion || !cameraInitialized ? 1 : 1 - Math.exp(-delta * 1.8);
+      reducedMotion || !cameraInitialized
+        ? 1
+        : 1 - Math.exp(-cameraDelta * 1.8);
     cam.position.lerp(target, cameraBlend);
     cameraFocus.lerp(focusTarget, cameraBlend);
     cam.lookAt(cameraFocus);

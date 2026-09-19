@@ -38,3 +38,10 @@ Primera implementación del recorrido semilla → crecimiento → floración →
 - Encuadres continuos para jardín, reunión y regalo; adaptación a pantalla móvil.
 - Variaciones en pétalos y orientación de las flores, cinta con material satinado y desenfoque suave del fondo del ramo en perfiles medio/alto.
 - Controles inferiores compactos y cinta accesible por arrastre o teclado.
+
+## 0.10.0 — Tarjeta y finales cinematográficos
+
+- Tarjeta 3D con papel botánico generado, primer plano propio y lectura HTML con fondo ilustrado.
+- Retirada de la tarjeta al iniciar el viento, estelas luminosas y encuadres centrales para corazón, mensaje y última flor.
+- Partículas más cálidas y suaves sin aumentar su cantidad; controles centrados y reinicio visible en exploración libre.
+- Duraciones narrativas basadas en tiempo transcurrido: se desactiva el descuento de pausas largas de GSAP mientras vive la escena. La cámara usa tiempo real para converger tras un frame lento.

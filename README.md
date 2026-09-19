@@ -70,3 +70,7 @@ Licencia MIT. Consulta `ATTRIBUTIONS.md` para las dependencias y recursos.
 ### Jardín y ramo (0.9)
 
 La dirección visual se extiende a las escenas de jardín y ramo. Un paisaje nocturno generado se combina con las flores 3D animadas: estas se desplazan hacia los lados del sendero y después se reúnen. El fondo lejano sigue siendo una imagen sobre un plano; las flores interactivas, cinta y tarjeta son geometría. La composición se aproxima al tablero de referencia, aunque los modelos florales mantienen un acabado estilizado. Tarjeta y finales todavía requieren su propia adaptación visual.
+
+### Tarjeta y finales (0.10)
+
+La tarjeta incorpora papel marfil ilustrado y una vista de lectura accesible. El viento, corazón, mensaje y última flor mantienen el paisaje nocturno con encuadres centrales y controles inferiores. La comparación visual se encuentra en `docs/cinematic-finale-comparison.png`. Es una aproximación animada: el modelo floral sigue siendo estilizado y la tarjeta se presenta cerrada antes de abrir la lectura, a diferencia del libro abierto del tablero.

@@ -57,3 +57,29 @@ Interacciones comprobadas: plantar y transición completa, descubrir una flor, c
 Resultado de esta iteración: pasan encuadre, legibilidad e interacciones en los tamaños revisados. La semejanza visual es parcial: los tallos, hojas y flores siguen siendo estilizados frente al realismo de la referencia. También falta una mayor riqueza de follaje pequeño en el ramo; no se certifica equivalencia visual completa. El fondo lejano es una imagen y los protagonistas se animan en 3D. Tarjeta, viento y finales quedan para futuras pasadas visuales.
 
 final result: passed
+
+## Tercera pasada: tarjeta y finales (0.10)
+
+### Evidencia y comparación
+
+Fuente: viñetas 09, 10, 11, 12 y 13 del tablero original indicado arriba. Comparación conjunta abierta y revisada: `docs/cinematic-finale-comparison.png` (tarjeta, corazón y mensaje). Conserva las proporciones de las viñetas horizontales y de la implementación completa; no supone igualdad de viewport ni equivalencia pixel a pixel. Las capturas de escritorio son 1013 × 761; móvil 390 × 844. Se revisaron además a tamaño completo la carta y los finales para comprobar lectura y recortes.
+
+Capturas: `docs/cinematic-{card,letter,wind,heart,message,final-flower}-{desktop,mobile}.png`. Se comprobó el contenido de las capturas, descartando tomas que todavía mostraban el frame anterior al abrir un diálogo.
+
+### Hallazgos corregidos
+
+- P2: la tarjeta permanecía delante al comenzar el viento. Ahora se retira; capturas de WIND muestran las flores y la escena despejada.
+- P2: título demasiado próximo al borde de la tarjeta en escritorio. Se bajó la zona de controles y se verificó la separación en la captura final.
+- P2: borde izquierdo del fondo visible en la última flor. Se alinearon posición y foco de cámara con la flor; las capturas finales de ambos tamaños muestran cobertura completa.
+- P2: lectura móvil perdía toda la decoración botánica por el recorte. Se alineó el fondo a la izquierda y se mantuvo el panel de lectura claro.
+- P2 visual: corazón y letras demasiado finos y punteados frente a la referencia. Se aumentó el tamaño suave de los puntos y se calentó el color; se recapturó y recompuso la comparación. Se conserva la misma cantidad de partículas.
+
+### Superficies y límites de fidelidad
+
+Tipografía: serif Georgia para carta/frases y sans para controles; no se identifica como fuente exacta del tablero. Espaciado: protagonistas centrados y controles inferiores, con margen para encabezado. Color: papel marfil y tinta cálida sobre entorno azul/dorado. Imágenes: asset de papel local y paisaje ya existente; geometría y partículas animadas en tiempo real. Contenido: conserva Para ti, Feliz primavera y la fecha, con instrucciones y lectura en HTML por accesibilidad.
+
+Desviaciones intencionales de esta aproximación: tarjeta cerrada antes de leer en vez de libro abierto; interfaz funcional añadida; proporción vertical móvil. P3 de refinamiento posterior: flores con materiales y geometría más naturales, luz volumétrica, distribución más orgánica del corazón y mayor variedad de follaje. Los extras del tablero (banco y composición del modo desarrollador) no se han recreado visualmente en esta pasada.
+
+La revisión funcional y de composición del alcance pasa; no certifica una réplica fotográfica. 18 pruebas, tipos/lint y compilación correctos. Recorridos manuales de tarjeta y finales verificados, sin errores nuevos de consola; suite E2E completa no repetida.
+
+final result: passed

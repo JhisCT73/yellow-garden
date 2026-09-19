@@ -144,3 +144,82 @@ main.cinematic-opening[data-stage='INTRO'] .story > p {
     width: 280px;
   }
 }
+/* The closing scenes keep their controls below the animated subject. */
+.cinematic-opening .finale-actions,
+.cinematic-opening .wind-control {
+  align-items: center;
+  justify-content: center;
+}
+.cinematic-opening .finale-date {
+  font-size: 10px;
+  margin-bottom: 10px;
+}
+.cinematic-opening .finale-actions .primary {
+  margin: 0;
+}
+.cinematic-opening[data-stage='FREE_EXPLORE'] .story .primary {
+  display: flex;
+}
+.cinematic-opening[data-stage='WIND'] .story > p {
+  margin-bottom: 12px;
+}
+.cinematic-opening .wind-control .text-button {
+  margin: 0;
+}
+dialog.botanical-letter {
+  width: min(680px, calc(100% - 32px));
+  padding: 48px 72px;
+  background: #f6eddb url('/textures/botanical-paper.jpg') center / cover;
+  border: 1px solid #c7b17c;
+  overflow-y: auto;
+}
+.botanical-letter .letter-content {
+  padding: 24px;
+  background: #fff9eceb;
+}
+.botanical-letter .card-kicker {
+  margin-bottom: 30px;
+  color: #6b5834;
+}
+.botanical-letter h2 {
+  font-size: clamp(29px, 4vw, 38px);
+}
+.botanical-letter p {
+  color: #514734;
+  font-family: Georgia, serif;
+}
+.botanical-letter .close-card {
+  color: #4c3d27;
+  background: #fff8e7;
+  border-radius: 50%;
+}
+.botanical-letter button:focus-visible {
+  outline-color: #765423;
+}
+@media (max-width: 719px) {
+  dialog.botanical-letter {
+    padding: 50px 25px 28px;
+  }
+  .botanical-letter .letter-content {
+    padding: 18px 12px;
+  }
+  .botanical-letter p {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .botanical-letter .card-closing {
+    font-size: 20px;
+  }
+  .cinematic-opening .finale-actions {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+main.cinematic-opening[data-stage='CARD_READY'] .story {
+  bottom: 4%;
+}
+@media (max-width: 719px) {
+  dialog.botanical-letter {
+    background-position: left center;
+  }
+}

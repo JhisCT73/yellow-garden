@@ -101,9 +101,13 @@ export function createBotanicalGift() {
   canvas.width = 768;
   canvas.height = 512;
   const context = canvas.getContext('2d');
-  if (context) {
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  function paint(image?: HTMLImageElement) {
+    if (!context) return;
     context.fillStyle = '#fff8e7';
     context.fillRect(0, 0, 768, 512);
+    if (image) context.drawImage(image, 0, 0, 768, 512);
     context.strokeStyle = '#b19a53';
     context.lineWidth = 2;
     context.strokeRect(26, 26, 716, 460);
@@ -111,14 +115,15 @@ export function createBotanicalGift() {
     context.textAlign = 'center';
     context.fillStyle = '#716034';
     context.font = 'italic 88px Georgia';
-    context.fillText('Para ti', 384, 275);
+    context.fillText('Para ti', 420, 275);
     context.font = '22px Georgia';
-    context.fillText('UN POQUITO DE PRIMAVERA', 384, 350);
-    context.font = '48px Georgia';
-    context.fillText('✳', 384, 157);
+    context.fillText('UN POQUITO DE PRIMAVERA', 420, 350);
+    texture.needsUpdate = true;
   }
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
+  paint();
+  const paperImage = new Image();
+  paperImage.onload = () => paint(paperImage);
+  paperImage.src = `${import.meta.env.BASE_URL}textures/botanical-paper.jpg`;
   const paper = new THREE.MeshStandardMaterial({
     color: '#fff8e7',
     roughness: 0.95,
@@ -151,6 +156,10 @@ export function createBotanicalGift() {
     ribbon,
     tail,
     texture,
+    dispose() {
+      paperImage.onload = null;
+      texture.dispose();
+    },
     update(
       gather: number,
       reveal: number,
@@ -171,12 +180,12 @@ export function createBotanicalGift() {
       wrap.scale.setScalar(1 + reveal * 0.2);
       card.visible = reveal > 0.02;
       card.position.set(
-        0.12 + reveal * 0.84,
-        1.12 + reveal * 0.35,
-        0.08 + reveal * 1.65,
+        0.12 - reveal * 0.12,
+        1.12 + reveal * 1.03,
+        0.08 + reveal * 2.42,
       );
-      card.rotation.set(-0.04, -0.12 * reveal, -0.15 * reveal);
-      card.scale.setScalar(0.5 + reveal * 0.5);
+      card.rotation.set(-0.04, -0.08 * reveal, -0.055 * reveal);
+      card.scale.setScalar(0.5 + reveal * 1.7);
       hinge.rotation.y = -open * 1.5;
     },
   };

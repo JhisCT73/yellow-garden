@@ -9,3 +9,5 @@ Dependencias principales: Svelte (MIT), Three.js (MIT), Threlte (MIT), XState (M
 Referencias de API: https://threlte.xyz/docs/ y https://svelte.dev/docs/ . El algoritmo de disposición radial usa el ángulo áureo. La paleta y el concepto provienen del plan maestro de Yellow Garden aportado por el usuario.
 
 - `public/textures/garden-path.jpg`: paisaje nocturno generado para este proyecto mediante ImageGen (1536 × 1024, JPEG, aproximadamente 427 KB). Se usa como fondo lejano, con protagonistas 3D animados delante; no se carga una API de imágenes durante la visita.
+
+- `public/textures/botanical-paper.jpg`: papel marfil botánico generado mediante ImageGen para este proyecto, 1536 × 1024, aproximadamente 225 KiB. Sin texto en el asset; las palabras se dibujan en la CanvasTexture de la portada y el contenido de lectura permanece como HTML seleccionable.

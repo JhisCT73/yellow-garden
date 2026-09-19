@@ -86,3 +86,13 @@ GitHub Pages está preparado mediante workflow, pero no se publicó: la sesión 
 - Corregidos el recorte de la flor superior del ramo, el borde visible del fondo móvil y la superposición entre instrucciones de cinta y flor en escritorio.
 - Sin errores de consola nuevos tras la recarga de validación. Las recargas durante desarrollo no se consideran evidencia final.
 - No se ejecutó de nuevo la suite E2E completa. No se midió FPS en teléfono físico ni se repitió toda la secuencia final. El fondo lejano es raster; la fidelidad fotográfica del modelo floral sigue pendiente.
+
+## 0.10.0 — Tarjeta, viento y finales
+
+- Tipos: 0 errores/advertencias. Lint correcto. 18 pruebas unitarias correctas. Build correcto; persiste aviso de tamaño del chunk de Three.
+- Navegador integrado: escritorio 1013 × 761 y viewport móvil 390 × 844. Ambos son capturas del navegador, no teléfono físico.
+- Verificado: plantar, ramo, desatar, tarjeta, apertura/cierre de lectura con restitución del foco, entrada al viento desde tarjeta y desde jardín, continuación por teclado y atajo, corazón, mensaje, regreso a exploración, última flor y su encuadre en ambos tamaños.
+- Corregida la prolongación de transiciones bajo pausas de render: tras el ajuste se completó la apertura en la ventana de observación de 14 segundos y el final en la de 7 segundos. Esto valida progreso funcional, no una medición de FPS ni duración exacta.
+- Capturas nuevas: `cinematic-{card,letter,wind,heart,message,final-flower}-{desktop,mobile}.png`; comparación `cinematic-finale-comparison.png`.
+- Sin errores nuevos en consola tras las recargas finales. No se volvió a ejecutar toda la suite E2E ni se verificó movimiento reducido en navegador esta pasada; el código conserva su rama de reducción de movimiento.
+- Diferencias visuales pendientes: geometría floral estilizada, distribución más regular del corazón, iluminación menos volumétrica que el tablero y tarjeta cerrada en lugar de libro abierto.
