@@ -6,14 +6,14 @@
 - `world/botany.ts` construye girasoles con tallos curvos, hojas, pétalos curvados y discos con filotaxis. Pétalos, semillas y hierba usan instancias. El crecimiento inicial escala la planta; una revelación continua del tallo queda como mejora futura.
 - `objects/flowerSpecies.ts` conserva el primer girasol y distribuye tres perfiles botánicos. Los pétalos usan formas, cantidades y materiales diferentes. Después de abrirse, sus matrices no se vuelven a subir a GPU hasta que cambie la apertura; el tallo conserva el movimiento ambiental.
 - `utils/random.ts` produce una composición determinista limitada a 24 flores para evitar sobrecarga por configuración.
-- `systems/PerformanceManager.ts` elige DPR y cantidades según capacidad básica; no es aún un controlador adaptativo por FPS.
+- `systems/PerformanceManager.ts` define tres perfiles: DPR máximo 1/1.5/1.75, partículas ambientales 120/240/360 y hierba 250/450/700. Automática parte del número de núcleos y, después de 3 segundos de calentamiento, reduce un nivel tras dos ventanas consecutivas de 2 segundos con tiempo medio de frame superior a 40 ms. Descarta pausas superiores a 250 ms y tiempo en segundo plano. No aumenta automáticamente la calidad para evitar oscilaciones. Ligera/Alta omiten el monitor.
 - `systems/AudioEngine.ts` sintetiza ambiente y notas sin archivos externos; se activa por gesto explícito y se silencia al ocultar la pestaña.
 - `systems/BouquetLayout.ts` define posiciones reproducibles con un girasol principal y tallos reunidos. `BouquetSystem.ts` interpola posición, orientación y escala; compensa el tamaño de las cabezas y reduce el follaje para despejar el lazo.
 - `objects/BotanicalGift.ts` crea la cinta con bandas curvas, la tarjeta y su portada CanvasTexture local. La textura se libera al desmontar.
 - `interactions/RibbonInteraction.svelte` captura el puntero, aplica un umbral de arrastre y ofrece activación semántica por teclado. La cinta 3D también admite picking y arrastre. La captura/cancelación y el reinicio evitan conservar un gesto interrumpido.
 - `interactions/WindInteraction.svelte` controla una pulsación por puntero o teclado. Cancelar, perder el foco o esconder la pestaña no envía el evento de soltar. La alternativa de un solo paso no exige duración ni precisión motora.
 - `systems/WindSystem.ts` amortigua la fuerza, inclina plantas y hojas, y deforma la hierba por shader. El sonido de viento se sintetiza localmente y pasa por el mismo control de silencio.
-- `particles/heart.ts` genera un volumen de corazón determinista. `HeartFormation.ts` interpola en GPU entre origen, dispersión, corazón y texto, con 1200 o 1800 puntos según el perfil. El presupuesto se incrementó para conservar legibilidad en las letras. Los buffers se crean una vez y se liberan con la escena.
+- `particles/heart.ts` genera un volumen de corazón determinista. `HeartFormation.ts` interpola en GPU entre origen, dispersión, corazón y texto, con 1800 puntos en todos los perfiles para conservar legibilidad en las letras. Los buffers se crean una vez y se liberan con la escena.
 - `particles/TextFormation.ts` rasteriza las letras con una fuente del sistema en un canvas local, recoge muestras por línea y distribuye una cuota explícita a la fecha. No descarga fuentes. La posición Z conserva una profundidad ligera.
 - `interactions/GardenSecret.svelte` contiene un diálogo opcional con comandos ficticios, activación táctil y teclado, cierre por Escape y restauración de foco. No evalúa código ni envía eventos narrativos.
 - `content/` y `config/` separan el texto y los parámetros de la escena.
@@ -33,6 +33,8 @@ Vitest comprueba determinismo, límites, disposición del ramo y transiciones. P
 La sorpresa opcional añade FREE_EXPLORE → SECRET_BLOOM → SECRET_READY → FREE_EXPLORE. `SecretBloomSystem.ts` reutiliza la flor protagonista y aplica las escalas después de las actualizaciones de botánica, ramo y viento. Estas restauran sus valores base en cada frame, evitando acumulación al repetir. Un buffer de 120 puntos reproduce el destello en GPU; no se muestra con movimiento reducido y se libera con el resto de la escena. GSAP cancela la transición al salir del estado.
 
 `interactions/CareChoice.svelte` ofrece radios nativos para la elección local de cuidado. No modifica el recorrido XState. `systems/GardenCare.ts` mantiene un buffer de 150 gotas, oculta el agua durante el final de partículas y aplica una variante a la luz existente, sin luces adicionales. Su tiempo queda fijo con movimiento reducido. `AudioEngine.setCare` selecciona armonías para los chimes sin crear ni activar un AudioContext; todas las notas pasan por el mismo volumen maestro.
+
+Los cambios de calidad modifican el drawing buffer, `InstancedMesh.count`, rangos de dibujo y uniforms de tamaño de puntos. Los buffers se reservan para el perfil alto y se reutilizan: baja el trabajo de dibujo, no la memoria de geometría reservada. `GraphicsSettings.svelte` permite elegir el modo mediante un diálogo nativo sin desmontar Canvas. Elegir Automática reinicia la evaluación desde el perfil del dispositivo. La escena sigue animándose detrás del diálogo.
 
 ## Siguiente incremento
 

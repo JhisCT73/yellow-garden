@@ -6,7 +6,13 @@
   import { createFlowers, createMeadow } from './botany';
   import { seededRandom } from '../utils/random';
   import { gardenConfig } from '../config/garden.config';
-  import { qualityForDevice } from '../systems/PerformanceManager';
+  import {
+    initialQuality,
+    qualityProfile,
+    createPerformanceMonitor,
+    type QualityMode,
+    type QualityLevel,
+  } from '../systems/PerformanceManager';
   import type {
     GardenStage,
     SceneCompletion,
@@ -33,6 +39,8 @@
     onuntie,
     windCharge,
     care,
+    qualityMode,
+    onquality,
   }: {
     stage: GardenStage;
     seed: string;
@@ -48,10 +56,14 @@
     onuntie: () => void;
     windCharge: number;
     care: GardenCare;
+    qualityMode: QualityMode;
+    onquality: (level: QualityLevel) => void;
   } = $props();
   const { scene, camera, renderer, size } = useThrelte();
   const root = new THREE.Group();
-  const quality = qualityForDevice();
+  const initialLevel = initialQuality(navigator.hardwareConcurrency || 4);
+  const quality = qualityProfile('high', window.devicePixelRatio);
+  const monitor = createPerformanceMonitor(initialLevel);
   const initialSeed = untrack(() => seed);
   const flowers = createFlowers(initialSeed, gardenConfig.flowerCount);
   const bouquet = createBouquetSystem(flowers.flowers, initialSeed);
@@ -61,11 +73,7 @@
   const secret = createSecretBloom(flowers.flowers, initialSeed, quality.dpr);
   const careEffect = createGardenCare(initialSeed, quality.dpr);
   const surprise = { value: 0 };
-  const heart = createHeartFormation(
-    initialSeed,
-    quality.particles <= 180 ? 1200 : 1800,
-    quality.dpr,
-  );
+  const heart = createHeartFormation(initialSeed, 1800, quality.dpr);
   const finale = { flight: 0, formation: 0, opacity: 0, fade: 0, lettering: 0 };
   const fadingMaterials: THREE.Material[] = [];
   for (const group of [flowers.root, gift.root])
@@ -374,6 +382,29 @@
       });
   });
   const target = new THREE.Vector3();
+  function applyQuality(level: QualityLevel) {
+    const profile = qualityProfile(level, window.devicePixelRatio);
+    renderer.setPixelRatio(profile.dpr);
+    meadow.count = profile.grass;
+    particleGeometry.setDrawRange(0, profile.particles);
+    careEffect.rain.geometry.setDrawRange(0, level === 'low' ? 70 : 150);
+    // Update point sizes together with the drawing buffer so they retain their CSS size.
+    root.traverse((object) => {
+      if (
+        object instanceof THREE.Points &&
+        object.material instanceof THREE.ShaderMaterial &&
+        object.material.uniforms.dpr
+      )
+        object.material.uniforms.dpr.value = profile.dpr;
+    });
+    onquality(level);
+  }
+  $effect(() => {
+    if (!ready) return;
+    const level = qualityMode === 'auto' ? initialLevel : qualityMode;
+    monitor.reset(level);
+    applyQuality(level);
+  });
   $effect(() => {
     if (!ready) return;
     gsap.killTweensOf(surprise);
@@ -441,6 +472,10 @@
   });
   useTask((delta) => {
     if (!ready) return;
+    if (qualityMode === 'auto') {
+      const level = monitor.sample(delta, !document.hidden);
+      if (level) applyQuality(level);
+    }
     if (!reducedMotion) time += Math.min(delta, 0.05);
     flowers.update(growth.value, bloom.value, time, !reducedMotion);
     bouquet.update(gather.value, time, !reducedMotion);

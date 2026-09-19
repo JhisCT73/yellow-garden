@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.0
+
+Calidad automática con reducción gradual ante lentitud sostenida y selección manual Ligera/Alta. Ajuste de resolución y cantidades visibles sin reconstruir la escena ni perder el avance. Diálogo accesible con retorno del foco y controles compactos en móvil. Texto de partículas conservado en todos los perfiles.
+
 ## 0.6.0
 
 Elección opcional de luz, agua o música antes de plantar. Iluminación cálida, gotas procedurales o pulso visual con sonidos armonizados, respetando silencio y movimiento reducido. Selector accesible por teclado y tacto, conservado al reiniciar. Ajuste de espacio en la introducción para evitar solapamientos con el pie.

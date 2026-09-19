@@ -1,5 +1,14 @@
 # Validación de las entregas
 
+## Séptima entrega — 0.7.0
+
+- TypeScript/Svelte sin errores ni advertencias; lint y compilación de producción correctos.
+- 15 pruebas unitarias aprobadas. El monitor se comprueba con frames rápidos, lentitud sostenida, pausas aisladas, segundo plano, reinicio y límite inferior; solo reduce calidad tras dos ventanas lentas consecutivas después del calentamiento.
+- 34 pruebas de navegador aprobadas en Chromium de escritorio y móvil emulado. Los ajustes cambian la resolución real del canvas sin sustituirlo ni perder estado, mantienen la calidad al reiniciar y devuelven el foco al cerrar con Escape.
+- Capturas `quality-mobile.png` y `quality-text-mobile.png` revisadas: controles utilizables y texto legible en perfil ligero.
+- JavaScript: aproximadamente 263 kB gzip; permanece la advertencia de tamaño de Three.js. En pantallas con DPR suficiente, Ligera limita el dibujo a DPR 1 frente a 1.75 de Alta. Reduce hierba y partículas ambientales; los buffers máximos permanecen reservados y no se afirma ahorro de memoria de geometría.
+- La política adaptativa se valida con tiempos simulados en pruebas unitarias. Pendientes las mediciones de FPS, temperatura, batería y memoria en teléfonos reales; no se afirma una mejora de rendimiento medida en hardware físico.
+
 ## Sexta entrega — 0.6.0
 
 - TypeScript/Svelte sin errores ni advertencias; lint y compilación de producción correctos.
