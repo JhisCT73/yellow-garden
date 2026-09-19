@@ -77,3 +77,12 @@ Comprobado en Windows el 19 de septiembre de 2026:
 Pendientes: hardware Android/iPhone real, Safari, Firefox y Edge. No se ha medido todavía un presupuesto de FPS sostenido ni consumo de batería en teléfonos. La versión móvil permite desplazamiento en pantallas cortas.
 
 GitHub Pages está preparado mediante workflow, pero no se publicó: la sesión local de GitHub reporta un token inválido. No se creó un repositorio remoto.
+
+## 0.9.0 — Jardín y ramo
+
+- `npm run check`: 0 errores y 0 advertencias. Lint correcto; 17 pruebas unitarias correctas; compilación correcta.
+- Verificación manual en navegador integrado: apertura desde recarga limpia, jardín, descubrimiento de mensaje, reunión del ramo, cinta con Enter en escritorio, arrastre de su control en móvil, lectura/cierre de carta y retorno del foco.
+- Viewports: escritorio 1294 × 856 y móvil 390 × 844. Capturas `cinematic-garden-{desktop,mobile}.png` y `cinematic-bouquet-{desktop,mobile}.png`.
+- Corregidos el recorte de la flor superior del ramo, el borde visible del fondo móvil y la superposición entre instrucciones de cinta y flor en escritorio.
+- Sin errores de consola nuevos tras la recarga de validación. Las recargas durante desarrollo no se consideran evidencia final.
+- No se ejecutó de nuevo la suite E2E completa. No se midió FPS en teléfono físico ni se repitió toda la secuencia final. El fondo lejano es raster; la fidelidad fotográfica del modelo floral sigue pendiente.

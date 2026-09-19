@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { openingFrame } from '../../src/cinematics/OpeningCamera';
+import { openingFrame, gardenFrame } from '../../src/cinematics/OpeningCamera';
 
 it('follows growth and frames the hero on mobile without changing later scenes', () => {
   const seed = openingFrame('INTRO', 0, false)!;
@@ -11,4 +11,17 @@ it('follows growth and frames the hero on mobile without changing later scenes',
     openingFrame('BLOOMING', 1, false)!.position[2],
   );
   expect(openingFrame('GARDEN', 1, false)).toBeNull();
+});
+
+it('moves continuously from the wide garden to the bouquet and preserves the finale camera', () => {
+  expect(gardenFrame('GATHERING', 0, false)).toEqual(
+    gardenFrame('GARDEN', 0, false),
+  );
+  expect(gardenFrame('GATHERING', 1, false)).toEqual(
+    gardenFrame('BOUQUET', 1, false),
+  );
+  expect(gardenFrame('BOUQUET', 1, true)!.position[2]).toBeGreaterThan(
+    gardenFrame('BOUQUET', 1, false)!.position[2],
+  );
+  expect(gardenFrame('HEART', 1, false)).toBeNull();
 });

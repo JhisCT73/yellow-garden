@@ -43,3 +43,17 @@ Sin P0/P1/P2 de interacción, legibilidad o recorte en el alcance revisado. La s
 - Medir coste del desenfoque en hardware real y revisar orientación horizontal.
 
 final result: passed
+
+## Segunda pasada: jardín y ramo (0.9)
+
+Referencia revisada: viñetas 05 y 06 del mismo tablero original, abierto nuevamente junto con las capturas actuales. El jardín conserva cielo azul, luna, vegetación lateral y sendero iluminado; el ramo conserva protagonismo central, flores amarillas, cinta dorada y fondo suavizado. No se replica la cuadrícula del tablero: cada viñeta se convierte en escena de pantalla completa.
+
+Capturas finales verificadas: `docs/cinematic-garden-desktop.png`, `docs/cinematic-garden-mobile.png`, `docs/cinematic-bouquet-desktop.png`, `docs/cinematic-bouquet-mobile.png`. Viewports 1294 × 856 y 390 × 844. La referencia es horizontal y estática; el encuadre móvil recorta vegetación lateral y parte del paisaje, manteniendo el sendero y los controles. El ramo completo queda dentro de ambos encuadres.
+
+Correcciones: se amplió la distancia al ramo para evitar recortar la flor superior; se ajustó la cobertura del fondo móvil para eliminar su borde; se separó el control de cinta de la flor en escritorio; se redujo la apertura del desenfoque del ramo y se despejó la hierba del sendero.
+
+Interacciones comprobadas: plantar y transición completa, descubrir una flor, crear ramo, desatar con Enter y con arrastre del control en móvil, abrir y cerrar carta. Sin errores nuevos en consola desde la recarga final. Tipos/lint, 17 pruebas unitarias y compilación correctos. Suite E2E completa no repetida.
+
+Resultado de esta iteración: pasan encuadre, legibilidad e interacciones en los tamaños revisados. La semejanza visual es parcial: los tallos, hojas y flores siguen siendo estilizados frente al realismo de la referencia. También falta una mayor riqueza de follaje pequeño en el ramo; no se certifica equivalencia visual completa. El fondo lejano es una imagen y los protagonistas se animan en 3D. Tarjeta, viento y finales quedan para futuras pasadas visuales.
+
+final result: passed

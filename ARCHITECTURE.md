@@ -43,3 +43,7 @@ La apertura usa `cinematics/OpeningCamera.ts` para definir planos de semilla, cr
 En la apertura, EffectComposer combina RenderPass, BokehPass y OutputPass a DPR 1 en perfiles medio/alto. El foco se calcula en espacio de cámara sobre la semilla o cabeza real. Threlte delega el render a una tarea propia de renderStage; el perfil ligero y el resto de escenas usan render directo. Al desmontar se liberan texturas, pases y render targets. Este cambio aumenta el coste de GPU en la apertura y requiere perfilado en hardware real.
 
 Validar en teléfonos reales, perfilar GPU/memoria y revisar accesibilidad con ampliación de texto. Los secretos adicionales, reflejos y capas musicales continuas quedan para ampliaciones posteriores.
+
+## Jardín y ramo (0.9)
+
+`gardenFrame` interpola el plano amplio y el ramo usando el progreso de reunión. `BouquetSystem` combina la posición inicial, los laterales del sendero y el destino del ramo; no asigna vectores nuevos dentro del bucle de animación. `gardenReveal` anima la aparición del paisaje y reduce la opacidad del suelo de macro. El tamaño del plano lejano varía con el viewport y la reunión para cubrir el encuadre. El desenfoque también se aplica al ramo, desatado y tarjeta en perfiles medio/alto, con menor apertura que en el macro.

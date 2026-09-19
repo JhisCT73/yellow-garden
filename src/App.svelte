@@ -233,7 +233,8 @@
   class:grown={isGarden}
   class:bouquet-mode={hasBouquet}
   class:finale-mode={isFinale}
-  class:cinematic-opening={!failed && (stage === 'INTRO' || isGrowing)}
+  class:cinematic-opening={!failed &&
+    (stage === 'INTRO' || isGrowing || stage === 'GARDEN' || hasBouquet)}
   data-stage={stage}
   data-care={care}
   data-quality={qualityLevel}
@@ -438,7 +439,7 @@
         {/if}
       {/if}
     {:else if hasBouquet}
-      <h1>Un pedacito<br />de primavera,<br /><em>para ti.</em></h1>
+      <h1>Las flores se unen <em>para ti.</em></h1>
       <p aria-live="polite">
         {stage === 'GATHERING'
           ? 'Cada flor encuentra su lugar.'
@@ -469,8 +470,8 @@
         >
       {/if}
     {:else}
-      <h1>Lo bonito<br />también sabe<br /><em>florecer.</em></h1>
-      <p>Estas flores son para ti.<br />Y cada una guarda algo bonito.</p>
+      <h1>Un mundo comienza a <em>despertar.</em></h1>
+      <p>Cada flor guarda algo bonito para ti.</p>
       <button class="primary" onclick={gatherFlowers}
         >Crear mi ramo <span>↗</span></button
       >

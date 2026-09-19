@@ -24,7 +24,7 @@
   import { createSecretBloom } from '../systems/SecretBloomSystem';
   import { createGardenCare, type GardenCare } from '../systems/GardenCare';
   import { createSeedbed } from './Seedbed';
-  import { openingFrame } from '../cinematics/OpeningCamera';
+  import { openingFrame, gardenFrame } from '../cinematics/OpeningCamera';
   import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
   import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
   import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
@@ -74,6 +74,7 @@
   let effectiveLevel: QualityLevel = 'high';
   let renderWidth = 0,
     renderHeight = 0;
+  let soilSurface: THREE.MeshStandardMaterial;
   const root = new THREE.Group();
   const seedbed = createSeedbed(untrack(() => seed));
   const soil = new THREE.TextureLoader().load(
@@ -96,6 +97,23 @@
     }),
   );
   backdrop.position.set(0, -0.5, -7);
+  const landscapeTexture = new THREE.TextureLoader().load(
+    `${import.meta.env.BASE_URL}textures/garden-path.jpg`,
+  );
+  landscapeTexture.colorSpace = THREE.SRGBColorSpace;
+  const landscape = new THREE.Mesh(
+    new THREE.PlaneGeometry(24, 16),
+    new THREE.MeshBasicMaterial({
+      map: landscapeTexture,
+      color: '#9ba4b7',
+      fog: false,
+      depthWrite: false,
+      transparent: true,
+      opacity: 0,
+    }),
+  );
+  landscape.position.set(0, -0.6, -10);
+  const gardenReveal = { value: 0 };
   const initialLevel = initialQuality(navigator.hardwareConcurrency || 4);
   const quality = qualityProfile('high', window.devicePixelRatio);
   const monitor = createPerformanceMonitor(initialLevel);
@@ -240,6 +258,7 @@
       }),
     );
     ground.rotation.x = -Math.PI / 2;
+    soilSurface = ground.material;
     ground.material.transparent = true;
     ground.material.onBeforeCompile = (shader) => {
       shader.vertexShader =
@@ -274,6 +293,7 @@
       seedbed.root,
       sprouts.root,
       backdrop,
+      landscape,
     );
     scene.add(root);
     const canvas = renderer.domElement;
@@ -380,6 +400,7 @@
     onready();
     return () => {
       gsap.killTweensOf(growth);
+      gsap.killTweensOf(gardenReveal);
       gsap.killTweensOf(bloom);
       gsap.killTweensOf(gather);
       gsap.killTweensOf(unwrap);
@@ -389,6 +410,7 @@
       gift.texture.dispose();
       soil.dispose();
       gardenBackdrop.dispose();
+      landscapeTexture.dispose();
       composer.dispose();
       renderPass.dispose();
       bokeh.dispose();
@@ -429,12 +451,20 @@
     gsap.killTweensOf(gather);
     gsap.killTweensOf(cardOpen);
     if (stage === 'INTRO') {
+      gsap.killTweensOf(gardenReveal);
+      gardenReveal.value = 0;
       growth.value = 0;
       bloom.value = 0;
       gather.value = 0;
       unwrap.value = 0;
       cardOpen.value = 0;
     }
+    if (stage === 'GARDEN')
+      gsap.to(gardenReveal, {
+        value: 1,
+        duration: reducedMotion ? 0 : 2.4,
+        ease: 'power2.inOut',
+      });
     if (stage === 'GROWING')
       gsap.to(growth, {
         value: 1,
@@ -585,7 +615,7 @@
     flowers.flowers[0].head.children.forEach((part) => {
       part.visible = part === bud ? stage === 'GROWING' : stage !== 'GROWING';
     });
-    bouquet.update(gather.value, time, !reducedMotion);
+    bouquet.update(gather.value, time, !reducedMotion, gardenReveal.value);
     if (stage === 'BLOOMING') flowers.flowers[0].head.rotateX(-0.3);
     if (stage === 'GROWING' || stage === 'BLOOMING')
       flowers.flowers.forEach((flower, index) => {
@@ -636,14 +666,25 @@
     seedbed.dust.material.uniforms.time.value = time;
     seedbed.dust.visible = ['INTRO', 'GROWING', 'BLOOMING'].includes(stage);
     backdrop.visible = seedbed.dust.visible;
+    landscape.visible = !seedbed.dust.visible && gardenReveal.value > 0;
+    landscape.material.opacity =
+      gardenReveal.value * (1 - finale.opacity * 0.55);
+    soilSurface.opacity = 1 - gardenReveal.value * 0.9;
+    seedbed.root.visible = gardenReveal.value < 0.9;
+    sprouts.root.visible = gardenReveal.value < 0.9;
     halo.scale.setScalar(1 + Math.sin(time * 1.6) * 0.08);
     light.intensity = 3 + (1 - growth.value) * 4;
     careEffect.update(care, time, reducedMotion, finale.opacity === 0, light);
     (particles.material as THREE.ShaderMaterial).uniforms.time.value = time;
     const mobile = size.current.width < 720;
+    landscape.scale.setScalar(
+      1 + (mobile ? 0.25 : 0) + gather.value * (mobile ? 0.15 : 0.12),
+    );
     const cam = camera.current as THREE.PerspectiveCamera;
     const shift = mobile ? 0 : -2.65;
-    const opening = openingFrame(stage, growth.value, mobile);
+    const opening =
+      openingFrame(stage, growth.value, mobile) ??
+      gardenFrame(stage, gather.value, mobile);
     if (opening) {
       target.fromArray(opening.position);
       focusTarget.fromArray(opening.focus);
@@ -674,7 +715,14 @@
       if (!ready) return;
       if (
         effectiveLevel !== 'low' &&
-        ['INTRO', 'GROWING', 'BLOOMING'].includes(stage)
+        [
+          'INTRO',
+          'GROWING',
+          'BLOOMING',
+          'BOUQUET',
+          'UNWRAPPING',
+          'CARD_READY',
+        ].includes(stage)
       ) {
         if (
           renderWidth !== size.current.width ||
@@ -687,11 +735,20 @@
         camera.current.updateMatrixWorld();
         (stage === 'INTRO'
           ? seedMesh
-          : flowers.flowers[0].head
+          : stage === 'CARD_READY'
+            ? gift.card
+            : flowers.flowers[0].head
         ).getWorldPosition(opticalFocus);
         opticalFocus.applyMatrix4(camera.current.matrixWorldInverse);
         (bokeh.uniforms as Record<string, THREE.IUniform>).focus.value =
           -opticalFocus.z;
+        (bokeh.uniforms as Record<string, THREE.IUniform>).aperture.value = [
+          'BOUQUET',
+          'UNWRAPPING',
+          'CARD_READY',
+        ].includes(stage)
+          ? 0.003
+          : 0.012;
         composer.render();
       } else renderer.render(scene, camera.current);
     },

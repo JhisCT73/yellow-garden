@@ -10,9 +10,15 @@ function petalGeometry(length = 0.77, width = 0.145) {
     for (let column = 0; column <= 4; column++) {
       const s = column / 2 - 1;
       vertices.push(
-        s * width * Math.pow(Math.sin(Math.PI * t), 0.7),
+        s *
+          width *
+          Math.pow(Math.sin(Math.PI * t), 0.7) *
+          (1 + Math.sin(t * 21) * 0.035),
         t * length,
-        Math.sin(t * Math.PI) * 0.1 + s * s * 0.065 - t * t * 0.09,
+        Math.sin(t * Math.PI) * 0.1 +
+          s * s * 0.065 -
+          t * t * 0.09 +
+          Math.sin(t * Math.PI) * Math.abs(s) * 0.025,
       );
     }
   }
@@ -192,11 +198,13 @@ export function createFlowers(seed: string, count: number) {
         dummy.rotation.set(0, 0, a);
         dummy.rotateX(
           (1 - open) * 1.35 +
-            (outer ? -0.1 : flower.species === 'buttercup' ? 0.35 : 0.05),
+            (outer ? -0.1 : flower.species === 'buttercup' ? 0.35 : 0.05) +
+            Math.sin(i * 4.7) * 0.09 * open,
         );
         dummy.scale.setScalar(
           outer || flower.species !== 'sunflower' ? 1 : 0.84,
         );
+        dummy.scale.y *= 1 + Math.sin(i * 7.3) * 0.08;
         dummy.updateMatrix();
         flower.petals.setMatrixAt(i, dummy.matrix);
       }
@@ -234,7 +242,7 @@ export function createMeadow(seed: string, count: number) {
     let x = Math.cos(a) * r;
     const z = Math.sin(a) * r * 0.65;
     // Leave the macro camera's central sightline clear.
-    if (z > 0 && Math.abs(x) < 0.8) x += x < 0 ? -0.9 : 0.9;
+    if (Math.abs(x) < 0.9) x += x < 0 ? -0.95 : 0.95;
     dummy.position.set(x, -0.035, z);
     dummy.rotation.set(
       (random() - 0.5) * 0.5,

@@ -100,3 +100,47 @@ main.cinematic-opening[data-stage='INTRO'] .story > p {
     width: 90%;
   }
 }
+/* Shared wide garden and gift framing. */
+.cinematic-opening .story .text-button {
+  display: inline-block;
+  margin: 10px 12px 0;
+  min-height: 44px;
+  font-size: 12px;
+}
+.cinematic-opening .story .microcopy {
+  display: block;
+}
+.cinematic-opening[data-stage='GARDEN'] .story {
+  width: min(94%, 760px);
+}
+.cinematic-opening[data-stage='GARDEN'] .story .primary {
+  display: flex;
+}
+.cinematic-opening .flower-message {
+  bottom: 35%;
+  left: 50%;
+  max-width: min(85vw, 420px);
+}
+@media (max-width: 719px) {
+  .cinematic-opening[data-stage='GARDEN'] .story > .text-button {
+    margin: 4px 7px 0;
+    font-size: 11px;
+  }
+  .cinematic-opening[data-stage='GARDEN'] .story > .next-wind {
+    display: block;
+    margin: 0 auto;
+  }
+  .cinematic-opening[data-stage='GARDEN'] .story h1 {
+    font-size: 24px;
+  }
+}
+.cinematic-opening[data-stage='BOUQUET'] .scene-caption {
+  opacity: 1;
+}
+@media (min-width: 720px) {
+  .cinematic-opening[data-stage='BOUQUET'] .scene-caption {
+    top: 120px;
+    left: 19%;
+    width: 280px;
+  }
+}

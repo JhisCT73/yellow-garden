@@ -7,3 +7,5 @@ La geometría, shaders, composición, estilos y síntesis de audio de esta versi
 Dependencias principales: Svelte (MIT), Three.js (MIT), Threlte (MIT), XState (MIT), Vite (MIT). GSAP se distribuye bajo su licencia propia; consultar la licencia incluida en la versión instalada. La licencia MIT de este repositorio no sustituye las licencias de sus dependencias.
 
 Referencias de API: https://threlte.xyz/docs/ y https://svelte.dev/docs/ . El algoritmo de disposición radial usa el ángulo áureo. La paleta y el concepto provienen del plan maestro de Yellow Garden aportado por el usuario.
+
+- `public/textures/garden-path.jpg`: paisaje nocturno generado para este proyecto mediante ImageGen (1536 × 1024, JPEG, aproximadamente 427 KB). Se usa como fondo lejano, con protagonistas 3D animados delante; no se carga una API de imágenes durante la visita.

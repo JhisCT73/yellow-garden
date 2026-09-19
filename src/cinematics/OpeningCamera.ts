@@ -25,3 +25,32 @@ export function openingFrame(
     };
   return null;
 }
+
+/** Wide garden and close gift shots share the same lower text-safe area. */
+export function gardenFrame(
+  stage: GardenStage,
+  gather: number,
+  mobile: boolean,
+) {
+  if (
+    ![
+      'GARDEN',
+      'GATHERING',
+      'BOUQUET',
+      'UNWRAPPING',
+      'CARD_READY',
+      'FINALE',
+    ].includes(stage)
+  )
+    return null;
+  const t = stage === 'GARDEN' ? 0 : stage === 'GATHERING' ? gather : 1;
+  return {
+    position: [
+      0.35 * t,
+      3.2,
+      (mobile ? 12 : 10) - t * (mobile ? 0.2 : 0.6),
+    ] as const,
+    focus: [0, 1.5 + t * 0.7, -1.5 + t * 1.5] as const,
+    fov: mobile ? 44 : 39,
+  };
+}

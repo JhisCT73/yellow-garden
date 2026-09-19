@@ -38,10 +38,13 @@ export function createBotanicalGift() {
   const root = new THREE.Group();
   const ribbon = new THREE.Group();
   ribbon.position.set(0, 1.05, 0.28);
-  const satin = new THREE.MeshStandardMaterial({
+  const satin = new THREE.MeshPhysicalMaterial({
     color: '#d6a844',
-    roughness: 0.38,
-    metalness: 0.35,
+    roughness: 0.32,
+    metalness: 0.18,
+    sheen: 0.85,
+    sheenColor: '#fff0be',
+    sheenRoughness: 0.42,
     side: THREE.DoubleSide,
   });
   const knot = new THREE.Mesh(new THREE.SphereGeometry(0.115, 16, 10), satin);

@@ -31,3 +31,10 @@ Formación animada del ramo, composición reproducible, cinta tridimensional con
 ## 0.1.0
 
 Primera implementación del recorrido semilla → crecimiento → floración → jardín, con nota final, composición reproducible, accesibilidad, ambiente sintetizado y workflows de verificación y GitHub Pages.
+
+## 0.9.0 — Jardín y ramo cinematográficos
+
+- Paisaje nocturno con sendero central y flores 3D que se abren hacia sus lados antes de reunirse en el ramo.
+- Encuadres continuos para jardín, reunión y regalo; adaptación a pantalla móvil.
+- Variaciones en pétalos y orientación de las flores, cinta con material satinado y desenfoque suave del fondo del ramo en perfiles medio/alto.
+- Controles inferiores compactos y cinta accesible por arrastre o teclado.
