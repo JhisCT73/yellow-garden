@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0
+
+El corazón se transforma opcionalmente en un mensaje de partículas con fecha. Tres perfiles de flores conservan el girasol protagonista y añaden variedad al jardín y al ramo. Secreto de terminal de juguete con soporte de teclado. Menos actualizaciones de pétalos tras la floración y descubrimiento secuencial sin atascarse después de tocar flores fuera de orden.
+
 ## 0.3.0
 
 Viento por pulsación con ratón, tacto o teclado, síntesis sonora local, movimiento de hojas y hierba, dispersión y formación de corazón 3D con partículas. Cierre de primavera y retorno a exploración libre. Alternativa de un solo paso, cancelación de gestos y final estático para movimiento reducido.

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { gardenLayout, seededRandom } from '../utils/random';
+import { flowerSpecies, speciesProfiles } from '../objects/flowerSpecies';
 
 function petalGeometry(length = 0.77, width = 0.145) {
   const vertices: number[] = [],
@@ -33,6 +34,8 @@ function petalGeometry(length = 0.77, width = 0.145) {
 export function createFlowers(seed: string, count: number) {
   const root = new THREE.Group();
   const petal = petalGeometry();
+  const daisyPetal = petalGeometry(0.64, 0.085);
+  const cupPetal = petalGeometry(0.46, 0.22);
   const leaf = petalGeometry(0.9, 0.25);
   const gold = new THREE.MeshStandardMaterial({
     color: '#ffce32',
@@ -46,6 +49,14 @@ export function createFlowers(seed: string, count: number) {
     roughness: 0.78,
     side: THREE.DoubleSide,
   });
+  const cream = gold.clone();
+  cream.color.set('#fff0a8');
+  const butter = gold.clone();
+  butter.color.set('#ffbf20');
+  const smallCenter = new THREE.MeshStandardMaterial({
+    color: '#c58919',
+    roughness: 0.8,
+  });
   const centerMat = new THREE.MeshStandardMaterial({
     color: '#382514',
     roughness: 0.95,
@@ -58,6 +69,9 @@ export function createFlowers(seed: string, count: number) {
   const grainGeometry = new THREE.SphereGeometry(0.018, 5, 4);
   const dummy = new THREE.Object3D();
   const flowers = gardenLayout(seed, count).map((item, index) => {
+    const species = flowerSpecies(index),
+      profile = speciesProfiles[species];
+    item.size *= profile.size;
     const group = new THREE.Group();
     group.position.set(item.x, 0, item.z);
     const curve = new THREE.CatmullRomCurve3([
@@ -82,12 +96,23 @@ export function createFlowers(seed: string, count: number) {
     head.position.copy(curve.getPoint(1));
     head.rotation.set(-0.1, item.x * 0.12, item.lean);
     head.scale.setScalar(item.size);
-    const petals = new THREE.InstancedMesh(petal, gold, 34);
+    const petals = new THREE.InstancedMesh(
+      species === 'sunflower'
+        ? petal
+        : species === 'daisy'
+          ? daisyPetal
+          : cupPetal,
+      species === 'sunflower' ? gold : species === 'daisy' ? cream : butter,
+      profile.count,
+    );
     petals.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
     petals.frustumCulled = false;
     head.add(petals);
-    const center = new THREE.Mesh(centerGeometry, centerMat);
-    center.scale.z = 0.42;
+    const center = new THREE.Mesh(
+      centerGeometry,
+      species === 'sunflower' ? centerMat : smallCenter,
+    );
+    center.scale.set(profile.center, profile.center, 0.42 * profile.center);
     center.position.z = 0.045;
     center.userData.flowerIndex = index;
     head.add(center);
@@ -105,10 +130,21 @@ export function createFlowers(seed: string, count: number) {
       dummy.updateMatrix();
       grains.setMatrixAt(i, dummy.matrix);
     }
+    grains.scale.setScalar(profile.center);
     head.add(grains);
     group.add(head);
     root.add(group);
-    return { group, head, petals, center, leaves, item };
+    return {
+      group,
+      head,
+      petals,
+      center,
+      leaves,
+      item,
+      profile,
+      species,
+      previousOpen: -1,
+    };
   });
   function update(
     growth: number,
@@ -139,16 +175,28 @@ export function createFlowers(seed: string, count: number) {
         1,
       );
       flower.head.scale.setScalar(flower.item.size * (0.38 + open * 0.62));
-      for (let i = 0; i < 34; i++) {
-        const a = ((i % 17) / 17) * Math.PI * 2 + (i >= 17 ? 0.18 : 0);
+      // Petal matrices are static once blooming finishes; only stems sway then.
+      if (open === flower.previousOpen) continue;
+      flower.previousOpen = open;
+      const { profile } = flower;
+      for (let i = 0; i < profile.count; i++) {
+        const outer = i >= profile.ring;
+        const a =
+          ((i % profile.ring) / profile.ring) * Math.PI * 2 +
+          (outer ? 0.18 : 0);
         dummy.position.set(
-          -Math.sin(a) * 0.2,
-          Math.cos(a) * 0.2,
-          i >= 17 ? -0.035 : 0,
+          -Math.sin(a) * profile.radius,
+          Math.cos(a) * profile.radius,
+          outer ? -0.035 : 0,
         );
         dummy.rotation.set(0, 0, a);
-        dummy.rotateX((1 - open) * 1.35 + (i >= 17 ? -0.1 : 0.05));
-        dummy.scale.setScalar(i >= 17 ? 1 : 0.84);
+        dummy.rotateX(
+          (1 - open) * 1.35 +
+            (outer ? -0.1 : flower.species === 'buttercup' ? 0.35 : 0.05),
+        );
+        dummy.scale.setScalar(
+          outer || flower.species !== 'sunflower' ? 1 : 0.84,
+        );
         dummy.updateMatrix();
         flower.petals.setMatrixAt(i, dummy.matrix);
       }

@@ -56,10 +56,10 @@
   const wind = createWindSystem(flowers.flowers, meadow);
   const heart = createHeartFormation(
     initialSeed,
-    quality.particles <= 180 ? 650 : 1200,
+    quality.particles <= 180 ? 1200 : 1800,
     quality.dpr,
   );
-  const finale = { flight: 0, formation: 0, opacity: 0, fade: 0 };
+  const finale = { flight: 0, formation: 0, opacity: 0, fade: 0, lettering: 0 };
   const fadingMaterials: THREE.Material[] = [];
   for (const group of [flowers.root, gift.root])
     group.traverse((object) => {
@@ -372,6 +372,7 @@
       finale.formation = 0;
       finale.opacity = 0;
       finale.fade = 0;
+      finale.lettering = 0;
       wind.reset();
     }
     if (stage === 'FREE_EXPLORE') {
@@ -406,6 +407,13 @@
         duration: reducedMotion ? 0.1 : gardenConfig.heartDuration,
         ease: 'power2.inOut',
         onComplete: () => oncomplete('HEART_READY'),
+      });
+    if (stage === 'TEXT_FORMING')
+      gsap.to(finale, {
+        lettering: 1,
+        duration: reducedMotion ? 0 : gardenConfig.messageDuration,
+        ease: 'power2.inOut',
+        onComplete: () => oncomplete('MESSAGE_READY'),
       });
   });
   useTask((delta) => {
@@ -444,6 +452,7 @@
     heart.uniforms.opacity.value = finale.opacity;
     heart.uniforms.time.value = time;
     heart.uniforms.motion.value = reducedMotion ? 0 : 1;
+    heart.uniforms.lettering.value = finale.lettering;
     seedMesh.visible = growth.value < 0.08;
     seedMesh.position.y = 0.5 + Math.sin(time * 1.6) * 0.06;
     seedMesh.rotation.z = Math.sin(time) * 0.2;

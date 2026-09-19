@@ -95,6 +95,11 @@ header {
   align-items: center;
   gap: 9px;
 }
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
 .brand-symbol {
   color: var(--sun);
   font: 36px Georgia;
@@ -215,6 +220,12 @@ h1 em {
   letter-spacing: 2px;
   color: var(--sun);
   margin-bottom: 18px;
+}
+.finale-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 .finale-mode .eyebrow {
   margin-bottom: 20px;

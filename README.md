@@ -35,11 +35,15 @@ Después de florecer, pulsa **Crear mi ramo**. Arrastra la cinta dorada o el con
 
 **Un último deseo** inicia el viento desde el jardín o desde la tarjeta. Mantén pulsado y suelta, con dedo, ratón, Espacio o Enter. **Continuar sin mantener pulsado** ofrece una alternativa de un solo paso. Escape, la cancelación del puntero o salir de la pestaña cancelan la pulsación. Las partículas se dispersan y forman un corazón con profundidad; después puedes quedarte explorando el jardín, repetir el deseo o empezar de nuevo. Con movimiento reducido, el corazón aparece estático sin ráfaga ni pulso.
 
+Desde el corazón, **Un mensaje entre las luces** transforma los puntos en **FELIZ PRIMAVERA** y la fecha configurada. Se conserva una versión HTML legible para tecnologías de asistencia. El jardín combina girasoles, margaritas amarillas y pequeñas flores en copa; el girasol principal siempre se mantiene.
+
+El símbolo dorado junto al título esconde una pequeña terminal de juguete. Se abre al tocarlo, mantenerlo pulsado o activarlo por teclado; no ejecuta comandos reales ni altera la historia. Puedes desactivarlo con `secrets: false`. Todos estos descubrimientos son opcionales.
+
 ## Alcance de esta versión
 
-Implementado: jardín nocturno, semilla, tallos y hojas, girasoles procedurales, floración, jardín reproducible, mensajes, formación animada del ramo, cinta 3D arrastrable, tarjeta tridimensional con textura local, lectura accesible, viento interactivo, corazón de partículas, exploración posterior al final, reinicio, audio opcional y ajuste básico de calidad.
+Implementado: jardín nocturno, semilla, tallos y hojas, tres tipos de flores procedurales, floración, jardín reproducible, mensajes, formación animada del ramo, cinta 3D arrastrable, tarjeta tridimensional con textura local, lectura accesible, viento interactivo, corazón y texto de partículas, exploración posterior al final, secreto opcional, reinicio, audio opcional y ajuste básico de calidad.
 
-Pendiente del plan maestro: texto formado por partículas, otras especies, secretos adicionales y un pase de calidad/rendimiento en hardware real. La tarjeta se revela en 3D y el texto completo se lee en un diálogo HTML accesible. La felicitación final también es HTML. No se presenta como la implementación completa de las 15 fases.
+Pendiente del plan maestro: secretos adicionales (mariposa, estrellas y flor gigante), variantes de luz/agua/música y un pase de calidad/rendimiento en hardware real. La tarjeta se revela en 3D y el texto completo se lee en un diálogo HTML accesible. No se presenta como la implementación completa de las 15 fases.
 
 ## Publicar en GitHub Pages
 

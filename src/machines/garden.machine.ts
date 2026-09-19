@@ -18,6 +18,8 @@ export const gardenMachine = setup({
         | 'RELEASE_WIND'
         | 'SCATTERED'
         | 'HEART_READY'
+        | 'FORM_MESSAGE'
+        | 'MESSAGE_READY'
         | 'EXPLORE'
         | 'RESTART';
     },
@@ -58,7 +60,11 @@ export const gardenMachine = setup({
     WIND: { on: { RELEASE_WIND: 'BURST' } },
     BURST: { on: { SCATTERED: 'HEART' } },
     HEART: { on: { HEART_READY: 'CELEBRATION' } },
-    CELEBRATION: { on: { EXPLORE: 'FREE_EXPLORE' } },
+    CELEBRATION: {
+      on: { EXPLORE: 'FREE_EXPLORE', FORM_MESSAGE: 'TEXT_FORMING' },
+    },
+    TEXT_FORMING: { on: { MESSAGE_READY: 'TEXT_READY' } },
+    TEXT_READY: { on: { EXPLORE: 'FREE_EXPLORE' } },
     FREE_EXPLORE: { on: { START_WIND: 'WIND' } },
     FINALE: {
       on: {
@@ -87,6 +93,8 @@ export type GardenStage =
   | 'BURST'
   | 'HEART'
   | 'CELEBRATION'
+  | 'TEXT_FORMING'
+  | 'TEXT_READY'
   | 'FREE_EXPLORE';
 
 export type SceneCompletion =
@@ -95,4 +103,5 @@ export type SceneCompletion =
   | 'BOUQUET_READY'
   | 'CARD_REVEALED'
   | 'SCATTERED'
-  | 'HEART_READY';
+  | 'HEART_READY'
+  | 'MESSAGE_READY';

@@ -13,6 +13,8 @@
   import { AudioEngine } from './systems/AudioEngine';
   import RibbonInteraction from './interactions/RibbonInteraction.svelte';
   import WindInteraction from './interactions/WindInteraction.svelte';
+  import GardenSecret from './interactions/GardenSecret.svelte';
+  import { gardenLayout } from './utils/random';
 
   const actor = createActor(gardenMachine);
   let stage = $state<GardenStage>('INTRO');
@@ -32,7 +34,15 @@
   let windCharge = $state(0);
   let exploreButton = $state<HTMLButtonElement>();
   const isFinale = $derived(
-    ['WIND', 'BURST', 'HEART', 'CELEBRATION', 'FREE_EXPLORE'].includes(stage),
+    [
+      'WIND',
+      'BURST',
+      'HEART',
+      'CELEBRATION',
+      'TEXT_FORMING',
+      'TEXT_READY',
+      'FREE_EXPLORE',
+    ].includes(stage),
   );
   const audio = new AudioEngine();
   $effect(() => {
@@ -41,6 +51,8 @@
   const seed =
     new URLSearchParams(window.location.search).get('seed')?.slice(0, 100) ||
     gardenConfig.defaultSeed;
+  const flowerCount = gardenLayout(seed, gardenConfig.flowerCount).length;
+  let nextFlower = 0;
   const isGrowing = $derived(stage === 'GROWING' || stage === 'BLOOMING');
   const isGarden = $derived(!['INTRO', 'GROWING', 'BLOOMING'].includes(stage));
   const progress = $derived(
@@ -101,6 +113,19 @@
       message = '';
     }, 6500);
   }
+  function discoverNext() {
+    const unseen = Array.from(
+      { length: flowerCount },
+      (_, index) => index,
+    ).find((index) => !discovered.includes(index));
+    const index = unseen ?? nextFlower;
+    nextFlower = (index + 1) % flowerCount;
+    discover(index);
+  }
+  function formMessage() {
+    actor.send({ type: 'FORM_MESSAGE' });
+    audio.chime(2);
+  }
   async function toggleAudio() {
     if (!muted) {
       audio.mute();
@@ -157,11 +182,13 @@
     if (type === 'BOUQUET_READY')
       ribbonShortcut?.focus({ preventScroll: true });
     if (type === 'CARD_REVEALED') cardButton?.focus({ preventScroll: true });
-    if (type === 'HEART_READY') exploreButton?.focus({ preventScroll: true });
+    if (type === 'HEART_READY' || type === 'MESSAGE_READY')
+      exploreButton?.focus({ preventScroll: true });
   }
   function restart() {
     message = '';
     discovered = [];
+    nextFlower = 0;
     hasBouquet = false;
     ribbonPull = 0;
     windCharge = 0;
@@ -215,11 +242,18 @@
   </div>
   <div class="atmosphere"></div>
   <header>
-    <a class="wordmark" href="./" aria-label="Yellow Garden, inicio"
-      ><span class="brand-symbol">✳</span> yellow garden<span class="brand-dot"
-        >.</span
-      ></a
-    >
+    <div class="brand-lockup">
+      {#if gardenConfig.secrets}
+        <GardenSecret
+          flowers={flowerCount}
+          {seed}
+          onfound={() => audio.chime(4)}
+        />
+      {:else}<span class="brand-symbol">✳</span>{/if}
+      <a class="wordmark" href="./" aria-label="Yellow Garden, inicio"
+        >yellow garden<span class="brand-dot">.</span></a
+      >
+    </div>
     <span class="edition">UNA PEQUEÑA CELEBRACIÓN DE LA PRIMAVERA</span>
     {#if gardenConfig.audio}
       <button
@@ -316,15 +350,34 @@
         <div class="finale-date">{gardenConfig.date} · FELIZ PRIMAVERA</div>
         <h1>Que nunca te<br />falten motivos<br /><em>para florecer.</em></h1>
         <p>Estas flores son para ti.<br />Y este pequeño universo, también.</p>
-        <button class="primary" bind:this={exploreButton} onclick={explore}
-          >Quedarme en el jardín <span>✧</span></button
-        >
+        <div class="finale-actions">
+          <button class="primary" bind:this={exploreButton} onclick={explore}
+            >Quedarme en el jardín <span>✧</span></button
+          >
+          <button class="text-button" onclick={formMessage}
+            >Un mensaje entre las luces ↗</button
+          >
+        </div>
+      {:else if stage === 'TEXT_FORMING' || stage === 'TEXT_READY'}
+        <h1>Hay palabras<br />que también<br /><em>florecen.</em></h1>
+        <p aria-live="polite">
+          {stage === 'TEXT_FORMING'
+            ? 'Unas luces, unas letras y un deseo para ti.'
+            : `Feliz primavera. ${gardenConfig.date}`}
+        </p>
+        {#if stage === 'TEXT_FORMING'}
+          <div class="growing-label">
+            <span class="breathing-dot"></span>ESCRIBIENDO CON LUZ
+          </div>
+        {:else}
+          <button class="primary" bind:this={exploreButton} onclick={explore}
+            >Quedarme en el jardín <span>✧</span></button
+          >
+        {/if}
       {:else}
         <h1>Tu primavera<br />se queda<br /><em>contigo.</em></h1>
         <p>Sin prisa. Todavía hay flores por descubrir.</p>
-        <button
-          class="primary"
-          onclick={() => discover(discovered.length % gardenConfig.flowerCount)}
+        <button class="primary" onclick={discoverNext}
           >Descubrir una flor <span>✧</span></button
         >
         <button class="text-button" onclick={startWind}
@@ -373,9 +426,7 @@
         bind:this={cardButton}
         onclick={openCard}>Una nota para ti <span>↗</span></button
       >
-      <button
-        class="text-button discover"
-        onclick={() => discover(discovered.length % gardenConfig.flowerCount)}
+      <button class="text-button discover" onclick={discoverNext}
         >Descubrir una flor <span>✧</span></button
       >
       <button class="text-button next-wind" onclick={startWind}

@@ -1,4 +1,13 @@
-# Validación de la primera entrega
+# Validación de las entregas
+
+## Cuarta entrega — 0.4.0
+
+- TypeScript/Svelte sin errores ni advertencias; lint y compilación de producción correctos.
+- 9 pruebas unitarias aprobadas, incluyendo variedad de especies, reutilización de matrices de pétalos y transición opcional del corazón al mensaje.
+- 26 pruebas de navegador aprobadas en Chromium de escritorio y móvil emulado. Incluyen formación del texto, perfil móvil de menor calidad, movimiento reducido, cancelación durante la transición y secreto accesible por teclado con retorno del foco.
+- Mensaje y flores revisados visualmente; capturas conservadas en `text-desktop.png`, `text-mobile.png` y `flowers-mobile.png`. Se corrigió la superposición del pie sobre el botón del mensaje en escritorio y se reforzó la legibilidad de la fecha.
+- Sin errores de consola o ejecución en las pruebas del mensaje. Compilación: aproximadamente 260 kB gzip de JavaScript; permanece la advertencia de tamaño de Three.js.
+- Pendientes las pruebas en teléfonos físicos y otros motores de navegador, y las mediciones de rendimiento sostenido y audio perceptual.
 
 ## Tercera entrega — 0.3.0
 

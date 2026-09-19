@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { seededRandom } from '../utils/random';
 import { heartCloud } from './heart';
+import { textCloud } from './TextFormation';
+import { gardenConfig } from '../config/garden.config';
 
 export function createHeartFormation(seed: string, count: number, dpr: number) {
   const random = seededRandom(seed + '-flight');
@@ -28,6 +30,10 @@ export function createHeartFormation(seed: string, count: number, dpr: number) {
     'heart',
     new THREE.BufferAttribute(heartCloud(seed, count), 3),
   );
+  geometry.setAttribute(
+    'message',
+    new THREE.BufferAttribute(textCloud(seed, count, gardenConfig.date), 3),
+  );
   const uniforms = {
     flight: { value: 0 },
     formation: { value: 0 },
@@ -35,22 +41,25 @@ export function createHeartFormation(seed: string, count: number, dpr: number) {
     time: { value: 0 },
     motion: { value: 1 },
     dpr: { value: dpr },
+    lettering: { value: 0 },
   };
   const material = new THREE.ShaderMaterial({
     transparent: true,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
     uniforms,
-    vertexShader: `attribute vec3 scatter; attribute vec3 heart;
-      uniform float flight, formation, time, motion, dpr; varying float sparkle;
+    vertexShader: `attribute vec3 scatter; attribute vec3 heart; attribute vec3 message;
+      uniform float flight, formation, time, motion, dpr, lettering; varying float sparkle;
       void main(){
         vec3 p=mix(position,scatter,flight); p=mix(p,heart,formation);
-        float pulse=1.+sin(time*1.5)*.022*formation*motion;
+        float pulse=1.+sin(time*1.5)*.022*formation*motion*(1.-lettering);
         p=(p-vec3(0.,2.4,0.))*pulse+vec3(0.,2.4,0.);
         p.z+=sin(time*.5+heart.x*2.)*.07*formation*motion;
+        p=mix(p,message,lettering);
+        p.z+=sin(lettering*3.14159265)*scatter.z*.4*motion;
         vec4 mv=modelViewMatrix*vec4(p,1.); gl_Position=projectionMatrix*mv;
-        sparkle=.65+.35*sin(heart.x*30.+heart.y*20.+time*motion);
-        gl_PointSize=clamp(48./-mv.z,2.5,7.)*dpr;
+        sparkle=mix(.65+.35*sin(heart.x*30.+heart.y*20.+time*motion),1.,lettering);
+        gl_PointSize=clamp(mix(48.,38.,lettering)/-mv.z,2.5,7.)*dpr;
       }`,
     fragmentShader: `uniform float opacity; varying float sparkle;
       void main(){ float r=length(gl_PointCoord-.5)*2.; if(r>1.)discard;
