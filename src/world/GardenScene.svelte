@@ -8,6 +8,8 @@
   import { gardenConfig } from '../config/garden.config';
   import { qualityForDevice } from '../systems/PerformanceManager';
   import type { GardenStage } from '../machines/garden.machine';
+  import { createBouquetSystem } from '../systems/BouquetSystem';
+  import { createBotanicalGift } from '../objects/BotanicalGift';
 
   let {
     stage,
@@ -18,23 +20,38 @@
     onplant,
     onready,
     onerror,
+    ribbonPull,
+    oncard,
+    onpull,
+    onuntie,
   }: {
     stage: GardenStage;
     seed: string;
     reducedMotion: boolean;
-    oncomplete: (event: 'GROWN' | 'BLOOMED') => void;
+    oncomplete: (
+      event: 'GROWN' | 'BLOOMED' | 'BOUQUET_READY' | 'CARD_REVEALED',
+    ) => void;
     onflower: (index: number) => void;
     onplant: () => void;
     onready: () => void;
     onerror: () => void;
+    ribbonPull: number;
+    oncard: () => void;
+    onpull: (value: number) => void;
+    onuntie: () => void;
   } = $props();
   const { scene, camera, renderer, size } = useThrelte();
   const root = new THREE.Group();
   const quality = qualityForDevice();
   const initialSeed = untrack(() => seed);
   const flowers = createFlowers(initialSeed, gardenConfig.flowerCount);
+  const bouquet = createBouquetSystem(flowers.flowers, initialSeed);
+  const gift = createBotanicalGift();
   const growth = { value: 0 },
     bloom = { value: 0 };
+  const gather = { value: 0 },
+    unwrap = { value: 0 },
+    cardOpen = { value: 0 };
   let ready = $state(false);
   let time = 0;
   let pointerX = 0,
@@ -91,6 +108,8 @@
   light.position.set(0, 0.9, 0.6);
   const raycaster = new THREE.Raycaster();
   let pointerDown = { x: 0, y: 0 };
+  let ribbonPointer: number | null = null;
+  let dragProgress = 0;
   onMount(() => {
     scene.background = new THREE.Color('#080c18');
     scene.fog = new THREE.FogExp2('#080c18', 0.065);
@@ -119,19 +138,60 @@
       halo,
       light,
       particles,
+      gift.root,
     );
     scene.add(root);
     const canvas = renderer.domElement;
+    function aim(event: PointerEvent) {
+      const rect = canvas.getBoundingClientRect();
+      raycaster.setFromCamera(
+        new THREE.Vector2(
+          ((event.clientX - rect.left) / rect.width) * 2 - 1,
+          -((event.clientY - rect.top) / rect.height) * 2 + 1,
+        ),
+        camera.current,
+      );
+    }
+    function cancelDrag() {
+      ribbonPointer = null;
+      dragProgress = 0;
+      onpull(0);
+    }
     function down(event: PointerEvent) {
       pointerDown = { x: event.clientX, y: event.clientY };
+      if (stage !== 'BOUQUET' || !event.isPrimary || event.button !== 0) return;
+      aim(event);
+      if (raycaster.intersectObjects(gift.ribbon.children, true).length) {
+        ribbonPointer = event.pointerId;
+        dragProgress = 0;
+        canvas.setPointerCapture(event.pointerId);
+      }
     }
     function move(event: PointerEvent) {
       pointerX = event.clientX / window.innerWidth - 0.5;
       pointerY = event.clientY / window.innerHeight - 0.5;
+      if (event.pointerId === ribbonPointer) {
+        dragProgress = THREE.MathUtils.clamp(
+          (event.clientX - pointerDown.x) /
+            Math.min(110, window.innerWidth * 0.22),
+          0,
+          1,
+        );
+        onpull(dragProgress);
+      }
     }
     function click(event: PointerEvent) {
+      if (event.pointerId === ribbonPointer) {
+        const complete = dragProgress >= 0.8;
+        ribbonPointer = null;
+        if (canvas.hasPointerCapture(event.pointerId))
+          canvas.releasePointerCapture(event.pointerId);
+        if (complete) onuntie();
+        else onpull(0);
+        return;
+      }
       if (
-        (stage !== 'GARDEN' && stage !== 'INTRO') ||
+        !['GARDEN', 'INTRO', 'BOUQUET', 'CARD_READY'].includes(stage) ||
         Math.hypot(
           event.clientX - pointerDown.x,
           event.clientY - pointerDown.y,
@@ -148,6 +208,13 @@
       );
       if (stage === 'INTRO') {
         if (raycaster.intersectObjects([seedMesh, halo]).length) onplant();
+        return;
+      }
+      if (
+        stage === 'CARD_READY' &&
+        raycaster.intersectObjects(gift.card.children, true).length
+      ) {
+        oncard();
         return;
       }
       const hit = raycaster.intersectObjects(
@@ -168,15 +235,25 @@
     canvas.addEventListener('webglcontextlost', lost);
     canvas.addEventListener('pointerdown', down);
     canvas.addEventListener('pointerup', click);
+    canvas.addEventListener('pointercancel', cancelDrag);
+    canvas.addEventListener('lostpointercapture', cancelDrag);
+    window.addEventListener('blur', cancelDrag);
     window.addEventListener('pointermove', move);
     ready = true;
     onready();
     return () => {
       gsap.killTweensOf(growth);
       gsap.killTweensOf(bloom);
+      gsap.killTweensOf(gather);
+      gsap.killTweensOf(unwrap);
+      gsap.killTweensOf(cardOpen);
+      gift.texture.dispose();
       canvas.removeEventListener('webglcontextlost', lost);
       canvas.removeEventListener('pointerdown', down);
       canvas.removeEventListener('pointerup', click);
+      canvas.removeEventListener('pointercancel', cancelDrag);
+      canvas.removeEventListener('lostpointercapture', cancelDrag);
+      window.removeEventListener('blur', cancelDrag);
       window.removeEventListener('pointermove', move);
       scene.remove(root);
       // Cleanup-only sets are deliberately non-reactive: no UI subscribes to them.
@@ -199,11 +276,18 @@
   });
   $effect(() => {
     if (!ready) return;
+    renderer.domElement.style.touchAction =
+      stage === 'BOUQUET' ? 'none' : 'pan-y';
     gsap.killTweensOf(growth);
     gsap.killTweensOf(bloom);
+    gsap.killTweensOf(gather);
+    gsap.killTweensOf(cardOpen);
     if (stage === 'INTRO') {
       growth.value = 0;
       bloom.value = 0;
+      gather.value = 0;
+      unwrap.value = 0;
+      cardOpen.value = 0;
     }
     if (stage === 'GROWING')
       gsap.to(growth, {
@@ -219,12 +303,50 @@
         ease: 'power2.inOut',
         onComplete: () => oncomplete('BLOOMED'),
       });
+    if (stage === 'GATHERING')
+      gsap.to(gather, {
+        value: 1,
+        duration: reducedMotion ? 0.1 : gardenConfig.bouquetDuration,
+        ease: 'power2.inOut',
+        onComplete: () => oncomplete('BOUQUET_READY'),
+      });
+    gsap.to(cardOpen, {
+      value: stage === 'FINALE' ? 1 : 0,
+      duration: reducedMotion ? 0 : 0.65,
+      ease: 'power2.inOut',
+    });
+  });
+  $effect(() => {
+    if (!ready) return;
+    gsap.killTweensOf(unwrap);
+    if (stage === 'INTRO') unwrap.value = 0;
+    if (stage === 'BOUQUET')
+      gsap.to(unwrap, {
+        value: ribbonPull * 0.75,
+        duration: reducedMotion ? 0 : 0.16,
+        ease: 'power2.out',
+      });
+    if (stage === 'UNWRAPPING')
+      gsap.to(unwrap, {
+        value: 1,
+        duration: reducedMotion ? 0.1 : gardenConfig.unwrapDuration,
+        ease: 'power2.inOut',
+        onComplete: () => oncomplete('CARD_REVEALED'),
+      });
   });
   const target = new THREE.Vector3();
   useTask((delta) => {
     if (!ready) return;
     if (!reducedMotion) time += Math.min(delta, 0.05);
     flowers.update(growth.value, bloom.value, time, !reducedMotion);
+    bouquet.update(gather.value, time, !reducedMotion);
+    gift.update(
+      gather.value,
+      unwrap.value,
+      cardOpen.value,
+      time,
+      !reducedMotion,
+    );
     seedMesh.visible = growth.value < 0.08;
     seedMesh.position.y = 0.5 + Math.sin(time * 1.6) * 0.06;
     seedMesh.rotation.z = Math.sin(time) * 0.2;

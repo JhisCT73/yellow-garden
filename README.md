@@ -29,13 +29,15 @@ npm run test:e2e
 - `src/theme/tokens.css`: colores, tipografía y estilos.
 - `?seed=ana`: comparte una composición reproducible. Las seeds distinguen mayúsculas.
 
-El sonido comienza desactivado y se genera con Web Audio en el dispositivo. El botón de descubrimiento ofrece una alternativa de teclado a tocar las flores. El movimiento reducido acorta el crecimiento y elimina el movimiento ambiental. Sin WebGL2, se muestra el mensaje del regalo y la opción de reintentar.
+El sonido comienza desactivado y se genera con Web Audio en el dispositivo. El botón de descubrimiento ofrece una alternativa de teclado a tocar las flores. El movimiento reducido acorta crecimiento, floración, formación del ramo y revelado de la carta, y elimina el movimiento ambiental. Sin WebGL2, se muestra el mensaje del regalo y la opción de reintentar.
+
+Después de florecer, pulsa **Crear mi ramo**. Arrastra la cinta dorada o el control **Tira de la cinta** hacia la derecha. Un gesto corto vuelve a la posición inicial; un gesto completo revela la tarjeta. También puedes usar **Desatar sin arrastrar** o enfocar el control de cinta y pulsar Enter/Espacio. Toca la tarjeta o pulsa **Leer mi carta** para leerla; Escape cierra la nota y devuelve el foco al control. La dedicatoria sigue disponible directamente desde el jardín, sin obligar a completar el gesto.
 
 ## Alcance de esta versión
 
-Implementado: jardín nocturno, semilla, tallos y hojas, girasoles procedurales, floración, jardín reproducible, mensajes, nota accesible, reinicio, audio opcional y ajuste básico de calidad.
+Implementado: jardín nocturno, semilla, tallos y hojas, girasoles procedurales, floración, jardín reproducible, mensajes, formación animada del ramo, cinta 3D arrastrable, tarjeta tridimensional con textura local, lectura accesible, reinicio, audio opcional y ajuste básico de calidad.
 
-Pendiente del plan maestro: formación de ramo, carta tridimensional con cinta, viento por pulsación, corazón de partículas, otras especies y secretos. La nota actual es HTML accesible. No se presenta como la implementación completa de las 15 fases.
+Pendiente del plan maestro: viento por pulsación, corazón de partículas, otras especies y secretos. La tarjeta se revela en 3D y el texto completo se lee en un diálogo HTML accesible. No se presenta como la implementación completa de las 15 fases.
 
 ## Publicar en GitHub Pages
 

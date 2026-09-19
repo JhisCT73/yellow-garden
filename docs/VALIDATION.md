@@ -1,5 +1,16 @@
 # Validación de la primera entrega
 
+## Segunda entrega — 0.2.0
+
+- Tipos y lint sin errores; compilación de producción correcta.
+- 5 pruebas unitarias aprobadas: incluye límites de composición del ramo y retorno de la carta a la escena de origen.
+- 12 pruebas de navegador aprobadas en Chromium de escritorio y móvil emulado. Cubre gesto parcial, arrastre completo, eventos táctiles, alternativa de teclado, movimiento reducido y reinicio durante la formación.
+- Se detectó un salto por hover en un botón bajo movimiento reducido; se corrigió la interfaz y se verificó el mismo recorrido sin forzar clics en las pruebas.
+- Ramo y tarjeta revisados mediante capturas. El girasol principal queda al frente y el follaje se reduce para despejar el lazo.
+- Se mantiene la advertencia de tamaño de Three.js; JS total aproximado de 255 kB gzip. No se incorporaron dependencias ni recursos remotos.
+
+## Primera entrega — 0.1.0
+
 Comprobado en Windows el 19 de septiembre de 2026:
 
 - TypeScript/Svelte: sin errores ni advertencias.

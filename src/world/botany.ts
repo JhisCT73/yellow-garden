@@ -70,11 +70,13 @@ export function createFlowers(seed: string, count: number) {
       green,
     );
     group.add(stem);
+    const leaves: THREE.Mesh[] = [];
     for (let i = 0; i < 3; i++) {
       const leafMesh = new THREE.Mesh(leaf, green);
       leafMesh.position.copy(curve.getPoint(0.22 + i * 0.2));
       leafMesh.rotation.set(0.45, i * 1.8, i % 2 ? 1.03 : -1.03);
       group.add(leafMesh);
+      leaves.push(leafMesh);
     }
     const head = new THREE.Group();
     head.position.copy(curve.getPoint(1));
@@ -106,7 +108,7 @@ export function createFlowers(seed: string, count: number) {
     head.add(grains);
     group.add(head);
     root.add(group);
-    return { group, head, petals, center, item };
+    return { group, head, petals, center, leaves, item };
   });
   function update(
     growth: number,
@@ -126,9 +128,11 @@ export function createFlowers(seed: string, count: number) {
         Math.max(0.001, progress),
         0.55 + progress * 0.45,
       );
-      flower.group.rotation.z = motion
-        ? Math.sin(time * 0.7 + flower.item.x) * 0.018 * progress
-        : 0;
+      flower.group.rotation.set(
+        0,
+        0,
+        motion ? Math.sin(time * 0.7 + flower.item.x) * 0.018 * progress : 0,
+      );
       const open = THREE.MathUtils.clamp(
         bloom * 1.3 - flower.item.delay * 0.5,
         0,

@@ -7,6 +7,7 @@
   import { gardenConfig } from './config/garden.config';
   import { card, flowerMessages } from './content/messages';
   import { AudioEngine } from './systems/AudioEngine';
+  import RibbonInteraction from './interactions/RibbonInteraction.svelte';
 
   const actor = createActor(gardenMachine);
   let stage = $state<GardenStage>('INTRO');
@@ -20,12 +21,15 @@
   let messageTimeout: ReturnType<typeof setTimeout>;
   let dialog: HTMLDialogElement;
   let cardButton = $state<HTMLButtonElement>();
+  let ribbonPull = $state(0),
+    hasBouquet = $state(false);
+  let ribbonShortcut = $state<HTMLButtonElement>();
   const audio = new AudioEngine();
   const seed =
     new URLSearchParams(window.location.search).get('seed')?.slice(0, 100) ||
     gardenConfig.defaultSeed;
   const isGrowing = $derived(stage === 'GROWING' || stage === 'BLOOMING');
-  const isGarden = $derived(stage === 'GARDEN' || stage === 'FINALE');
+  const isGarden = $derived(!['INTRO', 'GROWING', 'BLOOMING'].includes(stage));
   const progress = $derived(
     stage === 'INTRO'
       ? 0
@@ -98,6 +102,7 @@
     }
   }
   async function openCard() {
+    if (stage !== 'GARDEN' && stage !== 'CARD_READY') return;
     actor.send({ type: 'OPEN_CARD' });
     await tick();
     dialog.showModal();
@@ -107,9 +112,31 @@
     actor.send({ type: 'CLOSE_CARD' });
     cardButton?.focus();
   }
+  function gatherFlowers() {
+    hasBouquet = true;
+    message = '';
+    clearTimeout(messageTimeout);
+    actor.send({ type: 'GATHER' });
+    audio.chime(2);
+  }
+  function untie() {
+    actor.send({ type: 'UNTIE' });
+    audio.chime(3);
+  }
+  async function sceneComplete(
+    type: 'GROWN' | 'BLOOMED' | 'BOUQUET_READY' | 'CARD_REVEALED',
+  ) {
+    actor.send({ type });
+    await tick();
+    if (type === 'BOUQUET_READY')
+      ribbonShortcut?.focus({ preventScroll: true });
+    if (type === 'CARD_REVEALED') cardButton?.focus({ preventScroll: true });
+  }
   function restart() {
     message = '';
     discovered = [];
+    hasBouquet = false;
+    ribbonPull = 0;
     clearTimeout(messageTimeout);
     actor.send({ type: 'RESTART' });
   }
@@ -119,7 +146,7 @@
   ><title>{gardenConfig.title} · Un regalo que florece</title></svelte:head
 >
 
-<main class:grown={isGarden} data-stage={stage}>
+<main class:grown={isGarden} class:bouquet-mode={hasBouquet} data-stage={stage}>
   <div class="world" aria-hidden="true">
     {#if mounted && !failed}
       <svelte:boundary
@@ -132,7 +159,13 @@
             {stage}
             {seed}
             {reducedMotion}
-            oncomplete={(type) => actor.send({ type })}
+            oncomplete={sceneComplete}
+            {ribbonPull}
+            oncard={openCard}
+            onpull={(value) => {
+              ribbonPull = value;
+            }}
+            onuntie={untie}
             onflower={discover}
             onplant={plant}
             onready={() => {
@@ -225,11 +258,44 @@
         <span class="breathing-dot"></span>
         {stage === 'GROWING' ? 'ECHANDO RAÍCES' : 'ABRIENDO LOS PÉTALOS'}
       </div>
+    {:else if hasBouquet}
+      <h1>Un pedacito<br />de primavera,<br /><em>para ti.</em></h1>
+      <p aria-live="polite">
+        {stage === 'GATHERING'
+          ? 'Cada flor encuentra su lugar.'
+          : stage === 'BOUQUET'
+            ? 'Hay algo guardado entre estas flores.'
+            : stage === 'UNWRAPPING'
+              ? 'Algunas palabras estaban esperando por ti.'
+              : 'Lo que florece también tiene algo que decir.'}
+      </p>
+      {#if stage === 'GATHERING' || stage === 'UNWRAPPING'}
+        <div class="growing-label">
+          <span class="breathing-dot"></span>{stage === 'GATHERING'
+            ? 'REUNIENDO TUS FLORES'
+            : 'UN PEQUEÑO SECRETO'}
+        </div>
+      {:else if stage === 'BOUQUET'}
+        <p class="ribbon-instruction">Tira suavemente de la cinta dorada.</p>
+        <button class="text-button" bind:this={ribbonShortcut} onclick={untie}
+          >Desatar sin arrastrar <span>↗</span></button
+        >
+      {:else}
+        <button class="primary" bind:this={cardButton} onclick={openCard}
+          >Leer mi carta <span>↗</span></button
+        >
+        <span class="microcopy">También puedes tocar la tarjeta.</span>
+      {/if}
     {:else}
       <h1>Lo bonito<br />también sabe<br /><em>florecer.</em></h1>
       <p>Estas flores son para ti.<br />Y cada una guarda algo bonito.</p>
-      <button class="primary" bind:this={cardButton} onclick={openCard}
-        >Una nota para ti <span>↗</span></button
+      <button class="primary" onclick={gatherFlowers}
+        >Crear mi ramo <span>↗</span></button
+      >
+      <button
+        class="text-button direct-note"
+        bind:this={cardButton}
+        onclick={openCard}>Una nota para ti <span>↗</span></button
       >
       <button
         class="text-button discover"
@@ -241,14 +307,27 @@
 
   {#if !failed}
     <div class="scene-caption" aria-live="polite">
-      <span class="caption-line"></span>
-      <span
-        >{isGarden
-          ? 'Tu pequeño rincón de primavera'
-          : isGrowing
-            ? 'Todo sucede a su tiempo'
-            : 'Aquí empieza algo bonito'}</span
-      >
+      {#if stage === 'BOUQUET'}
+        <RibbonInteraction
+          onpull={(value) => {
+            ribbonPull = value;
+          }}
+          onrelease={untie}
+        />
+      {:else}
+        <span class="caption-line"></span>
+        <span
+          >{hasBouquet
+            ? stage === 'CARD_READY' || stage === 'FINALE'
+              ? 'Estas flores no se marchitan'
+              : 'Todas estas flores, para ti'
+            : isGarden
+              ? 'Tu pequeño rincón de primavera'
+              : isGrowing
+                ? 'Todo sucede a su tiempo'
+                : 'Aquí empieza algo bonito'}</span
+        >
+      {/if}
       <span class="caption-coordinates"
         >{isGarden
           ? `${String(discovered.length).padStart(2, '0')} FLORES DESCUBIERTAS`

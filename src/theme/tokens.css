@@ -180,7 +180,7 @@ h1 em {
 }
 .primary:hover:not(:disabled) {
   background: #ffe98b;
-  transform: translateY(-2px);
+  box-shadow: 0 0 24px #ffd84d18;
 }
 .primary span {
   font-size: 22px;
@@ -200,6 +200,19 @@ h1 em {
 }
 .discover {
   margin-top: 8px;
+}
+.direct-note {
+  margin-right: 20px;
+}
+.ribbon-instruction {
+  color: var(--sun) !important;
+  margin-bottom: 4px !important;
+}
+.bouquet-mode .scene-caption {
+  bottom: 18%;
+}
+.bouquet-mode .flower-message {
+  bottom: 34%;
 }
 .discover span {
   color: var(--sun);
@@ -453,6 +466,22 @@ dialog .card-closing {
   }
 }
 @media (max-width: 719px) {
+  .bouquet-mode .scene-caption {
+    bottom: 105px;
+  }
+  .bouquet-mode .world {
+    top: 280px;
+  }
+  .bouquet-mode .story h1 {
+    font-size: 34px;
+  }
+  .bouquet-mode .story > p {
+    max-width: 290px;
+  }
+  .direct-note {
+    margin-right: 16px;
+    font-size: 12px;
+  }
   main {
     min-height: 780px;
     height: 100svh;
