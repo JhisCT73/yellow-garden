@@ -233,6 +233,7 @@
   class:grown={isGarden}
   class:bouquet-mode={hasBouquet}
   class:finale-mode={isFinale}
+  class:cinematic-opening={!failed && (stage === 'INTRO' || isGrowing)}
   data-stage={stage}
   data-care={care}
   data-quality={qualityLevel}
@@ -336,11 +337,8 @@
         >Volver a intentar <span>↻</span></button
       >
     {:else if stage === 'INTRO'}
-      <h1>Todo lo bonito<br />comienza con<br />una <em>semilla.</em></h1>
-      <p>
-        Un poco de luz. Un momento para ti.<br />Y algo que está a punto de
-        florecer.
-      </p>
+      <h1>Un pequeño <em>comienzo.</em></h1>
+      <p>Tengo algo para ti. Todo empieza con esta semilla.</p>
       <button class="primary" onclick={plant} disabled={!ready}>
         {ready ? 'Plantar mi semilla' : 'Preparando tu jardín…'}
         <span>↗</span></button
@@ -348,12 +346,8 @@
       <CareChoice bind:value={care} />
     {:else if isGrowing}
       <h1>
-        {stage === 'GROWING' ? 'Lo pequeño' : 'Un poquito'}<br />{stage ===
-        'GROWING'
-          ? 'también hace'
-          : 'de luz cambia'}<br /><em
-          >{stage === 'GROWING' ? 'magia.' : 'todo.'}</em
-        >
+        {stage === 'GROWING' ? 'Algo bonito está' : 'La primera flor es'}
+        <em>{stage === 'GROWING' ? 'creciendo.' : 'para ti.'}</em>
       </h1>
       <p aria-live="polite">
         {stage === 'GROWING'

@@ -45,6 +45,10 @@ El símbolo dorado junto al título esconde una pequeña terminal de juguete. Se
 
 ## Alcance de esta versión
 
+La versión 0.8 inicia la adaptación al tablero de escenas del usuario: **semilla → crecimiento → primera flor** ocupa la pantalla completa, con cámara cercana y texto inferior. Los dos fondos/texturas generados viven en `public/textures/`; los protagonistas siguen siendo geometría 3D animada. El jardín panorámico, ramo, carta y finales aún esperan su propia pasada de dirección artística. Esta primera aproximación no reproduce el realismo ni todas las escenas del tablero.
+
+La profundidad de campo se aplica solo durante la apertura en calidad media/alta y se omite en Ligera. Los movimientos de cámara se omiten con movimiento reducido. La floración dura cinco segundos para dar espacio al nuevo plano.
+
 Implementado: jardín nocturno, semilla, tallos y hojas, tres tipos de flores procedurales, floración, jardín reproducible, mensajes, formación animada del ramo, cinta 3D arrastrable, tarjeta tridimensional con textura local, lectura accesible, viento interactivo, corazón y texto de partículas, exploración posterior al final, secreto opcional, reinicio, audio opcional y ajuste básico de calidad.
 
 Después de volver al jardín desde el corazón o el mensaje, **¿Una última sorpresa?** convierte el girasol principal en una flor gigante con un breve destello de polen. **Volver a mi primavera** recupera la composición original. Con movimiento reducido aparece directamente, sin destello ni transición; `secrets: false` también oculta esta sorpresa.

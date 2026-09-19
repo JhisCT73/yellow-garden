@@ -20,7 +20,7 @@
 
 ## Decisiones
 
-La experiencia crece por etapas: semilla y jardín, seguidos del ramo y su carta. El regalo tiene una nota final accesible sin depender de encontrar un secreto. Se evitan física, postprocesado y modelos descargados para reducir coste móvil. Toda la geometría se genera localmente. Solo la portada decorativa usa una textura; el contenido íntegro permanece en HTML para facilitar lectura, teclado y ampliación.
+La experiencia crece por etapas: semilla y jardín, seguidos del ramo y su carta. El regalo tiene una nota final accesible sin depender de encontrar un secreto. Se evitan física y modelos descargados para reducir coste móvil. Toda la geometría se genera localmente. La apertura incorpora texturas de suelo y entorno, y desenfoque en perfiles medio/alto. La portada decorativa usa una CanvasTexture; el contenido íntegro permanece en HTML para facilitar lectura, teclado y ampliación.
 
 ## Verificación
 
@@ -36,6 +36,10 @@ La sorpresa opcional añade FREE_EXPLORE → SECRET_BLOOM → SECRET_READY → F
 
 Los cambios de calidad modifican el drawing buffer, `InstancedMesh.count`, rangos de dibujo y uniforms de tamaño de puntos. Los buffers se reservan para el perfil alto y se reutilizan: baja el trabajo de dibujo, no la memoria de geometría reservada. `GraphicsSettings.svelte` permite elegir el modo mediante un diálogo nativo sin desmontar Canvas. Elegir Automática reinicia la evaluación desde el perfil del dispositivo. La escena sigue animándose detrás del diálogo.
 
-## Siguiente incremento
+## Apertura cinematográfica
+
+La apertura usa `cinematics/OpeningCamera.ts` para definir planos de semilla, crecimiento y floración. `world/Seedbed.ts` añade piedras instanciadas y polvo luminoso; un brote verde reemplaza temporalmente la cabeza de la flor durante el crecimiento. `cinematic.css` cambia únicamente la composición de estas escenas. El entorno lejano usa una textura generada sobre un plano; no es geometría de bosque navegable.
+
+En la apertura, EffectComposer combina RenderPass, BokehPass y OutputPass a DPR 1 en perfiles medio/alto. El foco se calcula en espacio de cámara sobre la semilla o cabeza real. Threlte delega el render a una tarea propia de renderStage; el perfil ligero y el resto de escenas usan render directo. Al desmontar se liberan texturas, pases y render targets. Este cambio aumenta el coste de GPU en la apertura y requiere perfilado en hardware real.
 
 Validar en teléfonos reales, perfilar GPU/memoria y revisar accesibilidad con ampliación de texto. Los secretos adicionales, reflejos y capas musicales continuas quedan para ampliaciones posteriores.

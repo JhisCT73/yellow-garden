@@ -231,7 +231,11 @@ export function createMeadow(seed: string, count: number) {
   for (let i = 0; i < count; i++) {
     const a = random() * Math.PI * 2,
       r = 1.1 + random() * 7;
-    dummy.position.set(Math.cos(a) * r, -0.035, Math.sin(a) * r * 0.65);
+    let x = Math.cos(a) * r;
+    const z = Math.sin(a) * r * 0.65;
+    // Leave the macro camera's central sightline clear.
+    if (z > 0 && Math.abs(x) < 0.8) x += x < 0 ? -0.9 : 0.9;
+    dummy.position.set(x, -0.035, z);
     dummy.rotation.set(
       (random() - 0.5) * 0.5,
       random() * Math.PI,

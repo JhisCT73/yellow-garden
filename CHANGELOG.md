@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.0
+
+Primera pasada cinematográfica de semilla, crecimiento y floración, guiada por el tablero visual del usuario. Encuadres de cámara independientes, apertura a pantalla completa con texto discreto, tierra con textura local y relieve, vegetación de fondo, brote verde previo a la flor y polen. Profundidad de campo con foco en el protagonista en perfiles medio/alto; el perfil ligero usa render directo. El resto de escenas conserva su composición anterior.
+
 ## 0.7.0
 
 Calidad automática con reducción gradual ante lentitud sostenida y selección manual Ligera/Alta. Ajuste de resolución y cantidades visibles sin reconstruir la escena ni perder el avance. Diálogo accesible con retorno del foco y controles compactos en móvil. Texto de partículas conservado en todos los perfiles.

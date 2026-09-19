@@ -6,7 +6,7 @@ export const gardenConfig = {
   audio: true,
   secrets: true,
   growthDuration: 4.8,
-  bloomDuration: 3.2,
+  bloomDuration: 5,
   bouquetDuration: 3.6,
   unwrapDuration: 1.5,
   scatterDuration: 2.2,

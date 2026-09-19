@@ -1,5 +1,13 @@
 # Validación de las entregas
 
+## Octava entrega — 0.8.0
+
+- Tipos y lint correctos; 16 pruebas unitarias aprobadas; build correcto. JavaScript aproximado: 268 kB gzip más unos 642 kB de imágenes locales. Permanece la advertencia del chunk de Three.js.
+- Revisión visual e interacción mediante el navegador integrado en 1294×856 y 390×844: semilla, crecimiento, floración, paso al jardín, nota y reinicio. No se repitió la batería completa de Playwright en esta entrega.
+- Se corrigieron obstrucción de la semilla, escala de piedras, foco de profundidad de campo y corte del entorno en móvil. Capturas y comparación conjunta en `docs/cinematic-*.png`; alcance y límites detallados en `design-qa.md`.
+- Los protagonistas siguen siendo 3D; el entorno lejano es una imagen local generada sobre un plano. La primera pasada no reproduce el realismo de las referencias ni modifica toda la secuencia.
+- Pendientes mediciones físicas, orientación horizontal y refinamiento de materiales. DOF desactivado en calidad ligera; el movimiento reducido conserva su ruta existente, pero no se volvió a ejecutar su prueba de navegador en esta pasada.
+
 ## Séptima entrega — 0.7.0
 
 - TypeScript/Svelte sin errores ni advertencias; lint y compilación de producción correctos.
