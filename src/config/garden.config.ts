@@ -1,0 +1,9 @@
+export const gardenConfig = {
+  title: 'Yellow Garden',
+  date: '21 · 09',
+  flowerCount: 12,
+  defaultSeed: 'primavera',
+  audio: true,
+  growthDuration: 4.8,
+  bloomDuration: 3.2,
+};

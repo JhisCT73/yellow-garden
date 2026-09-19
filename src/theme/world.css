@@ -1,0 +1,7 @@
+/* Canvas owns the scene; the interface remains semantic HTML. */
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: pan-y;
+}
