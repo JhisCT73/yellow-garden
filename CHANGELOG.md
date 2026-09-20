@@ -80,3 +80,8 @@ Primera implementación del recorrido semilla → crecimiento → floración →
 
 - Núcleo luminoso y halo ámbar suave en los destellos del corazón, sin partículas adicionales ni pase de postprocesado.
 - El halo disminuye durante la formación del texto para mantener la definición de las letras.
+
+## 0.14.2 — Contorno luminoso
+
+- Concentración suave de partículas cerca del borde del corazón, con interior menos denso y silueta irregular.
+- Se mantienen cantidad de partículas, halo y transición hacia el mensaje.

@@ -138,3 +138,10 @@ GitHub Pages está preparado mediante workflow, pero no se publicó: la sesión 
 - Tipos sin errores/advertencias, lint correcto, 19 pruebas y build correctos. Persiste aviso de tamaño del chunk Three.
 - Navegador: recorrido desde semilla a jardín, viento por atajo, corazón y mensaje. Corazón revisado en escritorio 1013 × 761 y móvil emulado 390 × 844; mensaje móvil legible y sin errores nuevos de consola.
 - Capturas `heart-halo-desktop.png`, `heart-halo-mobile.png`, `heart-halo-comparison.png`. No se repitió toda la suite E2E ni se midió rendimiento físico.
+
+## 0.14.2 — Contorno
+
+- Tipos sin errores/advertencias, lint, 19 pruebas y build correctos. Persiste aviso de tamaño de Three.
+- Se mantienen pruebas de reproducibilidad, límites, profundidad, equilibrio bilateral y ausencia de concentración central.
+- Recorrido manual semilla, jardín, viento por atajo, corazón y mensaje. Corazón completo en escritorio 1013 × 761 y móvil emulado 390 × 844; mensaje móvil legible. Sin errores nuevos de consola.
+- Evidencia: `heart-contour-desktop.png`, `heart-contour-mobile.png`, `heart-contour-comparison.png`. Suite E2E completa y rendimiento en dispositivo físico no repetidos.

@@ -79,3 +79,7 @@ Los pétalos usan MeshPhysicalMaterial con rugosidad 0.78, sheen 0.25 y emisión
 ## Halo de partículas (0.14.1)
 
 El shader aumenta el área del sprite hasta 2.6 veces durante la formación del corazón, compensando el radio del núcleo para conservar su tamaño. Una caída exponencial con borde suavizado añade el halo. La intensidad depende de formation y de 1 - lettering. Se conservan 1800 partículas y una sola llamada de dibujo; aumenta el área de fragmentos sombreados y su coste no se ha medido en móvil físico.
+
+## Densidad del contorno (0.14.2)
+
+El muestreo por área pondera la aceptación según la distancia mínima a los segmentos del contorno. Una caída exponencial produce una franja suave; una densidad base conserva partículas interiores. El cálculo ocurre al crear la nube, sin añadir operaciones por frame ni usar el muestreo radial que causaba la franja central.

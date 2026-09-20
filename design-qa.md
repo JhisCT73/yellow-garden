@@ -143,3 +143,13 @@ Los destellos ganan núcleo cálido y resplandor suave alrededor sin perder la s
 P3: la referencia concentra más luz alrededor del contorno y dispersa destellos fuera de él; la interpretación actual mantiene un relleno más uniforme. Aprueba brillo, encuadre y transición del alcance, no equivalencia fotográfica. La ampliación de sprites requiere más trabajo de fragmentos, pendiente de medir en hardware móvil real.
 
 final result: passed
+
+## Décima pasada: contorno luminoso (0.14.2)
+
+Comparación conjunta abierta: `docs/heart-contour-comparison.png`, escena 11 del tablero reenviado frente a la implementación. Capturas 1013 × 761 y 390 × 844; se conservan proporciones distintas de viñeta e interfaz.
+
+La luz se concentra ahora en una franja irregular del borde y el interior permite ver el paisaje, acercándose a la distribución de la referencia. No reaparece la línea central; el corazón y los controles quedan completos en móvil. Se verificó la transformación hacia el mensaje, sin errores nuevos de consola. Tipografía, controles y fondo se mantienen.
+
+P3 restante: la referencia dispersa más partículas fuera del contorno y tiene una iluminación ambiental más difusa. La implementación conserva una silueta más definida. Aprueba distribución, encuadre y transición del alcance; no equivalencia fotográfica.
+
+final result: passed
