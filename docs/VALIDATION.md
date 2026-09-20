@@ -96,3 +96,10 @@ GitHub Pages está preparado mediante workflow, pero no se publicó: la sesión 
 - Capturas nuevas: `cinematic-{card,letter,wind,heart,message,final-flower}-{desktop,mobile}.png`; comparación `cinematic-finale-comparison.png`.
 - Sin errores nuevos en consola tras las recargas finales. No se volvió a ejecutar toda la suite E2E ni se verificó movimiento reducido en navegador esta pasada; el código conserva su rama de reducción de movimiento.
 - Diferencias visuales pendientes: geometría floral estilizada, distribución más regular del corazón, iluminación menos volumétrica que el tablero y tarjeta cerrada en lugar de libro abierto.
+
+## 0.11.0 — Detalle floral
+
+- Tipos sin errores ni advertencias, lint correcto, 18 pruebas unitarias correctas y build correcto. Persiste el aviso de tamaño del chunk de Three.
+- Recarga y recorrido manual: plantar, crecimiento, apertura y reunión del ramo. Ramo completo en escritorio 1013 × 761 y móvil emulado 390 × 844; consola sin errores nuevos.
+- Capturas `botanical-bouquet-desktop.png`, `botanical-bouquet-mobile.png` y comparación `botanical-comparison.png`.
+- No se repitió la suite E2E ni el recorrido completo de finales. No se midió rendimiento en teléfono físico. Las flores siguen siendo estilizadas.

@@ -45,3 +45,10 @@ Primera implementación del recorrido semilla → crecimiento → floración →
 - Retirada de la tarjeta al iniciar el viento, estelas luminosas y encuadres centrales para corazón, mensaje y última flor.
 - Partículas más cálidas y suaves sin aumentar su cantidad; controles centrados y reinicio visible en exploración libre.
 - Duraciones narrativas basadas en tiempo transcurrido: se desactiva el descuento de pausas largas de GSAP mientras vive la escena. La cámara usa tiempo real para converger tras un frame lento.
+
+## 0.11.0 — Relieve y detalle floral
+
+- Pétalos curvos con bordes elevados, puntas inclinadas y variaciones de orientación.
+- Hojas con nervadura central, ramificaciones de color y bordes sutilmente irregulares.
+- Centros más oscuros con 320 semillas instanciadas de tamaño y tono variables.
+- Evidencia visual del ramo en escritorio y móvil, comparada con el tablero original.

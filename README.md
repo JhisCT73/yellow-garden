@@ -74,3 +74,7 @@ La dirección visual se extiende a las escenas de jardín y ramo. Un paisaje noc
 ### Tarjeta y finales (0.10)
 
 La tarjeta incorpora papel marfil ilustrado y una vista de lectura accesible. El viento, corazón, mensaje y última flor mantienen el paisaje nocturno con encuadres centrales y controles inferiores. La comparación visual se encuentra en `docs/cinematic-finale-comparison.png`. Es una aproximación animada: el modelo floral sigue siendo estilizado y la tarjeta se presenta cerrada antes de abrir la lectura, a diferencia del libro abierto del tablero.
+
+### Detalle floral (0.11)
+
+Pétalos curvos con variación de orientación y color, hojas con nervaduras y centros con semillas de tamaño y tono variables. Se conserva la apertura animada. Comparación del ramo: `docs/botanical-comparison.png`. La mejora añade relieve al modelo; no equivale todavía al realismo fotográfico del tablero.

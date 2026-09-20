@@ -55,3 +55,7 @@ Validar en teléfonos reales, perfilar GPU/memoria y revisar accesibilidad con a
 `finaleFrame` centra corazón y mensaje, separa más la cámara móvil para el texto y alinea cámara/foco con la flor final para evitar ver el borde del fondo. `WindTrails` anima 280 puntos en shader (100 en Ligera); se libera con el resto de geometrías de la escena y respeta movimiento reducido.
 
 El único consumidor de GSAP de la aplicación desactiva lag smoothing durante el montaje y restablece 500/33 al desmontar. Se evita así extender indefinidamente la duración de una fase cuando hay pausas de render. Al volver de una pestaña detenida, la fase en curso puede terminar en el siguiente frame; no se garantiza reproducir cada frame que no se dibujó. La interpolación de cámara también usa tiempo transcurrido; el movimiento ambiental mantiene su delta limitado.
+
+## Superficies botánicas (0.11)
+
+`BotanicalGeometry` genera superficies curvas con colores por vértice: pétalos de 16 × 8 segmentos y hojas de 24 × 12. Se comparten entre las flores; no se regeneran por frame. Los centros usan 320 semillas instanciadas con escala y color deterministas. Las matrices de pétalos solo cambian durante la apertura. La liberación continúa mediante el recorrido de recursos compartidos de la escena.

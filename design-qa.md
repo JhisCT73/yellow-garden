@@ -83,3 +83,13 @@ Desviaciones intencionales de esta aproximación: tarjeta cerrada antes de leer 
 La revisión funcional y de composición del alcance pasa; no certifica una réplica fotográfica. 18 pruebas, tipos/lint y compilación correctos. Recorridos manuales de tarjeta y finales verificados, sin errores nuevos de consola; suite E2E completa no repetida.
 
 final result: passed
+
+## Cuarta pasada: detalle floral (0.11)
+
+Fuente: escena 06 del tablero original. Comparación conjunta: `docs/botanical-comparison.png`; escritorio 1013 × 761 y móvil 390 × 844. Se revisó también la apertura en movimiento. La fuente estática horizontal y la interfaz completa tienen proporciones distintas.
+
+Se añadieron curvatura, pliegues suaves y variaciones a los pétalos, nervaduras a las hojas y semillas de centro más pequeñas y numerosas. El ramo queda dentro de ambos encuadres y separado de los controles. Se mantienen tipografía, espaciado de interfaz y paisaje de la pasada anterior.
+
+Diferencias pendientes: flor principal más frontal y grande que en la referencia, menos follaje pequeño, materiales todavía estilizados y luz sin el volumen fotográfico del tablero. No se certifica equivalencia visual completa. El alcance de esta pasada (detalle, encuadre y apertura/reunión funcional) pasa; 18 pruebas, tipos, lint y build correctos.
+
+final result: passed

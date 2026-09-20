@@ -2,61 +2,32 @@ import * as THREE from 'three';
 import { gardenLayout, seededRandom } from '../utils/random';
 import { flowerSpecies, speciesProfiles } from '../objects/flowerSpecies';
 
-function petalGeometry(length = 0.77, width = 0.145) {
-  const vertices: number[] = [],
-    indices: number[] = [];
-  for (let row = 0; row <= 12; row++) {
-    const t = row / 12;
-    for (let column = 0; column <= 4; column++) {
-      const s = column / 2 - 1;
-      vertices.push(
-        s *
-          width *
-          Math.pow(Math.sin(Math.PI * t), 0.7) *
-          (1 + Math.sin(t * 21) * 0.035),
-        t * length,
-        Math.sin(t * Math.PI) * 0.1 +
-          s * s * 0.065 -
-          t * t * 0.09 +
-          Math.sin(t * Math.PI) * Math.abs(s) * 0.025,
-      );
-    }
-  }
-  for (let row = 0; row < 12; row++)
-    for (let c = 0; c < 4; c++) {
-      const a = row * 5 + c;
-      indices.push(a, a + 1, a + 5, a + 1, a + 6, a + 5);
-    }
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute(
-    'position',
-    new THREE.Float32BufferAttribute(vertices, 3),
-  );
-  geometry.setIndex(indices);
-  geometry.computeVertexNormals();
-  return geometry;
-}
+import { botanicalSurface } from './BotanicalGeometry';
 
 export function createFlowers(seed: string, count: number) {
   const root = new THREE.Group();
-  const petal = petalGeometry();
-  const daisyPetal = petalGeometry(0.64, 0.085);
-  const cupPetal = petalGeometry(0.46, 0.22);
-  const leaf = petalGeometry(0.9, 0.25);
+  const petal = botanicalSurface(0.79, 0.165);
+  const daisyPetal = botanicalSurface(0.64, 0.085);
+  const cupPetal = botanicalSurface(0.46, 0.22);
+  const leaf = botanicalSurface(0.9, 0.25, true);
   const gold = new THREE.MeshStandardMaterial({
-    color: '#ffce32',
-    roughness: 0.57,
+    color: '#ffffff',
+    vertexColors: true,
+    roughness: 0.64,
     side: THREE.DoubleSide,
     emissive: '#8a4303',
     emissiveIntensity: 0.09,
   });
   const green = new THREE.MeshStandardMaterial({
-    color: '#3d8151',
+    color: '#365327',
     roughness: 0.78,
     side: THREE.DoubleSide,
   });
+  const foliage = green.clone();
+  foliage.color.set('#ffffff');
+  foliage.vertexColors = true;
   const cream = gold.clone();
-  cream.color.set('#fff0a8');
+  cream.color.set('#fff6d3');
   const butter = gold.clone();
   butter.color.set('#ffbf20');
   const smallCenter = new THREE.MeshStandardMaterial({
@@ -64,16 +35,18 @@ export function createFlowers(seed: string, count: number) {
     roughness: 0.8,
   });
   const centerMat = new THREE.MeshStandardMaterial({
-    color: '#382514',
+    color: '#291a10',
     roughness: 0.95,
   });
   const grainMat = new THREE.MeshStandardMaterial({
-    color: '#a87425',
+    color: '#98702d',
     roughness: 0.85,
   });
   const centerGeometry = new THREE.SphereGeometry(0.285, 24, 16);
-  const grainGeometry = new THREE.SphereGeometry(0.018, 5, 4);
+  const grainGeometry = new THREE.IcosahedronGeometry(0.014, 0);
   const dummy = new THREE.Object3D();
+  const random = seededRandom(seed + '-botanical-detail');
+  const shade = new THREE.Color();
   const flowers = gardenLayout(seed, count).map((item, index) => {
     const species = flowerSpecies(index),
       profile = speciesProfiles[species];
@@ -92,9 +65,13 @@ export function createFlowers(seed: string, count: number) {
     group.add(stem);
     const leaves: THREE.Mesh[] = [];
     for (let i = 0; i < 3; i++) {
-      const leafMesh = new THREE.Mesh(leaf, green);
+      const leafMesh = new THREE.Mesh(leaf, foliage);
       leafMesh.position.copy(curve.getPoint(0.22 + i * 0.2));
-      leafMesh.rotation.set(0.45, i * 1.8, i % 2 ? 1.03 : -1.03);
+      leafMesh.rotation.set(
+        0.3 + random() * 0.35,
+        i * 1.8 + random() * 0.25,
+        i % 2 ? 1.03 : -1.03,
+      );
       group.add(leafMesh);
       leaves.push(leafMesh);
     }
@@ -122,9 +99,9 @@ export function createFlowers(seed: string, count: number) {
     center.position.z = 0.045;
     center.userData.flowerIndex = index;
     head.add(center);
-    const grains = new THREE.InstancedMesh(grainGeometry, grainMat, 180);
-    for (let i = 0; i < 180; i++) {
-      const r = Math.sqrt(i / 180) * 0.265,
+    const grains = new THREE.InstancedMesh(grainGeometry, grainMat, 320);
+    for (let i = 0; i < 320; i++) {
+      const r = Math.sqrt(i / 320) * 0.265,
         a = i * 2.399963;
       dummy.position.set(
         Math.cos(a) * r,
@@ -132,9 +109,12 @@ export function createFlowers(seed: string, count: number) {
         0.07 + Math.sqrt(1 - (r * r) / 0.08) * 0.09,
       );
       dummy.rotation.set(0, 0, a);
-      dummy.scale.setScalar(0.75 + i / 500);
+      const size = 0.7 + random() * 0.4;
+      dummy.scale.set(size, size * 1.2, size * 0.7);
       dummy.updateMatrix();
       grains.setMatrixAt(i, dummy.matrix);
+      shade.set('#ffffff').multiplyScalar(0.45 + random() * 0.5 + r * 0.6);
+      grains.setColorAt(i, shade);
     }
     grains.scale.setScalar(profile.center);
     head.add(grains);
@@ -201,6 +181,7 @@ export function createFlowers(seed: string, count: number) {
             (outer ? -0.1 : flower.species === 'buttercup' ? 0.35 : 0.05) +
             Math.sin(i * 4.7) * 0.09 * open,
         );
+        dummy.rotateY(Math.sin(i * 2.7) * 0.16 * open);
         dummy.scale.setScalar(
           outer || flower.species !== 'sunflower' ? 1 : 0.84,
         );
