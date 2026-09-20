@@ -182,3 +182,7 @@ GitHub Pages está preparado mediante workflow, pero no se publicó: la sesión 
 - 14 escenarios E2E seleccionados entre escritorio y móvil emulado: ramo, cinta, banco, reinicio y tres nuevos escenarios de recorrido por dispositivo. La primera ejecución aprobó 11 y encontró 3 fallos móviles; tras separar la cinta de los controles y habilitar los eventos de puntero del selector de modo, las 3 repeticiones aprobaron. No se declara una repetición completa de toda la suite anterior.
 - Verificado: avance automático hasta banco; espera de lectura superior a cinco segundos sin avanzar; regreso a carta; pausa durante crecimiento; pausa de espera automática; cambio a modo guiado que cancela avance pendiente; reinicio y cancelación de animaciones anteriores.
 - Revisión visual real de bienvenida, mapa, controles, carta y cierre en escritorio y 390 × 844. Capturas journey-*.png. Publicación no realizada; dispositivos físicos y rendimiento real conservan las limitaciones anteriores.
+
+## Controles laterales y tipografía
+
+Build correcto; rutas de fuentes relativas comprobadas en dist. Dos pruebas de ramo, arrastre de cinta y carta aprobadas (escritorio y móvil emulado). Revisión visual en 1294 × 856 y 390 × 844. No se modificó la lógica de recorrido. Fuentes locales con licencias OFL; no requieren conexión durante la visita.

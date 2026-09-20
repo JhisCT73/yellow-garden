@@ -119,3 +119,8 @@ Primera implementación del recorrido semilla → crecimiento → floración →
 - Pausa de animaciones y avance automático; suspensión al ocultar la pestaña o abrir el mapa.
 - Carta sin límite de lectura, con continuación explícita.
 - Restauración de estado visual al volver a una etapa, sin reconstruir el canvas.
+
+## Ajuste visual — controles laterales
+
+- Navegación en columna a la derecha, con adaptación móvil.
+- Tipografías locales Cormorant Garamond y Allura con licencias OFL incluidas; controles con tipografía legible.

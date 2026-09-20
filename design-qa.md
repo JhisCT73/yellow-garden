@@ -203,3 +203,11 @@ Esta pasada incorpora navegación sobre el diseño existente; no modifica la fid
 final result: passed
 
 En la validación táctil se corrigieron dos incidencias: el mapa de controles se superponía al tirador de cinta, y la capa móvil de la historia dejaba pasar los toques de los nuevos radios hacia el canvas. La cinta tiene ahora una posición separada y el selector de modo recibe los eventos de puntero. Captura posterior: docs/journey-ribbon-mobile.png.
+
+## Controles laterales y tipografía
+
+Anterior, Pausar y Siguiente pasan al costado derecho en columna. En móvil se compactan y se oculta la ayuda extensa para despejar el centro; las etiquetas de los botones permanecen visibles. El tirador de cinta conserva una zona independiente.
+
+Cormorant Garamond para títulos y Allura para acentos manuscritos, servidas desde public/fonts con sus licencias OFL. Los botones mantienen la tipografía de interfaz. Revisadas capturas reales 1294 × 856 y 390 × 844: docs/lateral-desktop.png y docs/lateral-mobile.png. El banco, la frase superior y los botones inferiores quedan despejados.
+
+final result: passed
