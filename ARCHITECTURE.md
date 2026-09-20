@@ -63,3 +63,7 @@ El único consumidor de GSAP de la aplicación desactiva lag smoothing durante e
 ## Follaje de acompañamiento (0.12)
 
 `BouquetFoliage` añade diez ramitas con geometrías compartidas para 200 pétalos, 40 centros y 50 hojas instanciados. Las matrices se calculan al crear la escena. Solo el grupo se escala y balancea durante la animación; el movimiento reducido detiene el balanceo. Es hijo de `flowers.root` antes de recopilar materiales, por lo que participa en el desvanecimiento y la liberación de recursos existentes.
+
+## Materiales florales (0.12.1)
+
+Los pétalos usan MeshPhysicalMaterial con rugosidad 0.78, sheen 0.25 y emisión reducida. El gradiente de girasol sigue horneado por vértice; las margaritas desactivan vertexColors para preservar el crema. No se cambia la exposición global, conservando la iluminación de tarjeta y fondo. No se añaden geometrías ni texturas en esta pasada.

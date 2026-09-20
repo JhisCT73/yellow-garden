@@ -111,3 +111,10 @@ GitHub Pages está preparado mediante workflow, pero no se publicó: la sesión 
 - Ramo completo y controles despejados en 1013 × 761 y 390 × 844. Tarjeta libre de follaje delantero y desaparición del conjunto comprobadas en móvil emulado.
 - Evidencia: `foliage-bouquet-desktop.png`, `foliage-bouquet-mobile.png`, `foliage-comparison.png`.
 - No se repitió la suite E2E completa ni se midió rendimiento físico o movimiento reducido en navegador.
+
+## 0.12.1 — Materiales dorados
+
+- Tipos sin errores/advertencias, lint, 18 pruebas y build correctos; permanece el aviso de tamaño de Three.
+- Recarga y recorrido manual de plantar a jardín y ramo. Capturas de escritorio 1013 × 761 y móvil emulado 390 × 844; sin errores nuevos en consola.
+- Evidencia: `golden-bouquet-desktop.png`, `golden-bouquet-mobile.png`, `golden-comparison.png`.
+- No se repitieron los finales ni la suite E2E completa. El material físico añade coste de sombreado; no se ha medido rendimiento en dispositivo físico.

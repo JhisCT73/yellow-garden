@@ -7,8 +7,8 @@ export function botanicalSurface(length: number, width: number, leaf = false) {
   const positions: number[] = [],
     colors: number[] = [],
     indices: number[] = [];
-  const base = new THREE.Color(leaf ? '#183b1c' : '#d58a1c');
-  const tip = new THREE.Color(leaf ? '#567638' : '#fff0a5');
+  const base = new THREE.Color(leaf ? '#142f20' : '#b95b0c');
+  const tip = new THREE.Color(leaf ? '#536b37' : '#ffd451');
   const color = new THREE.Color();
   for (let row = 0; row <= rows; row++) {
     const t = row / rows;
@@ -33,7 +33,9 @@ export function botanicalSurface(length: number, width: number, leaf = false) {
           Math.sin(t * Math.PI) * 0.11 -
           t ** 4 * (leaf ? 0.24 : 0.15),
       );
-      color.copy(base).lerp(tip, leaf ? 0.35 + t * 0.3 : 0.28 + t * 0.65);
+      color
+        .copy(base)
+        .lerp(tip, leaf ? 0.35 + t * 0.3 : 0.12 + Math.pow(t, 0.7) * 0.8);
       if (leaf) {
         const centralVein = Math.abs(s) < 0.09;
         const veinDistance = Math.abs(

@@ -103,3 +103,13 @@ Las flores pequeñas y ramitas llenan los espacios laterales e interiores sin oc
 Pendientes de refinamiento P3: más asimetría en la composición principal, iluminación volumétrica y materiales menos estilizados. La flor superior sigue siendo mayor y más frontal que la referencia. Esta revisión aprueba composición e interacciones del alcance; no certifica equivalencia fotográfica ni rendimiento móvil físico.
 
 final result: passed
+
+## Sexta pasada: color y materiales (0.12.1)
+
+Comparación abierta: `docs/golden-comparison.png`, escena 06 de la referencia junto al ramo actual. Capturas de escritorio 1013 × 761 y móvil 390 × 844. La comparación conserva la proporción de cada imagen; la referencia es una viñeta horizontal sin controles interactivos.
+
+Los pétalos muestran un dorado más saturado, con base ámbar y centro marrón más oscuro. Las margaritas conservan crema y las hojas contrastan en verde profundo. Los controles, encuadres, tipografía y fondo no cambiaron. Se verificó la progresión hasta el ramo, sin errores nuevos en consola.
+
+P3 pendientes: la flor principal continúa demasiado frontal respecto de la referencia; sigue faltando iluminación volumétrica y detalle fotográfico en los materiales. Esta pasada aprueba color, encuadre y progresión del alcance, no equivalencia fotográfica. El coste del nuevo material físico requiere medición en hardware móvil real.
+
+final result: passed

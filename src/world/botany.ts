@@ -10,13 +10,16 @@ export function createFlowers(seed: string, count: number) {
   const daisyPetal = botanicalSurface(0.64, 0.085);
   const cupPetal = botanicalSurface(0.46, 0.22);
   const leaf = botanicalSurface(0.9, 0.25, true);
-  const gold = new THREE.MeshStandardMaterial({
+  const gold = new THREE.MeshPhysicalMaterial({
     color: '#ffffff',
     vertexColors: true,
-    roughness: 0.64,
+    roughness: 0.78,
+    sheen: 0.25,
+    sheenColor: '#ffe5a0',
+    sheenRoughness: 0.85,
     side: THREE.DoubleSide,
     emissive: '#8a4303',
-    emissiveIntensity: 0.09,
+    emissiveIntensity: 0.025,
   });
   const green = new THREE.MeshStandardMaterial({
     color: '#365327',
@@ -28,6 +31,7 @@ export function createFlowers(seed: string, count: number) {
   foliage.vertexColors = true;
   const cream = gold.clone();
   cream.color.set('#fff6d3');
+  cream.vertexColors = false;
   const butter = gold.clone();
   butter.color.set('#ffbf20');
   const smallCenter = new THREE.MeshStandardMaterial({
@@ -39,8 +43,8 @@ export function createFlowers(seed: string, count: number) {
     roughness: 0.95,
   });
   const grainMat = new THREE.MeshStandardMaterial({
-    color: '#98702d',
-    roughness: 0.85,
+    color: '#624121',
+    roughness: 0.95,
   });
   const centerGeometry = new THREE.SphereGeometry(0.285, 24, 16);
   const grainGeometry = new THREE.IcosahedronGeometry(0.014, 0);

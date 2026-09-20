@@ -58,3 +58,8 @@ Primera implementación del recorrido semilla → crecimiento → floración →
 - Diez ramitas con cuarenta flores pequeñas y cincuenta hojas, con variación determinista por semilla.
 - Aparición progresiva durante la reunión, balanceo suave y desvanecimiento integrado con el final.
 - Capturas y comparación de la escena 06 en escritorio y móvil emulado.
+
+## 0.12.1 — Color y respuesta a la luz
+
+- Gradiente ámbar a amarillo dorado en los pétalos, emisión reducida y acabado rugoso con brillo rasante suave.
+- Margaritas crema independientes del gradiente del girasol, semillas más oscuras y hojas de verde más profundo.
