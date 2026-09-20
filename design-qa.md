@@ -93,3 +93,13 @@ Se añadieron curvatura, pliegues suaves y variaciones a los pétalos, nervadura
 Diferencias pendientes: flor principal más frontal y grande que en la referencia, menos follaje pequeño, materiales todavía estilizados y luz sin el volumen fotográfico del tablero. No se certifica equivalencia visual completa. El alcance de esta pasada (detalle, encuadre y apertura/reunión funcional) pasa; 18 pruebas, tipos, lint y build correctos.
 
 final result: passed
+
+## Quinta pasada: follaje de acompañamiento (0.12)
+
+Referencia: escena 06 del tablero. Comparación conjunta abierta: `docs/foliage-comparison.png`; capturas completas de escritorio 1013 × 761 y móvil 390 × 844. Se conserva la proporción horizontal de la referencia; la interfaz completa incluye controles ausentes del tablero.
+
+Las flores pequeñas y ramitas llenan los espacios laterales e interiores sin ocultar cinta, tarjeta ni controles. Se verificaron la reunión, el desatado por atajo, la salida hacia el viento y la desaparición del ramo en celebración. Tipografía y espaciado de interfaz se conservan; la nueva vegetación usa verde apagado y crema cálido. No se detectaron recortes del ramo ni errores nuevos de consola.
+
+Pendientes de refinamiento P3: más asimetría en la composición principal, iluminación volumétrica y materiales menos estilizados. La flor superior sigue siendo mayor y más frontal que la referencia. Esta revisión aprueba composición e interacciones del alcance; no certifica equivalencia fotográfica ni rendimiento móvil físico.
+
+final result: passed

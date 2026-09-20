@@ -4,6 +4,7 @@
   import * as THREE from 'three';
   import { gsap } from 'gsap';
   import { createFlowers, createMeadow } from './botany';
+  import { createBouquetFoliage } from './BouquetFoliage';
   import { seededRandom } from '../utils/random';
   import { gardenConfig } from '../config/garden.config';
   import {
@@ -144,6 +145,8 @@
     flower.group.rotation.y = index * 1.7;
   });
   const bouquet = createBouquetSystem(flowers.flowers, initialSeed);
+  const foliage = createBouquetFoliage(initialSeed);
+  flowers.root.add(foliage.root);
   const gift = createBotanicalGift();
   const meadow = createMeadow(initialSeed, quality.grass);
   const wind = createWindSystem(flowers.flowers, meadow);
@@ -634,6 +637,7 @@
       part.visible = part === bud ? stage === 'GROWING' : stage !== 'GROWING';
     });
     bouquet.update(gather.value, time, !reducedMotion, gardenReveal.value);
+    foliage.update(gather.value, time, !reducedMotion);
     if (stage === 'BLOOMING') flowers.flowers[0].head.rotateX(-0.3);
     if (stage === 'GROWING' || stage === 'BLOOMING')
       flowers.flowers.forEach((flower, index) => {

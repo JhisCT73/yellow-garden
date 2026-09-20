@@ -78,3 +78,7 @@ La tarjeta incorpora papel marfil ilustrado y una vista de lectura accesible. El
 ### Detalle floral (0.11)
 
 Pétalos curvos con variación de orientación y color, hojas con nervaduras y centros con semillas de tamaño y tono variables. Se conserva la apertura animada. Comparación del ramo: `docs/botanical-comparison.png`. La mejora añade relieve al modelo; no equivale todavía al realismo fotográfico del tablero.
+
+### Follaje del ramo (0.12)
+
+El ramo incorpora pequeñas flores crema y ramitas con hojas que aparecen durante la reunión y se desvanecen en el final. Comparación con la escena 06: `docs/foliage-comparison.png`. Continúa siendo una interpretación 3D estilizada.

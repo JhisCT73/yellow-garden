@@ -52,3 +52,9 @@ Primera implementación del recorrido semilla → crecimiento → floración →
 - Hojas con nervadura central, ramificaciones de color y bordes sutilmente irregulares.
 - Centros más oscuros con 320 semillas instanciadas de tamaño y tono variables.
 - Evidencia visual del ramo en escritorio y móvil, comparada con el tablero original.
+
+## 0.12.0 — Follaje del ramo
+
+- Diez ramitas con cuarenta flores pequeñas y cincuenta hojas, con variación determinista por semilla.
+- Aparición progresiva durante la reunión, balanceo suave y desvanecimiento integrado con el final.
+- Capturas y comparación de la escena 06 en escritorio y móvil emulado.

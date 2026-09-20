@@ -59,3 +59,7 @@ El único consumidor de GSAP de la aplicación desactiva lag smoothing durante e
 ## Superficies botánicas (0.11)
 
 `BotanicalGeometry` genera superficies curvas con colores por vértice: pétalos de 16 × 8 segmentos y hojas de 24 × 12. Se comparten entre las flores; no se regeneran por frame. Los centros usan 320 semillas instanciadas con escala y color deterministas. Las matrices de pétalos solo cambian durante la apertura. La liberación continúa mediante el recorrido de recursos compartidos de la escena.
+
+## Follaje de acompañamiento (0.12)
+
+`BouquetFoliage` añade diez ramitas con geometrías compartidas para 200 pétalos, 40 centros y 50 hojas instanciados. Las matrices se calculan al crear la escena. Solo el grupo se escala y balancea durante la animación; el movimiento reducido detiene el balanceo. Es hijo de `flowers.root` antes de recopilar materiales, por lo que participa en el desvanecimiento y la liberación de recursos existentes.

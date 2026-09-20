@@ -103,3 +103,11 @@ GitHub Pages está preparado mediante workflow, pero no se publicó: la sesión 
 - Recarga y recorrido manual: plantar, crecimiento, apertura y reunión del ramo. Ramo completo en escritorio 1013 × 761 y móvil emulado 390 × 844; consola sin errores nuevos.
 - Capturas `botanical-bouquet-desktop.png`, `botanical-bouquet-mobile.png` y comparación `botanical-comparison.png`.
 - No se repitió la suite E2E ni el recorrido completo de finales. No se midió rendimiento en teléfono físico. Las flores siguen siendo estilizadas.
+
+## 0.12.0 — Follaje del ramo
+
+- Tipos sin errores ni advertencias, lint correcto, 18 pruebas correctas y build correcto. Persiste el aviso de tamaño del chunk de Three.
+- Recorrido manual desde recarga: plantar, jardín, reunión, desatar mediante el atajo, tarjeta, viento y celebración. Sin errores nuevos de consola.
+- Ramo completo y controles despejados en 1013 × 761 y 390 × 844. Tarjeta libre de follaje delantero y desaparición del conjunto comprobadas en móvil emulado.
+- Evidencia: `foliage-bouquet-desktop.png`, `foliage-bouquet-mobile.png`, `foliage-comparison.png`.
+- No se repitió la suite E2E completa ni se midió rendimiento físico o movimiento reducido en navegador.
