@@ -57,6 +57,7 @@
       'FREE_EXPLORE',
       'SECRET_BLOOM',
       'SECRET_READY',
+      'BENCH',
     ].includes(stage),
   );
   const audio = new AudioEngine();
@@ -200,6 +201,13 @@
     actor.send({ type: 'LAST_SURPRISE' });
     audio.chime(5);
   }
+  async function rest() {
+    message = '';
+    clearTimeout(messageTimeout);
+    actor.send({ type: 'REST' });
+    await tick();
+    exploreButton?.focus({ preventScroll: true });
+  }
   async function sceneComplete(type: SceneCompletion) {
     actor.send({ type });
     await tick();
@@ -286,8 +294,14 @@
           onfound={() => audio.chime(4)}
         />
       {:else}<span class="brand-symbol">✳</span>{/if}
-      <a class="wordmark" href="./" aria-label="Yellow Garden, inicio"
-        >yellow garden<span class="brand-dot">.</span></a
+      <a
+        class="wordmark"
+        href="./"
+        aria-label="Yellow Garden, inicio"
+        onclick={(event) => {
+          event.preventDefault();
+          restart();
+        }}>yellow garden<span class="brand-dot">.</span></a
       >
     </div>
     <span class="edition">UNA PEQUEÑA CELEBRACIÓN DE LA PRIMAVERA</span>
@@ -406,6 +420,15 @@
             >Quedarme en el jardín <span>✧</span></button
           >
         {/if}
+      {:else if stage === 'BENCH'}
+        <h1>¿Ya <em>terminamos?</em></h1>
+        <p>Mentira. Una última cosa: este rincón siempre será tuyo.</p>
+        <button class="primary" bind:this={exploreButton} onclick={explore}
+          >Volver a mi primavera <span>✧</span></button
+        >
+        <button class="text-button" onclick={restart}
+          >Volver a florecer ↻</button
+        >
       {:else if stage === 'SECRET_BLOOM' || stage === 'SECRET_READY'}
         <h1>Estas flores no se <em>marchitan.</em></h1>
         <p aria-live="polite">
@@ -421,6 +444,7 @@
           <button class="primary" bind:this={exploreButton} onclick={explore}
             >Volver a mi primavera <span>✧</span></button
           >
+          <button class="text-button" onclick={rest}>Un momento más ↗</button>
         {/if}
       {:else}
         <h1>Tu primavera se queda <em>contigo.</em></h1>
@@ -433,6 +457,9 @@
         >
         <button class="text-button" onclick={restart}
           >Volver a florecer ↻</button
+        >
+        <button class="text-button" onclick={rest}
+          >Descansar en el jardín ↗</button
         >
         {#if gardenConfig.secrets}
           <button class="text-button" onclick={lastSurprise}

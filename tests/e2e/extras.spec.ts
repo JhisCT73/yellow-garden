@@ -80,7 +80,7 @@ test('the message supports reduced motion and a transition can be cancelled', as
   await page
     .getByRole('button', { name: 'Un mensaje entre las luces' })
     .click();
-  await page.getByRole('button', { name: 'Volver a florecer' }).click();
+  await page.getByRole('link', { name: 'Yellow Garden, inicio' }).click();
   await page.waitForTimeout(3200);
   await expect(page.locator('main')).toHaveAttribute('data-stage', 'INTRO');
 });

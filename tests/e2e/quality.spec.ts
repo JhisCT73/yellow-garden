@@ -63,7 +63,7 @@ test('quality changes preserve the canvas, story and keyboard focus', async ({
     path: `test-results/quality-text-${test.info().project.name}.png`,
     fullPage: true,
   });
-  await page.getByRole('button', { name: 'Volver a florecer' }).click();
+  await page.getByRole('link', { name: 'Yellow Garden, inicio' }).click();
   await expect(page.locator('main')).toHaveAttribute('data-quality', 'low');
   expect(errors).toEqual([]);
 });

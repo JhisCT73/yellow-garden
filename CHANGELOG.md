@@ -100,3 +100,14 @@ Primera implementación del recorrido semilla → crecimiento → floración →
 
 - Silueta alargada con punta, hendidura longitudinal suave y variaciones de color por vértice.
 - Material ámbar más oscuro, menos emisión y mayor rugosidad.
+
+## 0.16.0 — Recorrido integrado y cierre
+
+- Libro 3D de dos páginas, ilustración botánica, apertura al desatar y lectura HTML accesible.
+- Terminal secreto con paleta verde, fondo botánico y acción de descubrimiento.
+- Banco 3D y cámara de cierre: accesible después de la flor gigante o desde exploración; regreso y reinicio disponibles.
+- Suelo con relieve suave y mayor concentración de piedras cerca de la semilla.
+- Los 50 segmentos estáticos del follaje se unen en una malla, reduciendo 49 llamadas de dibujo por pase del ramo.
+- Reinicio del encabezado sin recargar, conservando calidad y cuidado; pruebas actualizadas para el control visible.
+- Nuevo recorrido automatizado del banco y medición reproducible de tiempos de cuadro locales.
+- Publicación aplazada por indicación del usuario.

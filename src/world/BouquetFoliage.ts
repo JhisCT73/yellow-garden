@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { botanicalSurface } from './BotanicalGeometry';
 import { seededRandom } from '../utils/random';
 
@@ -32,6 +33,7 @@ export function createBouquetFoliage(seed: string) {
   const centers = new THREE.InstancedMesh(centerGeometry, pollen, 10 * 4);
   const leaves = new THREE.InstancedMesh(leafGeometry, leafMaterial, 10 * 5);
   const dummy = new THREE.Object3D();
+  const stems: THREE.BufferGeometry[] = [];
   let petalIndex = 0,
     centerIndex = 0,
     leafIndex = 0;
@@ -48,9 +50,7 @@ export function createBouquetFoliage(seed: string) {
       new THREE.Vector3(tip.x * 0.35, 1.9, -0.2),
       tip,
     );
-    root.add(
-      new THREE.Mesh(new THREE.TubeGeometry(curve, 12, 0.012, 4, false), green),
-    );
+    stems.push(new THREE.TubeGeometry(curve, 12, 0.012, 4, false));
     for (let j = 0; j < 5; j++) {
       dummy.position.copy(curve.getPoint(0.22 + j * 0.14));
       dummy.rotation.set(0.2, (j % 2) * Math.PI, j % 2 ? -0.8 : 0.8);
@@ -69,16 +69,13 @@ export function createBouquetFoliage(seed: string) {
             0.04,
           ),
         );
-      root.add(
-        new THREE.Mesh(
-          new THREE.TubeGeometry(
-            new THREE.LineCurve3(start, end),
-            1,
-            0.006,
-            4,
-            false,
-          ),
-          green,
+      stems.push(
+        new THREE.TubeGeometry(
+          new THREE.LineCurve3(start, end),
+          1,
+          0.006,
+          4,
+          false,
         ),
       );
       dummy.position.copy(end);
@@ -100,6 +97,9 @@ export function createBouquetFoliage(seed: string) {
       }
     }
   }
+  const mergedStems = mergeGeometries(stems);
+  if (mergedStems) root.add(new THREE.Mesh(mergedStems, green));
+  stems.forEach((geometry) => geometry.dispose());
   root.add(petals, centers, leaves);
   return {
     root,

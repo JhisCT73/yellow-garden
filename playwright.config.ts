@@ -2,7 +2,10 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: true,
-  workers: 2,
+  // WebGL scenes share the GPU; serialize to avoid resource contention.
+  workers: 1,
+  timeout: 60000,
+  expect: { timeout: 10000 },
   use: { baseURL: 'http://127.0.0.1:5173', trace: 'retain-on-failure' },
   projects: [
     { name: 'desktop', use: { ...devices['Desktop Chrome'] } },

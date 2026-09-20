@@ -183,3 +183,13 @@ La semilla presenta ahora una punta reconocible y color ámbar más oscuro, redu
 P3: la referencia tiene más reflejo localizado y mayor riqueza en el suelo; nuestra semilla aún es estilizada. Aprueba silueta, contraste y transición del alcance; no equivalencia fotográfica.
 
 final result: passed
+
+## Entrega integrada: libro, terminal y banco (0.16.0)
+
+Comparación abierta e inspeccionada: docs/complete-scenes-comparison.png, escenas 09, 14 y 15 del tablero junto a capturas reales. Escritorio 1013 × 761 y móvil 390 × 844 revisados por separado; cierre adicional en 320 × 568 con desplazamiento vertical accesible.
+
+La tarjeta es ahora un libro abierto de dos páginas con ilustración botánica, marco, sello y fecha configurable. Se redujo la escala final para separar su borde del texto en escritorio. La consola tiene texto verde y fondo vegetal nocturno. El banco es un objeto 3D con madera, estructura metálica, luz cálida y cámara propia. Sus botones permiten volver al jardín o reiniciar. Suelo con relieve y piedras de tamaños variados.
+
+P3 visual: la referencia usa materiales e iluminación más fotográficos; nuestro banco se ve desde delante y el fondo del terminal tiene más follaje. El libro no reproduce toda la riqueza de papel y caligrafía del original. Aprueba composición, lectura, navegación y adaptación del alcance; no equivalencia fotográfica. El rendimiento físico permanece sin certificar, según docs/VALIDATION.md.
+
+final result: passed

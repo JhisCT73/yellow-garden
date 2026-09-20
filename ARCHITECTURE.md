@@ -95,3 +95,13 @@ Un hash espacial selecciona aproximadamente el 14 % de las partículas para expa
 ## Semilla (0.15.1)
 
 `SeedGeometry` deforma una esfera de 48 × 32 segmentos con estrechamiento longitudinal, depresión suave y variación fina de superficie. Calcula colores y normales una vez al crear la escena. El Mesh conserva las transformaciones, interacción y retirada al crecer existentes; su geometría y material se liberan con la escena.
+
+## Integración y cierre (0.16)
+
+`BENCH` es un estado explícito alcanzable con REST desde FREE_EXPLORE o SECRET_READY. EXPLORE vuelve al jardín y RESTART cancela el recorrido como en los demás estados. `GardenBench` usa geometría de listones y estructura metálica con luz cálida; permanece oculto en las otras escenas. La cámara de cierre tiene un encuadre específico y el follaje protagonista se oculta para despejar el banco. El botón de entrada limpia mensajes transitorios y coloca el foco en el regreso.
+
+`BotanicalGift` conserva el grupo interactivo `card`, pero contiene una página derecha y una izquierda con bisagra. La bisagra se despliega según el revelado de la cinta. Cada página usa una CanvasTexture; ambas se liberan explícitamente. La lectura HTML y la intersección de rayos siguen funcionando con el mismo grupo.
+
+`SoilGeometry` usa una retícula de 64 × 64 segmentos con ondulaciones atenuadas cerca de la semilla y el borde; conserva UV, transparencia radial y textura existentes. Las piedras siguen siendo instancias. Los segmentos de ramas de `BouquetFoliage` se fusionan con mergeGeometries al crear la escena; se liberan las geometrías temporales y la resultante participa en la limpieza de recursos.
+
+Las pruebas E2E se ejecutan en un worker para evitar competencia entre contextos WebGL. El tiempo máximo por recorrido es 60 segundos; se conservan las verificaciones de estados, arrastre, teclado y cancelación. `scripts/measure-performance.mjs` mide tiempos RAF locales, registra el renderer y el buffer en cada calidad y viewport; no representa rendimiento de teléfonos físicos.

@@ -45,15 +45,11 @@ El símbolo dorado junto al título esconde una pequeña terminal de juguete. Se
 
 ## Alcance de esta versión
 
-La versión 0.8 inicia la adaptación al tablero de escenas del usuario: **semilla → crecimiento → primera flor** ocupa la pantalla completa, con cámara cercana y texto inferior. Los dos fondos/texturas generados viven en `public/textures/`; los protagonistas siguen siendo geometría 3D animada. El jardín panorámico, ramo, carta y finales aún esperan su propia pasada de dirección artística. Esta primera aproximación no reproduce el realismo ni todas las escenas del tablero.
+La versión 0.16 completa la adaptación funcional del recorrido: semilla, crecimiento, floración, jardín, ramo, descubrimiento de flores, cinta, libro abierto, viento, corazón, mensaje, flor gigante, terminal secreto y cierre con banco 3D. El libro se despliega al desatar; la lectura HTML conserva teclado y restitución del foco. Después de la última flor, **Un momento más** lleva al banco; también puedes usar **Descansar en el jardín** desde exploración. El título del encabezado reinicia la experiencia sin recargar.
 
-La profundidad de campo se aplica solo durante la apertura en calidad media/alta y se omite en Ligera. Los movimientos de cámara se omiten con movimiento reducido. La floración dura cinco segundos para dar espacio al nuevo plano.
+Los protagonistas son geometría animada; el paisaje lejano y el papel usan imágenes locales. El suelo tiene relieve y piedras próximas a la semilla. Las flores siguen una dirección estilizada: esta versión no es una réplica fotográfica del tablero. Los detalles técnicos y la evidencia de pruebas están en `docs/VALIDATION.md` y `design-qa.md`.
 
-Implementado: jardín nocturno, semilla, tallos y hojas, tres tipos de flores procedurales, floración, jardín reproducible, mensajes, formación animada del ramo, cinta 3D arrastrable, tarjeta tridimensional con textura local, lectura accesible, viento interactivo, corazón y texto de partículas, exploración posterior al final, secreto opcional, reinicio, audio opcional y ajuste básico de calidad.
-
-Después de volver al jardín desde el corazón o el mensaje, **¿Una última sorpresa?** convierte el girasol principal en una flor gigante con un breve destello de polen. **Volver a mi primavera** recupera la composición original. Con movimiento reducido aparece directamente, sin destello ni transición; `secrets: false` también oculta esta sorpresa.
-
-Pendiente del plan maestro: secretos adicionales (mariposa y estrellas), reflejos de agua más elaborados, capas musicales continuas y un pase de calidad/rendimiento en hardware real. La tarjeta se revela en 3D y el texto completo se lee en un diálogo HTML accesible. No se presenta como la implementación completa de las 15 fases.
+La profundidad de campo se aplica a apertura y regalo en calidad media/alta y se omite en Ligera. Se unificaron los 50 segmentos de tallos del follaje del ramo en una malla; las flores pequeñas y hojas se dibujan mediante instancias. `node scripts/measure-performance.mjs` mide tiempos de cuadro locales con Chromium instalado y el servidor de desarrollo activo; la emulación móvil no sustituye pruebas en teléfonos físicos.
 
 ## Publicar en GitHub Pages
 
@@ -69,11 +65,11 @@ Licencia MIT. Consulta `ATTRIBUTIONS.md` para las dependencias y recursos.
 
 ### Jardín y ramo (0.9)
 
-La dirección visual se extiende a las escenas de jardín y ramo. Un paisaje nocturno generado se combina con las flores 3D animadas: estas se desplazan hacia los lados del sendero y después se reúnen. El fondo lejano sigue siendo una imagen sobre un plano; las flores interactivas, cinta y tarjeta son geometría. La composición se aproxima al tablero de referencia, aunque los modelos florales mantienen un acabado estilizado. Tarjeta y finales todavía requieren su propia adaptación visual.
+La dirección visual se extiende a las escenas de jardín y ramo. Un paisaje nocturno generado se combina con las flores 3D animadas: estas se desplazan hacia los lados del sendero y después se reúnen. El fondo lejano sigue siendo una imagen sobre un plano; las flores interactivas, cinta y tarjeta son geometría. La composición se aproxima al tablero de referencia, aunque los modelos florales mantienen un acabado estilizado. Esta sección documenta el avance histórico de la versión 0.9.
 
 ### Tarjeta y finales (0.10)
 
-La tarjeta incorpora papel marfil ilustrado y una vista de lectura accesible. El viento, corazón, mensaje y última flor mantienen el paisaje nocturno con encuadres centrales y controles inferiores. La comparación visual se encuentra en `docs/cinematic-finale-comparison.png`. Es una aproximación animada: el modelo floral sigue siendo estilizado y la tarjeta se presenta cerrada antes de abrir la lectura, a diferencia del libro abierto del tablero.
+La tarjeta incorpora papel marfil ilustrado y una vista de lectura accesible. El viento, corazón, mensaje y última flor mantienen el paisaje nocturno con encuadres centrales y controles inferiores. La comparación visual se encuentra en `docs/cinematic-finale-comparison.png`. Es una aproximación animada: el modelo floral sigue siendo estilizado y documenta la tarjeta cerrada de aquella versión, sustituida por un libro abierto en 0.16.
 
 ### Detalle floral (0.11)
 

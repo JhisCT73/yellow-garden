@@ -30,7 +30,7 @@ test('care can be selected by keyboard and persists through planting and restart
     path: `test-results/care-water-${test.info().project.name}.png`,
     fullPage: true,
   });
-  await page.getByRole('button', { name: 'Volver a florecer' }).click();
+  await page.getByRole('link', { name: 'Yellow Garden, inicio' }).click();
   await expect(
     page.getByRole('radio', { name: 'Agua', exact: true }),
   ).toBeChecked();

@@ -53,7 +53,7 @@ test('the last flower grows, returns to exploration and can be repeated without 
     'SECRET_READY',
   );
   await expect(page.locator('.flower-message')).not.toHaveClass(/visible/);
-  await page.getByRole('button', { name: 'Volver a florecer' }).click();
+  await page.getByRole('link', { name: 'Yellow Garden, inicio' }).click();
   await expect(page.locator('main')).toHaveAttribute('data-stage', 'INTRO');
   expect(errors).toEqual([]);
 });
@@ -68,7 +68,7 @@ test('restart cancels the last flower animation and its completion', async ({
     'data-stage',
     'SECRET_BLOOM',
   );
-  await page.getByRole('button', { name: 'Volver a florecer' }).click();
+  await page.getByRole('link', { name: 'Yellow Garden, inicio' }).click();
   await page.waitForTimeout(3800);
   await expect(page.locator('main')).toHaveAttribute('data-stage', 'INTRO');
   await page.emulateMedia({ reducedMotion: 'reduce' });

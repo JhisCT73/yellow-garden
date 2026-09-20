@@ -62,6 +62,12 @@ export function gardenFrame(
 }
 
 export function finaleFrame(stage: GardenStage, mobile: boolean) {
+  if (stage === 'BENCH')
+    return {
+      position: [0.8, 2.3, mobile ? 9 : 7] as const,
+      focus: [0, 1.15, 0] as const,
+      fov: mobile ? 44 : 39,
+    };
   if (stage === 'FREE_EXPLORE') return gardenFrame('GARDEN', 0, mobile);
   if (
     ![

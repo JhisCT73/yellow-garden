@@ -55,3 +55,30 @@ it('finishes without discovering the ribbon, returns to exploration, and permits
   expect(actor.getSnapshot().value).toBe('INTRO');
   actor.stop();
 });
+
+it('allows resting only after the finale and restarts from the bench', () => {
+  const actor = createActor(gardenMachine).start();
+  actor.send({ type: 'REST' });
+  expect(actor.getSnapshot().value).toBe('INTRO');
+  for (const type of [
+    'PLANT',
+    'GROWN',
+    'BLOOMED',
+    'START_WIND',
+    'RELEASE_WIND',
+    'SCATTERED',
+    'HEART_READY',
+    'EXPLORE',
+    'LAST_SURPRISE',
+    'SURPRISE_READY',
+    'REST',
+  ] as const)
+    actor.send({ type });
+  expect(actor.getSnapshot().value).toBe('BENCH');
+  actor.send({ type: 'EXPLORE' });
+  expect(actor.getSnapshot().value).toBe('FREE_EXPLORE');
+  actor.send({ type: 'REST' });
+  actor.send({ type: 'RESTART' });
+  expect(actor.getSnapshot().value).toBe('INTRO');
+  actor.stop();
+});

@@ -164,3 +164,14 @@ GitHub Pages está preparado mediante workflow, pero no se publicó: la sesión 
 - Tipos sin errores/advertencias, lint, 19 pruebas y build correctos; persiste aviso del chunk Three.
 - Forma final revisada en escritorio 1013 × 761 y móvil emulado 390 × 844. Plantar por botón y transición hasta jardín comprobados en móvil. Sin errores nuevos de consola.
 - Capturas `seed-shell-desktop.png`, `seed-shell-mobile.png`, `seed-shell-comparison.png`. No se repitió suite E2E completa, selección directa 3D ni rendimiento físico.
+
+## Entrega integrada (0.16.0)
+
+- 36/36 pruebas E2E aprobadas en Chromium: 18 escritorio y 18 móvil emulado, un worker, 10,1 minutos. Incluyen recorrido, cinta, libro, secretos, banco, cancelaciones, teclado, movimiento reducido, calidad y alternativa sin WebGL.
+- 20/20 pruebas unitarias; tipos sin errores ni advertencias; lint correcto; build de producción correcto. Three conserva un chunk de 704,05 kB (181,38 kB gzip), advertido por Vite.
+- Revisión visual del libro, terminal y banco en 1013 × 761 y 390 × 844. En 320 × 568 el cierre permite desplazamiento vertical hasta ambos botones. Comparación conjunta abierta: complete-scenes-comparison.png.
+- Rendimiento reproducible: scripts/measure-performance.mjs, resultados en performance-local.json. Cuatro muestras de seis segundos en GARDEN: escritorio Ligera 10,0 FPS / Alta 9,5; móvil emulado Ligera 15,8 / Alta 10,5. Renderer SwiftShader por software, no GPU física. No demuestra 60 FPS ni certifica teléfonos; la calidad ligera reduce la carga pero esta máquina sigue limitada.
+- Los 50 tallos de relleno se fusionan en una malla, ahorrando 49 llamadas de dibujo por pase cuando son visibles. No se atribuye una mejora de FPS sin comparación antes/después.
+- Pendiente externo: Safari/iPhone y Android físicos, audio, temperatura y fluidez sostenida. Publicación excluida por indicación del usuario.
+- Se corrigieron metadatos de dos dependencias en package-lock.json para coincidir con sus paquetes instalados y URLs resueltas: rapier3d-compat 0.12.0 y @humanfs/types 0.15.0. No cambia su código ni integridad.
+- Tras conectar el sello del libro a gardenConfig.date, se repitieron las dos pruebas completas de ramo/cinta/libro (escritorio y móvil): 2/2 aprobadas. Paquete dist comprimido en test-results/yellow-garden-0.16.0.zip; esa carpeta es temporal y una futura prueba puede limpiarla.

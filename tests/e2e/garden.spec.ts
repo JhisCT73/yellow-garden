@@ -29,7 +29,7 @@ test('complete gift, discovery, accessible note and replay', async ({
   await expect(
     page.getByRole('button', { name: 'Una nota para ti' }),
   ).toBeFocused();
-  await page.getByRole('button', { name: 'Volver a florecer' }).click();
+  await page.getByRole('link', { name: 'Yellow Garden, inicio' }).click();
   await expect(page.locator('main')).toHaveAttribute('data-stage', 'INTRO');
   expect(
     await page.evaluate(

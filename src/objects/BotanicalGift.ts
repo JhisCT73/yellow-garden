@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { gardenConfig } from '../config/garden.config';
 
 function ribbonStrip(points: THREE.Vector3[], width: number) {
   const curve = new THREE.CatmullRomCurve3(points);
@@ -99,26 +100,46 @@ export function createBotanicalGift() {
 
   const canvas = document.createElement('canvas');
   canvas.width = 768;
-  canvas.height = 512;
+  canvas.height = 1024;
   const context = canvas.getContext('2d');
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
+  const illustration = document.createElement('canvas');
+  illustration.width = 768;
+  illustration.height = 1024;
+  const illustrationContext = illustration.getContext('2d');
+  const illustrationTexture = new THREE.CanvasTexture(illustration);
+  illustrationTexture.colorSpace = THREE.SRGBColorSpace;
   function paint(image?: HTMLImageElement) {
     if (!context) return;
     context.fillStyle = '#fff8e7';
-    context.fillRect(0, 0, 768, 512);
-    if (image) context.drawImage(image, 0, 0, 768, 512);
+    context.fillRect(0, 0, 768, 1024);
+    illustrationContext?.clearRect(0, 0, 768, 1024);
+    if (illustrationContext) {
+      illustrationContext.fillStyle = '#fff8e7';
+      illustrationContext.fillRect(0, 0, 768, 1024);
+      if (image)
+        illustrationContext.drawImage(image, 0, 0, 720, 1024, 0, 0, 768, 1024);
+      illustrationContext.strokeStyle = '#b19a53';
+      illustrationContext.strokeRect(28, 28, 712, 968);
+    }
     context.strokeStyle = '#b19a53';
     context.lineWidth = 2;
-    context.strokeRect(26, 26, 716, 460);
-    context.strokeRect(34, 34, 700, 444);
+    context.strokeRect(26, 26, 716, 972);
+    context.strokeRect(34, 34, 700, 956);
     context.textAlign = 'center';
     context.fillStyle = '#716034';
     context.font = 'italic 88px Georgia';
-    context.fillText('Para ti', 420, 275);
+    context.fillText('Para ti', 384, 455);
     context.font = '22px Georgia';
-    context.fillText('UN POQUITO DE PRIMAVERA', 420, 350);
+    context.fillText('UN POQUITO DE PRIMAVERA', 384, 530);
+    context.beginPath();
+    context.arc(384, 755, 62, 0, Math.PI * 2);
+    context.stroke();
+    context.font = 'italic 30px Georgia';
+    context.fillText(gardenConfig.date, 384, 765);
     texture.needsUpdate = true;
+    illustrationTexture.needsUpdate = true;
   }
   paint();
   const paperImage = new Image();
@@ -136,18 +157,29 @@ export function createBotanicalGift() {
   });
   const card = new THREE.Group();
   const backing = new THREE.Mesh(
-    new THREE.BoxGeometry(0.96, 0.64, 0.016),
+    new THREE.BoxGeometry(0.74, 0.96, 0.035),
     paper,
   );
   const hinge = new THREE.Group();
-  hinge.position.x = -0.48;
+  backing.position.x = 0.37;
   const cover = new THREE.Mesh(
-    new THREE.PlaneGeometry(0.96, 0.64),
+    new THREE.PlaneGeometry(0.72, 0.94),
     coverMaterial,
   );
-  cover.position.set(0.48, 0, 0.018);
-  hinge.add(cover);
-  card.add(backing, hinge);
+  cover.position.set(0.37, 0, 0.02);
+  const leftBacking = new THREE.Mesh(backing.geometry, paper);
+  leftBacking.position.x = -0.37;
+  const leftPage = new THREE.Mesh(
+    cover.geometry,
+    new THREE.MeshStandardMaterial({
+      map: illustrationTexture,
+      roughness: 0.92,
+      side: THREE.DoubleSide,
+    }),
+  );
+  leftPage.position.set(-0.37, 0, 0.022);
+  hinge.add(leftBacking, leftPage);
+  card.add(backing, cover, hinge);
   root.add(card);
 
   return {
@@ -159,6 +191,7 @@ export function createBotanicalGift() {
     dispose() {
       paperImage.onload = null;
       texture.dispose();
+      illustrationTexture.dispose();
     },
     update(
       gather: number,
@@ -185,8 +218,8 @@ export function createBotanicalGift() {
         0.08 + reveal * 2.42,
       );
       card.rotation.set(-0.04, -0.08 * reveal, -0.055 * reveal);
-      card.scale.setScalar(0.5 + reveal * 1.7);
-      hinge.rotation.y = -open * 1.5;
+      card.scale.setScalar(0.5 + reveal);
+      hinge.rotation.y = 0.2 + (1 - reveal) * 2.8 + open * 0.08;
     },
   };
 }

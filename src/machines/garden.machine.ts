@@ -23,6 +23,7 @@ export const gardenMachine = setup({
         | 'EXPLORE'
         | 'LAST_SURPRISE'
         | 'SURPRISE_READY'
+        | 'REST'
         | 'RESTART';
     },
   },
@@ -67,9 +68,12 @@ export const gardenMachine = setup({
     },
     TEXT_FORMING: { on: { MESSAGE_READY: 'TEXT_READY' } },
     TEXT_READY: { on: { EXPLORE: 'FREE_EXPLORE' } },
-    FREE_EXPLORE: { on: { START_WIND: 'WIND', LAST_SURPRISE: 'SECRET_BLOOM' } },
+    FREE_EXPLORE: {
+      on: { START_WIND: 'WIND', LAST_SURPRISE: 'SECRET_BLOOM', REST: 'BENCH' },
+    },
     SECRET_BLOOM: { on: { SURPRISE_READY: 'SECRET_READY' } },
-    SECRET_READY: { on: { EXPLORE: 'FREE_EXPLORE' } },
+    SECRET_READY: { on: { EXPLORE: 'FREE_EXPLORE', REST: 'BENCH' } },
+    BENCH: { on: { EXPLORE: 'FREE_EXPLORE' } },
     FINALE: {
       on: {
         CLOSE_CARD: [
@@ -101,6 +105,7 @@ export type GardenStage =
   | 'TEXT_READY'
   | 'SECRET_BLOOM'
   | 'SECRET_READY'
+  | 'BENCH'
   | 'FREE_EXPLORE';
 
 export type SceneCompletion =

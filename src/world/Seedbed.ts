@@ -14,8 +14,8 @@ export function createSeedbed(seed: string) {
   const color = new THREE.Color();
   for (let i = 0; i < stones.count; i++) {
     const angle = random() * Math.PI * 2;
-    const radius = 0.23 + Math.pow(random(), 0.7) * 4;
-    const scale = 0.007 + random() * 0.027;
+    const radius = 0.23 + Math.pow(random(), 0.7) * (i < 350 ? 1.5 : 4);
+    const scale = 0.007 + random() ** 2 * 0.043;
     dummy.position.set(
       Math.cos(angle) * radius,
       scale * 0.1,

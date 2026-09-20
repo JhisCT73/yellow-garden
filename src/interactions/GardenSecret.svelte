@@ -62,6 +62,7 @@
   >
   <span class="terminal-label">UN SECRETO ENTRE LAS FLORES</span>
   <h2 id="secret-heading">La raíz de todo.</h2>
+  <p class="terminal-intro">Un pequeño extra para los curiosos.</p>
   <pre>&gt; inspect garden
 
 flowers .......... {flowers}
@@ -100,11 +101,20 @@ happiness ........ {happy ? 'found' : 'pending'}</pre>
     touch-action: manipulation;
   }
   .garden-terminal {
-    background: #0d1520;
+    background: #08110ff5;
     color: #fff8e7;
-    border-color: #827441;
+    border-color: #3e6b58;
     text-align: left;
     padding: 38px 30px 24px;
+    width: min(560px, calc(100% - 32px));
+    box-shadow: 0 24px 100px #000b;
+  }
+  .garden-terminal::backdrop {
+    background: #030910c9 url('/textures/night-garden.jpg') center / cover;
+  }
+  .terminal-intro {
+    color: #91ad9f;
+    font-size: 14px;
   }
   .garden-terminal .close-card {
     color: #bdc0be;
@@ -112,25 +122,28 @@ happiness ........ {happy ? 'found' : 'pending'}</pre>
   .terminal-label {
     font-size: 11px;
     letter-spacing: 1.8px;
-    color: #d6bd72;
+    color: #77c6a2;
   }
   .garden-terminal h2 {
     font:
       32px Georgia,
       serif;
-    margin: 20px 0 25px;
+    margin: 20px 0 10px;
   }
   pre {
     font:
       14px/1.8 Consolas,
       monospace;
-    color: #c3cfc3;
+    color: #9fc6b4;
+    border-block: 1px solid #254a3b;
+    padding: 20px 0;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
   }
   .execute {
-    background: #ffd84d;
-    color: #202114;
+    background: #112b20;
+    color: #9fe8c3;
+    border: 1px solid #437259;
     padding: 14px 16px;
     margin-top: 10px;
     font:
@@ -147,7 +160,7 @@ happiness ........ {happy ? 'found' : 'pending'}</pre>
     font-size: 13px;
   }
   .garden-terminal .secret-success {
-    color: #ffdf65;
+    color: #a8f5cf;
     font:
       16px/1.7 Consolas,
       monospace;
