@@ -211,3 +211,11 @@ Anterior, Pausar y Siguiente pasan al costado derecho en columna. En móvil se c
 Cormorant Garamond para títulos y Allura para acentos manuscritos, servidas desde public/fonts con sus licencias OFL. Los botones mantienen la tipografía de interfaz. Revisadas capturas reales 1294 × 856 y 390 × 844: docs/lateral-desktop.png y docs/lateral-mobile.png. El banco, la frase superior y los botones inferiores quedan despejados.
 
 final result: passed
+
+## Última escena — lago en 3D
+
+Referencia: segunda imagen adjunta del usuario (banco frente al lago, faroles, luna, flores y árbol lateral). Implementados esos elementos con mallas, luces y shaders. El paisaje previo raster se oculta al entrar en BENCH. Las nubes y el agua se mueven lentamente; el reloj se detiene con pausa y movimiento reducido.
+
+Capturas reales: docs/lakeside-desktop.png y docs/lakeside-mobile.png. Revisión de controles y texto en 1294 × 856 y 390 × 844. Ajustada la luna en móvil para separarla de la columna de navegación. P3: la vegetación, las montañas y los materiales mantienen un acabado estilizado, bastante menos fotográfico que la referencia; no se presenta como réplica. El cartel del árbol no se reprodujo.
+
+final result: passed

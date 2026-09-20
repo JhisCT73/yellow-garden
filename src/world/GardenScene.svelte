@@ -7,6 +7,7 @@
   import { createBouquetFoliage } from './BouquetFoliage';
   import { createOpeningLight } from './OpeningLight';
   import { createSeedGeometry } from './SeedGeometry';
+  import { createBenchEnvironment } from './BenchEnvironment';
   import { createGardenBench } from './GardenBench';
   import { createSoilGeometry } from './SoilGeometry';
   import { seededRandom } from '../utils/random';
@@ -135,6 +136,10 @@
   const flowers = createFlowers(initialSeed, gardenConfig.flowerCount);
   const openingLight = createOpeningLight();
   const bench = createGardenBench();
+  const benchEnvironment = createBenchEnvironment(
+    untrack(() => seed),
+    soil,
+  );
   const bud = new THREE.Mesh(
     new THREE.SphereGeometry(0.36, 16, 12),
     new THREE.MeshStandardMaterial({ color: '#709144', roughness: 0.65 }),
@@ -305,6 +310,7 @@
       flowers.root,
       openingLight.root,
       bench,
+      benchEnvironment.root,
       meadow,
       seedMesh,
       halo,
@@ -754,6 +760,8 @@
       material.depthWrite = !transparent;
     }
     bench.visible = stage === 'BENCH';
+    benchEnvironment.update(stage === 'BENCH', time, size.current.width < 720);
+    meadow.visible = stage !== 'BENCH';
     flowers.root.visible = finale.fade < 0.999 && stage !== 'BENCH';
     gift.root.visible = gift.root.visible && finale.fade < 0.999;
     heart.points.visible = finale.opacity > 0;
@@ -777,7 +785,8 @@
       !reducedMotion,
     );
     backdrop.visible = seedbed.dust.visible;
-    landscape.visible = !seedbed.dust.visible && gardenReveal.value > 0;
+    landscape.visible =
+      stage !== 'BENCH' && !seedbed.dust.visible && gardenReveal.value > 0;
     landscape.material.opacity =
       gardenReveal.value * (1 - finale.opacity * 0.35);
     soilSurface.opacity = 1 - gardenReveal.value * 0.9;

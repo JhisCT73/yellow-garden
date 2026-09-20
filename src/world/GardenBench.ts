@@ -7,6 +7,24 @@ export function createGardenBench() {
     color: '#503621',
     roughness: 0.88,
   });
+  wood.onBeforeCompile = (shader) => {
+    shader.vertexShader =
+      'varying vec3 woodPosition;\n' +
+      shader.vertexShader.replace(
+        '#include <begin_vertex>',
+        '#include <begin_vertex>\nwoodPosition=position;',
+      );
+    shader.fragmentShader =
+      'varying vec3 woodPosition;\n' +
+      shader.fragmentShader.replace(
+        '#include <color_fragment>',
+        `#include <color_fragment>
+      float grain=sin(woodPosition.y*480.+sin(woodPosition.x*3.7)*2.+sin(woodPosition.x*17.)*.7);
+      float weather=sin(woodPosition.x*31.+woodPosition.y*55.)*.05;
+      diffuseColor.rgb*=.82+grain*.12+weather;
+    `,
+      );
+  };
   const iron = new THREE.MeshStandardMaterial({
     color: '#17232b',
     metalness: 0.65,
@@ -39,18 +57,6 @@ export function createGardenBench() {
     arm.position.set(x, 0.96, 0);
     root.add(arm);
   }
-  const ground = new THREE.Mesh(
-    new THREE.CircleGeometry(2.1, 48),
-    new THREE.MeshBasicMaterial({
-      color: '#0d1512',
-      transparent: true,
-      opacity: 0.7,
-      depthWrite: false,
-    }),
-  );
-  ground.rotation.x = -Math.PI / 2;
-  ground.position.y = -0.03;
-  root.add(ground);
   const light = new THREE.PointLight('#ffd785', 7, 5);
   light.position.set(-0.5, 2.4, 1.4);
   root.add(light);

@@ -186,3 +186,9 @@ GitHub Pages está preparado mediante workflow, pero no se publicó: la sesión 
 ## Controles laterales y tipografía
 
 Build correcto; rutas de fuentes relativas comprobadas en dist. Dos pruebas de ramo, arrastre de cinta y carta aprobadas (escritorio y móvil emulado). Revisión visual en 1294 × 856 y 390 × 844. No se modificó la lógica de recorrido. Fuentes locales con licencias OFL; no requieren conexión durante la visita.
+
+## Entorno 3D del cierre
+
+- Tipos sin errores/advertencias, lint y build correctos; advertencia de tamaño de Three conservada.
+- 4/4 pruebas del banco aprobadas: entrada/salida/reinicio y comparación de capturas del canvas durante pausa y tras reanudar, tanto en escritorio como móvil emulado. Consola sin errores de shaders durante esas pruebas.
+- Ajuste posterior de encuadre de la luna para móvil verificado visualmente. Movimiento reducido usa el reloj inmóvil existente. Sin medición nueva en hardware físico: los nuevos objetos pueden aumentar el coste de renderizado.

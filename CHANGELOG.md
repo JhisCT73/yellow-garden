@@ -124,3 +124,9 @@ Primera implementación del recorrido semilla → crecimiento → floración →
 
 - Navegación en columna a la derecha, con adaptación móvil.
 - Tipografías locales Cormorant Garamond y Allura con licencias OFL incluidas; controles con tipografía legible.
+
+## Entorno final del lago
+
+- Sustituido el paisaje plano del cierre por un entorno con geometría, cielo procedural, nubes animadas, lago, montañas, pinos, flores, cercas y faroles.
+- Vetas de madera en el banco y luces cálidas en el sendero.
+- Animación vinculada a pausa y movimiento reducido. Interpretación 3D estilizada de la nueva referencia; no réplica fotográfica.

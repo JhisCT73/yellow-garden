@@ -111,3 +111,9 @@ Las pruebas E2E se ejecutan en un worker para evitar competencia entre contextos
 `content/journey.ts` define las 12 etapas y agrupa estados transitorios bajo la misma etapa visible. El evento tipado `NAVIGATE` permite revisitar inicios de capítulo. App mantiene el máximo visitado, modo, pausa y revisión de navegación; el timer automático se destruye al cambiar de estado, modo, pausa o visibilidad.
 
 GardenScene restaura las variables de crecimiento, ramo, carta y partículas al cambiar la revisión de navegación, antes de iniciar las animaciones del destino. Mata sus propios tweens y conserva el canvas. La pausa actúa solo sobre tweens de los objetos de esta escena y sobre el bucle de actualización, sin pausar globalmente GSAP. El mapa usa un dialog modal nativo y devuelve el foco al disparador.
+
+## Entorno del lago — escena final
+
+La escena BENCH ahora tiene un entorno propio en Three.js: cielo procedural y capas de nubes con desplazamiento, luna esférica, tres cordilleras con geometría, lago con ondas y reflejo estilizado, pinos instanciados, árbol lateral, flores y vegetación baja, vallas y faroles con luces puntuales. El banco conserva su malla y añade vetas procedurales. La textura de suelo existente se reutiliza para terreno y madera de la valla.
+
+Solo se muestra al llegar al banco. El paisaje raster anterior queda oculto en esa etapa. Todas las animaciones nuevas usan el reloj de GardenScene: pausa, pestaña oculta y movimiento reducido conservan el comportamiento existente. Geometrías y materiales quedan bajo el recorrido de limpieza habitual.
