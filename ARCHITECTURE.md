@@ -67,3 +67,7 @@ El único consumidor de GSAP de la aplicación desactiva lag smoothing durante e
 ## Materiales florales (0.12.1)
 
 Los pétalos usan MeshPhysicalMaterial con rugosidad 0.78, sheen 0.25 y emisión reducida. El gradiente de girasol sigue horneado por vértice; las margaritas desactivan vertexColors para preservar el crema. No se cambia la exposición global, conservando la iluminación de tarjeta y fondo. No se añaden geometrías ni texturas en esta pasada.
+
+## Composición del ramo (0.13)
+
+`BouquetLayout` fija cuatro posiciones focales de girasol y conserva la distribución determinista de acompañamiento. `BouquetSystem` interpola hacia tamaños finales de cabeza independientes del tamaño original de jardín y compensa la escala del tallo. El tamaño de los dos protagonistas converge a 0.68, el de los girasoles secundarios a 0.46; las inclinaciones varían sin añadir geometrías ni trabajo de asignación por frame.

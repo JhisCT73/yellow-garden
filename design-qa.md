@@ -113,3 +113,13 @@ Los pétalos muestran un dorado más saturado, con base ámbar y centro marrón 
 P3 pendientes: la flor principal continúa demasiado frontal respecto de la referencia; sigue faltando iluminación volumétrica y detalle fotográfico en los materiales. Esta pasada aprueba color, encuadre y progresión del alcance, no equivalencia fotográfica. El coste del nuevo material físico requiere medición en hardware móvil real.
 
 final result: passed
+
+## Séptima pasada: composición (0.13)
+
+Fuente actual: `C:/Users/Zyxer/AppData/Local/Temp/codex-clipboard-8c1a19dd-0dff-42b9-9a11-4a1fb82245af.png`, reenviada por el usuario. Se toma la escena 06 como objetivo de esta pasada. Comparación conjunta abierta: `docs/arrangement-comparison.png`. Capturas de escritorio 1013 × 761 y móvil 390 × 844; la viñeta fuente y la interfaz completa conservan sus proporciones distintas.
+
+Se corrige el dominio excesivo del girasol superior: dos protagonistas de tamaño parecido forman una diagonal, con cabezas secundarias más pequeñas y orientaciones distintas. El follaje y las flores pequeñas quedan más visibles entre los protagonistas. Ramo completo y cinta despejada en ambos tamaños; tarjeta visible tras el desatado en móvil. Tipografía, colores e interfaz conservan la pasada anterior.
+
+P3 pendientes: materiales todavía estilizados, tallos y hojas menos orgánicos que la referencia e iluminación sin volumen fotográfico. El tablero completo contiene otras escenas cuya fidelidad no se certifica en esta pasada. Aprueba composición, encuadre y transición del alcance revisado; no equivalencia pixel a pixel.
+
+final result: passed

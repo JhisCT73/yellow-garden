@@ -63,3 +63,9 @@ Primera implementación del recorrido semilla → crecimiento → floración →
 
 - Gradiente ámbar a amarillo dorado en los pétalos, emisión reducida y acabado rugoso con brillo rasante suave.
 - Margaritas crema independientes del gradiente del girasol, semillas más oscuras y hojas de verde más profundo.
+
+## 0.13.0 — Composición asimétrica del ramo
+
+- Dos girasoles principales de tamaño comparable, escalonados en diagonal; flores secundarias de menor tamaño.
+- Orientaciones más variadas y profundidad entre cabezas florales, conservando la transición desde el jardín.
+- Comparación con la referencia reenviada por el usuario y revisión móvil del ramo y tarjeta.

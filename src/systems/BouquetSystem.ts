@@ -22,6 +22,12 @@ export function createBouquetSystem(flowers: Flowers, seed: string) {
         direction.clone().normalize(),
       ),
       scale: direction.length() / flower.item.height,
+      headSize:
+        index === 0 || index === 3
+          ? 0.68
+          : flower.species === 'sunflower'
+            ? 0.46
+            : flower.item.size * 0.78,
       headRotation: flower.head.quaternion.clone(),
     };
   });
@@ -46,16 +52,21 @@ export function createBouquetSystem(flowers: Flowers, seed: string) {
         const scale = THREE.MathUtils.lerp(1, target.scale, t);
         flower.group.scale.multiplyScalar(scale);
         flower.head.scale.multiplyScalar(
-          THREE.MathUtils.lerp(1, index === 0 ? 1 : 0.78, t) / scale,
+          THREE.MathUtils.lerp(1, target.headSize / flower.item.size, t) /
+            scale,
         );
         flower.leaves.forEach((leaf) =>
           leaf.scale.setScalar(THREE.MathUtils.lerp(1, 0.62, t)),
         );
         inverse.copy(target.rotation).invert();
         angle.set(
-          -0.12 + (index % 3) * 0.12,
-          Math.sin(index * 2.4) * 0.3,
-          Math.sin(index) * 0.12,
+          index === 0 ? -0.28 : -0.2 + (index % 3) * 0.18,
+          index === 0
+            ? 0.32
+            : index === 3
+              ? -0.32
+              : Math.sin(index * 2.4) * 0.48,
+          index === 0 ? -0.16 : Math.sin(index + 0.7) * 0.23,
         );
         face.setFromEuler(angle);
         inverse.multiply(face);

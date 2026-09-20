@@ -118,3 +118,10 @@ GitHub Pages está preparado mediante workflow, pero no se publicó: la sesión 
 - Recarga y recorrido manual de plantar a jardín y ramo. Capturas de escritorio 1013 × 761 y móvil emulado 390 × 844; sin errores nuevos en consola.
 - Evidencia: `golden-bouquet-desktop.png`, `golden-bouquet-mobile.png`, `golden-comparison.png`.
 - No se repitieron los finales ni la suite E2E completa. El material físico añade coste de sombreado; no se ha medido rendimiento en dispositivo físico.
+
+## 0.13.0 — Composición del ramo
+
+- Tipos sin errores ni advertencias, lint correcto, 18 pruebas correctas y build correcto; permanece el aviso de tamaño de Three.
+- Recarga y recorrido manual: plantar, jardín, reunión del ramo, desatar por atajo y tarjeta. Sin errores nuevos de consola.
+- Ramo completo en escritorio 1013 × 761 y móvil emulado 390 × 844. Tarjeta visible y controles despejados en móvil.
+- Capturas: `arrangement-desktop.png`, `arrangement-mobile.png`, `arrangement-comparison.png`. No se repitieron finales, suite E2E completa ni mediciones en teléfono físico.
