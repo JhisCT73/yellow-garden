@@ -75,3 +75,7 @@ Los pétalos usan MeshPhysicalMaterial con rugosidad 0.78, sheen 0.25 y emisión
 ## Distribución del corazón (0.14)
 
 `heartCloud` construye una silueta poligonal de 128 puntos y usa muestreo uniforme por rechazo en su interior. Este trabajo se realiza al crear la escena, no por frame. La profundidad conserva valores aleatorios reproducibles. El shader varía el tamaño del destello a partir de su destino y converge al tamaño del texto durante lettering. Se conserva la cantidad de 1800 partículas.
+
+## Halo de partículas (0.14.1)
+
+El shader aumenta el área del sprite hasta 2.6 veces durante la formación del corazón, compensando el radio del núcleo para conservar su tamaño. Una caída exponencial con borde suavizado añade el halo. La intensidad depende de formation y de 1 - lettering. Se conservan 1800 partículas y una sola llamada de dibujo; aumenta el área de fragmentos sombreados y su coste no se ha medido en móvil físico.

@@ -133,3 +133,13 @@ Corregidos el eje central excesivamente brillante y el borde de puntos regulares
 P3: la referencia presenta mayor halo luminoso y dispersión alrededor de la silueta; la implementación conserva un borde más limpio. Esta pasada aprueba distribución, encuadre y transición del alcance, no equivalencia fotográfica. No aumenta la cantidad de partículas.
 
 final result: passed
+
+## Novena pasada: halo (0.14.1)
+
+Referencia: escena 11 del tablero reenviado. Comparación conjunta abierta: `docs/heart-halo-comparison.png`, con proporciones originales de la viñeta y captura de interfaz completa. Escritorio 1013 × 761 y móvil 390 × 844.
+
+Los destellos ganan núcleo cálido y resplandor suave alrededor sin perder la silueta. Se verificó la transición a texto: el halo disminuye y el mensaje sigue legible en móvil. Interfaz, tipografía, encuadre y paisaje se mantienen. Sin errores nuevos de consola.
+
+P3: la referencia concentra más luz alrededor del contorno y dispersa destellos fuera de él; la interpretación actual mantiene un relleno más uniforme. Aprueba brillo, encuadre y transición del alcance, no equivalencia fotográfica. La ampliación de sprites requiere más trabajo de fragmentos, pendiente de medir en hardware móvil real.
+
+final result: passed

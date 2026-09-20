@@ -60,11 +60,16 @@ export function createHeartFormation(seed: string, count: number, dpr: number) {
         vec4 mv=modelViewMatrix*vec4(p,1.); gl_Position=projectionMatrix*mv;
         sparkle=mix(.65+.35*sin(heart.x*30.+heart.y*20.+time*motion),1.,lettering);
         float grain=fract(sin(dot(heart.xy,vec2(12.9898,78.233)))*43758.5453);
-        gl_PointSize=clamp(mix(mix(28.,100.,grain*grain),58.,lettering)/-mv.z,1.5,11.)*dpr;
+        float halo=formation*(1.-lettering);
+        gl_PointSize=clamp(mix(mix(28.,100.,grain*grain),58.,lettering)/-mv.z,1.5,11.)*dpr*mix(1.,2.6,halo);
       }`,
-    fragmentShader: `uniform float opacity; varying float sparkle;
+    fragmentShader: `uniform float opacity, formation, lettering; varying float sparkle;
       void main(){ float r=length(gl_PointCoord-.5)*2.; if(r>1.)discard;
-        float glow=pow(1.-r,1.4); gl_FragColor=vec4(1.,.63+.16*sparkle,.18,glow*opacity*sparkle); }`,
+        float halo=formation*(1.-lettering);
+        float core=pow(max(0.,1.-r*mix(1.,2.6,halo)),1.4);
+        float haze=exp(-r*r*5.)*(1.-smoothstep(.7,1.,r))*.16*halo;
+        vec3 gold=mix(vec3(1.,.53,.12),vec3(1.,.84,.43),core);
+        gl_FragColor=vec4(gold,(core+haze)*opacity*sparkle); }`,
   });
   const points = new THREE.Points(geometry, material);
   points.frustumCulled = false;

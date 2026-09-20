@@ -132,3 +132,9 @@ GitHub Pages está preparado mediante workflow, pero no se publicó: la sesión 
 - Nueva prueba de regresión: proporción de partículas del eje central y equilibrio izquierda/derecha sobre 6000 muestras reproducibles; siguen pasando límites y profundidad.
 - Navegador: jardín, viento por atajo, corazón y transformación en mensaje. Corazón revisado en 1013 × 761 y móvil emulado 390 × 844; mensaje legible en móvil. Sin errores nuevos de consola.
 - Capturas `heart-cloud-desktop.png`, `heart-cloud-mobile.png` y `heart-cloud-comparison.png`. No se ejecutó la suite E2E completa ni se midió rendimiento físico.
+
+## 0.14.1 — Halo
+
+- Tipos sin errores/advertencias, lint correcto, 19 pruebas y build correctos. Persiste aviso de tamaño del chunk Three.
+- Navegador: recorrido desde semilla a jardín, viento por atajo, corazón y mensaje. Corazón revisado en escritorio 1013 × 761 y móvil emulado 390 × 844; mensaje móvil legible y sin errores nuevos de consola.
+- Capturas `heart-halo-desktop.png`, `heart-halo-mobile.png`, `heart-halo-comparison.png`. No se repitió toda la suite E2E ni se midió rendimiento físico.

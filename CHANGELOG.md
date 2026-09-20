@@ -75,3 +75,8 @@ Primera implementación del recorrido semilla → crecimiento → floración →
 - Distribución uniforme dentro de la silueta, eliminando la concentración vertical del muestreo radial y el contorno sobredimensionado.
 - Destellos de tamaños variados que recuperan su tamaño uniforme al formar el mensaje.
 - Prueba de regresión para concentración central y equilibrio entre ambas mitades.
+
+## 0.14.1 — Halo cálido del corazón
+
+- Núcleo luminoso y halo ámbar suave en los destellos del corazón, sin partículas adicionales ni pase de postprocesado.
+- El halo disminuye durante la formación del texto para mantener la definición de las letras.
