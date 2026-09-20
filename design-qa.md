@@ -153,3 +153,13 @@ La luz se concentra ahora en una franja irregular del borde y el interior permit
 P3 restante: la referencia dispersa más partículas fuera del contorno y tiene una iluminación ambiental más difusa. La implementación conserva una silueta más definida. Aprueba distribución, encuadre y transición del alcance; no equivalencia fotográfica.
 
 final result: passed
+
+## Undécima pasada: dispersión exterior (0.14.3)
+
+Comparación conjunta abierta: `docs/heart-drift-comparison.png`, escena 11 del tablero reenviado y captura de escritorio 1013 × 761. Se revisó también móvil 390 × 844. Las imágenes conservan sus proporciones distintas.
+
+Los destellos exteriores suavizan el límite con el cielo y conservan una silueta reconocible; son más tenues que el contorno. Se verificaron corazón completo en ambos tamaños y reintegración de partículas en el mensaje móvil. Sin errores nuevos de consola. Tipografía, controles y paisaje se mantienen.
+
+P3: la referencia conserva un halo ambiental más difuso y una distribución menos simétrica. Esta aproximación animada aprueba dispersión, encuadre y transición del alcance, sin certificar equivalencia fotográfica ni rendimiento móvil físico.
+
+final result: passed

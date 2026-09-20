@@ -83,3 +83,7 @@ El shader aumenta el área del sprite hasta 2.6 veces durante la formación del 
 ## Densidad del contorno (0.14.2)
 
 El muestreo por área pondera la aceptación según la distancia mínima a los segmentos del contorno. Una caída exponencial produce una franja suave; una densidad base conserva partículas interiores. El cálculo ocurre al crear la nube, sin añadir operaciones por frame ni usar el muestreo radial que causaba la franja central.
+
+## Destellos exteriores (0.14.3)
+
+Un hash espacial selecciona aproximadamente el 14 % de las partículas para expandirse desde su posición de corazón, con oscilaciones lentas y menor brillo. Se aplica antes de mezclar hacia el mensaje, por lo que lettering elimina el desplazamiento. Las oscilaciones usan el uniforme motion; no se añaden partículas, geometrías ni llamadas de dibujo.

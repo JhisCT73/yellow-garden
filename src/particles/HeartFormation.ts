@@ -51,14 +51,22 @@ export function createHeartFormation(seed: string, count: number, dpr: number) {
     vertexShader: `attribute vec3 scatter; attribute vec3 heart; attribute vec3 message;
       uniform float flight, formation, time, motion, dpr, lettering; varying float sparkle;
       void main(){
+        float dust=fract(sin(dot(heart.xy,vec2(39.346,11.135)))*47453.5453);
+        float wander=step(.86,dust)*formation;
         vec3 p=mix(position,scatter,flight); p=mix(p,heart,formation);
         float pulse=1.+sin(time*1.5)*.022*formation*motion*(1.-lettering);
         p=(p-vec3(0.,2.4,0.))*pulse+vec3(0.,2.4,0.);
         p.z+=sin(time*.5+heart.x*2.)*.07*formation*motion;
+        vec3 outward=vec3(heart.x,heart.y-2.4,0.);
+        p+=outward*(.22+dust*.12)*wander;
+        p.x+=sin(time*.35*motion+dust*53.)*.16*wander;
+        p.y+=(.15+sin(time*.28*motion+dust*31.)*.15)*wander;
+        p.z+=scatter.z*.25*wander;
         p=mix(p,message,lettering);
         p.z+=sin(lettering*3.14159265)*scatter.z*.4*motion;
         vec4 mv=modelViewMatrix*vec4(p,1.); gl_Position=projectionMatrix*mv;
         sparkle=mix(.65+.35*sin(heart.x*30.+heart.y*20.+time*motion),1.,lettering);
+        sparkle*=mix(1.,.65,wander*(1.-lettering));
         float grain=fract(sin(dot(heart.xy,vec2(12.9898,78.233)))*43758.5453);
         float halo=formation*(1.-lettering);
         gl_PointSize=clamp(mix(mix(28.,100.,grain*grain),58.,lettering)/-mv.z,1.5,11.)*dpr*mix(1.,2.6,halo);

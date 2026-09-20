@@ -85,3 +85,8 @@ Primera implementación del recorrido semilla → crecimiento → floración →
 
 - Concentración suave de partículas cerca del borde del corazón, con interior menos denso y silueta irregular.
 - Se mantienen cantidad de partículas, halo y transición hacia el mensaje.
+
+## 0.14.3 — Destellos exteriores
+
+- Una fracción de las partículas se expande alrededor del corazón y flota con menor brillo.
+- Se reintegran al formar el mensaje; el movimiento exterior se congela con movimiento reducido.

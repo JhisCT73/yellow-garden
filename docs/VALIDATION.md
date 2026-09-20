@@ -145,3 +145,9 @@ GitHub Pages está preparado mediante workflow, pero no se publicó: la sesión 
 - Se mantienen pruebas de reproducibilidad, límites, profundidad, equilibrio bilateral y ausencia de concentración central.
 - Recorrido manual semilla, jardín, viento por atajo, corazón y mensaje. Corazón completo en escritorio 1013 × 761 y móvil emulado 390 × 844; mensaje móvil legible. Sin errores nuevos de consola.
 - Evidencia: `heart-contour-desktop.png`, `heart-contour-mobile.png`, `heart-contour-comparison.png`. Suite E2E completa y rendimiento en dispositivo físico no repetidos.
+
+## 0.14.3 — Destellos exteriores
+
+- Tipos sin errores/advertencias, lint, 19 pruebas y build correctos. Persiste aviso de tamaño de Three.
+- Recorrido manual semilla, jardín, viento por atajo, corazón y mensaje. Escritorio 1013 × 761 y móvil emulado 390 × 844; silueta completa y mensaje legible. Sin errores nuevos de consola.
+- Evidencia `heart-drift-desktop.png`, `heart-drift-mobile.png`, `heart-drift-comparison.png`. Movimiento reducido conservado por código, no repetido en navegador; suite E2E completa y rendimiento físico pendientes de nueva ejecución.
