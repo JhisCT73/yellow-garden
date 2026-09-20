@@ -1,37 +1,45 @@
 import { assign, setup } from 'xstate';
+import { journey, type JourneyStage } from '../content/journey';
 
 export const gardenMachine = setup({
   types: {
     context: {} as { cardOrigin: 'GARDEN' | 'CARD_READY' },
-    events: {} as {
-      type:
-        | 'PLANT'
-        | 'GROWN'
-        | 'BLOOMED'
-        | 'GATHER'
-        | 'BOUQUET_READY'
-        | 'UNTIE'
-        | 'CARD_REVEALED'
-        | 'OPEN_CARD'
-        | 'CLOSE_CARD'
-        | 'START_WIND'
-        | 'RELEASE_WIND'
-        | 'SCATTERED'
-        | 'HEART_READY'
-        | 'FORM_MESSAGE'
-        | 'MESSAGE_READY'
-        | 'EXPLORE'
-        | 'LAST_SURPRISE'
-        | 'SURPRISE_READY'
-        | 'REST'
-        | 'RESTART';
-    },
+    events: {} as
+      | {
+          type:
+            | 'PLANT'
+            | 'GROWN'
+            | 'BLOOMED'
+            | 'GATHER'
+            | 'BOUQUET_READY'
+            | 'UNTIE'
+            | 'CARD_REVEALED'
+            | 'OPEN_CARD'
+            | 'CLOSE_CARD'
+            | 'START_WIND'
+            | 'RELEASE_WIND'
+            | 'SCATTERED'
+            | 'HEART_READY'
+            | 'FORM_MESSAGE'
+            | 'MESSAGE_READY'
+            | 'EXPLORE'
+            | 'LAST_SURPRISE'
+            | 'SURPRISE_READY'
+            | 'REST'
+            | 'RESTART';
+        }
+      | { type: 'NAVIGATE'; stage: JourneyStage },
   },
 }).createMachine({
   id: 'garden',
   initial: 'INTRO',
   context: { cardOrigin: 'GARDEN' },
   on: {
+    NAVIGATE: journey.map((step) => ({
+      guard: ({ event }) => event.stage === step.stage,
+      target: `.${step.stage}`,
+      actions: assign({ cardOrigin: 'CARD_READY' as const }),
+    })),
     RESTART: { target: '.INTRO', actions: assign({ cardOrigin: 'GARDEN' }) },
   },
   states: {

@@ -111,3 +111,11 @@ Primera implementación del recorrido semilla → crecimiento → floración →
 - Reinicio del encabezado sin recargar, conservando calidad y cuidado; pruebas actualizadas para el control visible.
 - Nuevo recorrido automatizado del banco y medición reproducible de tiempos de cuadro locales.
 - Publicación aplazada por indicación del usuario.
+
+## 0.17.0 — Recorrido automático y exploración guiada
+
+- Dos modos elegibles al inicio y modificables en el mapa del recorrido.
+- Progreso visible de 12 etapas, mapa con etapas visitadas, anterior/siguiente y reinicio.
+- Pausa de animaciones y avance automático; suspensión al ocultar la pestaña o abrir el mapa.
+- Carta sin límite de lectura, con continuación explícita.
+- Restauración de estado visual al volver a una etapa, sin reconstruir el canvas.

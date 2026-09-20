@@ -25,7 +25,8 @@ test('the bouquet can reach the finale and restarting cancels a particle transit
     .getByRole('button', { name: 'Continuar sin mantener pulsado' })
     .click();
   await expect(page.locator('main')).toHaveAttribute('data-stage', 'BURST');
-  await page.getByRole('link', { name: 'Yellow Garden, inicio' }).click();
+  await page.getByRole('button', { name: 'Abrir tu recorrido' }).click();
+  await page.getByRole('button', { name: 'Reiniciar recorrido' }).click();
   await page.waitForTimeout(2500);
   await expect(page.locator('main')).toHaveAttribute('data-stage', 'INTRO');
 });
@@ -116,7 +117,8 @@ test('keyboard cancellation and reduced-motion completion work without a pointer
     'data-stage',
     'CELEBRATION',
   );
-  await page.getByRole('link', { name: 'Yellow Garden, inicio' }).click();
+  await page.getByRole('button', { name: 'Abrir tu recorrido' }).click();
+  await page.getByRole('button', { name: 'Reiniciar recorrido' }).click();
   await expect(page.locator('main')).toHaveAttribute('data-stage', 'INTRO');
 });
 

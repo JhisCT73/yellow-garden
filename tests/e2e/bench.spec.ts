@@ -30,7 +30,8 @@ test('the closing bench is reachable, returns focus, and can restart', async ({
   );
   await page.getByRole('button', { name: 'Descansar en el jardín' }).click();
   await expect(page.locator('main')).toHaveAttribute('data-stage', 'BENCH');
-  await page.getByRole('link', { name: 'Yellow Garden, inicio' }).click();
+  await page.getByRole('button', { name: 'Abrir tu recorrido' }).click();
+  await page.getByRole('button', { name: 'Reiniciar recorrido' }).click();
   await expect(page.locator('main')).toHaveAttribute('data-stage', 'INTRO');
   expect(errors).toEqual([]);
 });

@@ -78,3 +78,9 @@ Pétalos curvos con variación de orientación y color, hojas con nervaduras y c
 ### Follaje del ramo (0.12)
 
 El ramo incorpora pequeñas flores crema y ramitas con hojas que aparecen durante la reunión y se desvanecen en el final. Comparación con la escena 06: `docs/foliage-comparison.png`. Continúa siendo una interpretación 3D estilizada.
+
+## Recorrido de la historia (0.17)
+
+La bienvenida permite elegir **Ver la historia** o **Explorar a mi ritmo**. El modo automático recorre semilla, crecimiento, flor, jardín, ramo, cinta, carta, viento, corazón, mensaje, gran flor y banco. La carta se abre y espera una acción explícita: **Continuar la historia**. Cerrar con × o Escape deja la carta en su escena; **Siguiente** permite continuar.
+
+**Tu recorrido**, arriba a la izquierda, muestra la etapa actual y abre un mapa de 12 etapas. Permite volver a las visitadas, cambiar de modo y reiniciar. **Anterior / Pausar / Siguiente** permiten navegar sin aprender gestos. La pausa detiene los tweens de esta escena y sus actualizaciones; abrir el mapa o cambiar de pestaña también suspende el avance. Al reanudar, la espera automática entre escenas vuelve a empezar para dar tiempo a orientarse. El sonido conserva su control independiente.

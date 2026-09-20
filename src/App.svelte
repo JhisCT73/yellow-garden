@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount, tick } from 'svelte';
+  import { journey, journeyIndex } from './content/journey';
   import { Canvas } from '@threlte/core';
   import { createActor } from 'xstate';
   import GardenScene from './world/GardenScene.svelte';
@@ -24,13 +25,101 @@
     type QualityLevel,
   } from './systems/PerformanceManager';
   let qualityMode = $state<QualityMode>('auto');
+  let stage = $state<GardenStage>('INTRO');
+  let mode = $state<'guided' | 'auto'>('guided');
+  let paused = $state(false),
+    pageHidden = $state(false),
+    flowOpen = $state(false);
+  let flowDialog: HTMLDialogElement;
+  let flowButton: HTMLButtonElement;
+  let furthest = $state(0),
+    navigation = $state(0),
+    letterRead = $state(false);
+  const stepIndex = $derived(journeyIndex(stage));
+  const playbackPaused = $derived(paused || pageHidden || flowOpen);
+  $effect(() => {
+    if (mode !== 'auto' || playbackPaused || !ready || failed) return;
+    const current = stage;
+    if (
+      ![
+        'GARDEN',
+        'BOUQUET',
+        'CARD_READY',
+        'WIND',
+        'CELEBRATION',
+        'TEXT_READY',
+        'FREE_EXPLORE',
+        'SECRET_READY',
+      ].includes(current)
+    )
+      return;
+    if (current === 'CARD_READY' && letterRead) return;
+    const timer = setTimeout(
+      () => {
+        if (stage !== current) return;
+        if (current === 'GARDEN') gatherFlowers();
+        else if (current === 'BOUQUET') untie();
+        else if (current === 'CARD_READY') void openCard();
+        else if (current === 'WIND') releaseWind();
+        else if (current === 'CELEBRATION') formMessage();
+        else if (current === 'TEXT_READY') explore();
+        else if (current === 'FREE_EXPLORE') lastSurprise();
+        else if (current === 'SECRET_READY') void rest();
+      },
+      current === 'FREE_EXPLORE' ? 500 : current === 'CARD_READY' ? 1800 : 4500,
+    );
+    return () => clearTimeout(timer);
+  });
+  function showJourney() {
+    flowOpen = true;
+    flowDialog.showModal();
+  }
+  function closeJourney() {
+    flowDialog.close();
+    flowOpen = false;
+    flowButton?.focus();
+  }
+  async function visitStep(index: number) {
+    if (index < 0 || index >= journey.length) return;
+    if (flowOpen) closeJourney();
+    if (dialog?.open) dialog.close();
+    message = '';
+    clearTimeout(messageTimeout);
+    ribbonPull = 0;
+    windCharge = 0;
+    letterRead = false;
+    hasBouquet = index >= 4 && index <= 7;
+    paused = false;
+    navigation += 1;
+    actor.send({ type: 'NAVIGATE', stage: journey[index].stage });
+    await tick();
+    flowButton?.focus({ preventScroll: true });
+  }
+  function nextStep() {
+    if (stage === 'INTRO') plant();
+    else if (stage === 'GARDEN') gatherFlowers();
+    else if (stage === 'BOUQUET') untie();
+    else if (stage === 'CARD_READY' && !letterRead) void openCard();
+    else if (stage === 'CARD_READY') startWind();
+    else if (stage === 'WIND') releaseWind();
+    else if (stage === 'CELEBRATION') formMessage();
+    else if (stage === 'TEXT_READY') {
+      explore();
+      lastSurprise();
+    } else if (stage === 'FREE_EXPLORE') lastSurprise();
+    else if (stage === 'SECRET_READY') void rest();
+    else void visitStep(stepIndex + 1);
+  }
+  function continueLetter() {
+    closeCard();
+    startWind();
+  }
   let qualityLevel = $state<QualityLevel>(
     initialQuality(navigator.hardwareConcurrency || 4),
   );
   let care = $state<GardenCare>('light');
 
   const actor = createActor(gardenMachine);
-  let stage = $state<GardenStage>('INTRO');
   let mounted = $state(false),
     ready = $state(false),
     failed = $state(false);
@@ -101,14 +190,17 @@
     mounted = true;
     const subscription = actor.subscribe((snapshot) => {
       stage = snapshot.value as GardenStage;
+      furthest = Math.max(furthest, journeyIndex(stage));
     });
     actor.start();
     const visibility = () => {
+      pageHidden = document.hidden;
       if (document.hidden) {
         audio.mute();
         muted = true;
       }
     };
+    visibility();
     document.addEventListener('visibilitychange', visibility);
     return () => {
       subscription.unsubscribe();
@@ -165,6 +257,7 @@
     dialog.showModal();
   }
   function closeCard() {
+    letterRead = true;
     dialog.close();
     actor.send({ type: 'CLOSE_CARD' });
     cardButton?.focus();
@@ -222,6 +315,9 @@
       exploreButton?.focus({ preventScroll: true });
   }
   function restart() {
+    paused = false;
+    letterRead = false;
+    furthest = 0;
     message = '';
     discovered = [];
     nextFlower = 0;
@@ -243,6 +339,8 @@
   class:finale-mode={isFinale}
   class:cinematic-opening={!failed}
   data-stage={stage}
+  data-mode={mode}
+  data-paused={playbackPaused}
   data-care={care}
   data-quality={qualityLevel}
 >
@@ -256,6 +354,8 @@
         <Canvas>
           <GardenScene
             {stage}
+            {navigation}
+            paused={playbackPaused}
             {seed}
             {reducedMotion}
             {care}
@@ -294,15 +394,18 @@
           onfound={() => audio.chime(4)}
         />
       {:else}<span class="brand-symbol">✳</span>{/if}
-      <a
-        class="wordmark"
-        href="./"
-        aria-label="Yellow Garden, inicio"
-        onclick={(event) => {
-          event.preventDefault();
-          restart();
-        }}>yellow garden<span class="brand-dot">.</span></a
+      <button
+        class="journey-trigger"
+        bind:this={flowButton}
+        onclick={showJourney}
+        aria-haspopup="dialog"
+        aria-label="Abrir tu recorrido"
       >
+        <strong>Tu recorrido</strong><span
+          >{stepIndex + 1} de {journey.length} · {journey[stepIndex]
+            .title}</span
+        >
+      </button>
     </div>
     <span class="edition">UNA PEQUEÑA CELEBRACIÓN DE LA PRIMAVERA</span>
     <div class="header-controls">
@@ -332,6 +435,36 @@
     </div>
   </header>
 
+  {#if !failed && stage !== 'INTRO'}
+    <nav class="journey-controls" aria-label="Controles del recorrido">
+      <p aria-live="polite">{journey[stepIndex].hint}</p>
+      <div>
+        <button onclick={() => visitStep(stepIndex - 1)}>Anterior</button>
+        <button
+          aria-pressed={paused}
+          onclick={() => {
+            paused = !paused;
+          }}>{paused ? 'Reanudar' : 'Pausar'}</button
+        >
+        <button
+          disabled={stepIndex === journey.length - 1}
+          onclick={() => {
+            paused = false;
+            nextStep();
+          }}>Siguiente</button
+        >
+      </div>
+      <span
+        >{paused
+          ? 'Recorrido en pausa'
+          : mode === 'auto'
+            ? stage === 'CARD_READY' && letterRead
+              ? 'Pulsa Siguiente para continuar'
+              : 'Historia automática'
+            : 'A tu ritmo'}</span
+      >
+    </nav>
+  {/if}
   <section class="story" aria-label="Tu jardín">
     <div class="eyebrow">
       <span></span>
@@ -353,8 +486,26 @@
     {:else if stage === 'INTRO'}
       <h1>Un pequeño <em>comienzo.</em></h1>
       <p>Tengo algo para ti. Todo empieza con esta semilla.</p>
+      <fieldset class="journey-modes">
+        <legend>¿Cómo quieres vivirlo?</legend>
+        <label
+          ><input type="radio" bind:group={mode} value="auto" />Ver la historia<span
+            >Avanza automáticamente; tú decides cuándo cerrar la carta.</span
+          ></label
+        >
+        <label
+          ><input type="radio" bind:group={mode} value="guided" />Explorar a mi
+          ritmo<span
+            >Interactúa o usa Siguiente. Siempre sabrás dónde estás.</span
+          ></label
+        >
+      </fieldset>
       <button class="primary" onclick={plant} disabled={!ready}>
-        {ready ? 'Plantar mi semilla' : 'Preparando tu jardín…'}
+        {ready
+          ? mode === 'auto'
+            ? 'Comenzar la historia'
+            : 'Plantar mi semilla'
+          : 'Preparando tu jardín…'}
         <span>↗</span></button
       >
       <CareChoice bind:value={care} />
@@ -589,6 +740,51 @@
 </main>
 
 <dialog
+  class="journey-dialog"
+  bind:this={flowDialog}
+  aria-labelledby="journey-title"
+  oncancel={(event) => {
+    event.preventDefault();
+    closeJourney();
+  }}
+>
+  <button
+    class="close-card"
+    aria-label="Cerrar recorrido"
+    onclick={closeJourney}>×</button
+  >
+  <h2 id="journey-title">Tu recorrido</h2>
+  <p>Vuelve a una etapa visitada o continúa donde estás.</p>
+  <label class="journey-mode-select"
+    >Modo de recorrido<select bind:value={mode}
+      ><option value="auto">Ver la historia</option><option value="guided"
+        >Explorar a mi ritmo</option
+      ></select
+    ></label
+  >
+  <ol>
+    {#each journey as step, index (step.stage)}<li>
+        <button
+          disabled={index > furthest}
+          aria-current={index === stepIndex ? 'step' : undefined}
+          onclick={() => visitStep(index)}
+          >{String(index + 1).padStart(2, '0')} · {step.title}{index ===
+          stepIndex
+            ? ' · Estás aquí'
+            : ''}</button
+        >
+      </li>{/each}
+  </ol>
+  <button
+    class="text-button"
+    onclick={() => {
+      closeJourney();
+      restart();
+    }}>Reiniciar recorrido</button
+  >
+</dialog>
+
+<dialog
   class="botanical-letter"
   bind:this={dialog}
   oncancel={(event) => {
@@ -606,8 +802,11 @@
     {#each card.paragraphs as paragraph (paragraph)}<p>{paragraph}</p>{/each}
     <p class="card-closing">{card.closing}</p>
     <span class="card-signature">Con un poquito de luz, para ti.</span>
-    <button class="card-return" onclick={closeCard}
-      >Volver a mi jardín <span>↗</span></button
+    <button
+      class="card-return"
+      onclick={mode === 'auto' ? continueLetter : closeCard}
+      >{mode === 'auto' ? 'Continuar la historia' : 'Volver a mi jardín'}
+      <span>↗</span></button
     >
   </div>
 </dialog>

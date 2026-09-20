@@ -29,7 +29,8 @@ test('complete gift, discovery, accessible note and replay', async ({
   await expect(
     page.getByRole('button', { name: 'Una nota para ti' }),
   ).toBeFocused();
-  await page.getByRole('link', { name: 'Yellow Garden, inicio' }).click();
+  await page.getByRole('button', { name: 'Abrir tu recorrido' }).click();
+  await page.getByRole('button', { name: 'Reiniciar recorrido' }).click();
   await expect(page.locator('main')).toHaveAttribute('data-stage', 'INTRO');
   expect(
     await page.evaluate(

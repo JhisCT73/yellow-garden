@@ -80,7 +80,8 @@ test('flowers gather, a short pull resets, and a full pull reveals a readable ca
   await expect(
     page.getByRole('button', { name: 'Leer mi carta' }),
   ).toBeFocused();
-  await page.getByRole('link', { name: 'Yellow Garden, inicio' }).click();
+  await page.getByRole('button', { name: 'Abrir tu recorrido' }).click();
+  await page.getByRole('button', { name: 'Reiniciar recorrido' }).click();
   await expect(page.locator('main')).toHaveAttribute('data-stage', 'INTRO');
   expect(errors).toEqual([]);
 });
@@ -113,7 +114,8 @@ test('restart cancels an in-flight bouquet and ignores its old completion', asyn
   await garden(page);
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.getByRole('button', { name: 'Crear mi ramo' }).click();
-  await page.getByRole('link', { name: 'Yellow Garden, inicio' }).click();
+  await page.getByRole('button', { name: 'Abrir tu recorrido' }).click();
+  await page.getByRole('button', { name: 'Reiniciar recorrido' }).click();
   await expect(page.locator('main')).toHaveAttribute('data-stage', 'INTRO');
   // Cover the original animation's completion window to detect a stale callback.
   await page.waitForTimeout(4000);

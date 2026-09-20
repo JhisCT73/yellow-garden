@@ -1,4 +1,4 @@
-# Entrega local · Yellow Garden 0.16
+# Entrega local · Yellow Garden 0.17
 
 La publicación queda a cargo del usuario. No se creó repositorio remoto ni se subió contenido.
 
@@ -18,4 +18,7 @@ En Safari/iPhone y Chrome/Android comprueba: apertura sin errores; un recorrido 
 
 Se trata de una interpretación 3D animada del tablero, con paisaje lejano raster. Los modelos conservan un acabado estilizado: no se certifica réplica fotográfica. `docs/complete-scenes-comparison.png` muestra libro, terminal y banco junto a sus referencias; `design-qa.md` documenta diferencias y validación.
 
-La entrega actual incluye `test-results/yellow-garden-0.16.0.zip` con el contenido de `dist/`. Cópialo a tu carpeta de entregas si deseas conservarlo: nuevas pruebas pueden limpiar `test-results/`. El sitio necesita un servidor HTTP; no abrir index.html directamente como archivo local.
+La entrega actual incluye `test-results/yellow-garden-0.17.0.zip` con el contenido de `dist/`. Cópialo a tu carpeta de entregas si deseas conservarlo: nuevas pruebas pueden limpiar `test-results/`. El sitio necesita un servidor HTTP; no abrir index.html directamente como archivo local.
+
+
+En la bienvenida elige Ver la historia para avanzar automáticamente, o Explorar a mi ritmo. El mapa Tu recorrido muestra el orden; permite cambiar de modo, volver a etapas visitadas o reiniciar. La carta espera Continuar la historia. Pausar detiene la escena; el sonido tiene su control independiente.

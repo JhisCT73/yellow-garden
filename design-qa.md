@@ -193,3 +193,13 @@ La tarjeta es ahora un libro abierto de dos páginas con ilustración botánica,
 P3 visual: la referencia usa materiales e iluminación más fotográficos; nuestro banco se ve desde delante y el fondo del terminal tiene más follaje. El libro no reproduce toda la riqueza de papel y caligrafía del original. Aprueba composición, lectura, navegación y adaptación del alcance; no equivalencia fotográfica. El rendimiento físico permanece sin certificar, según docs/VALIDATION.md.
 
 final result: passed
+
+## Recorrido guiado y automático (0.17)
+
+Revisión visual real de bienvenida, pausa, mapa modal y carta en escritorio y 390 × 844. Evidencia: docs/journey-menu-desktop.png, docs/journey-welcome-mobile.png y docs/journey-controls-mobile.png. Los controles superiores quedan separados de las acciones de escena y la elección de modo cabe en móvil. El mapa permite desplazamiento vertical y conserva controles de cierre. Se recorrió manualmente el modo automático hasta carta y banco; la carta esperó confirmación.
+
+Esta pasada incorpora navegación sobre el diseño existente; no modifica la fidelidad de las escenas al tablero. No certifica rendimiento en dispositivos físicos.
+
+final result: passed
+
+En la validación táctil se corrigieron dos incidencias: el mapa de controles se superponía al tirador de cinta, y la capa móvil de la historia dejaba pasar los toques de los nuevos radios hacia el canvas. La cinta tiene ahora una posición separada y el selector de modo recibe los eventos de puntero. Captura posterior: docs/journey-ribbon-mobile.png.

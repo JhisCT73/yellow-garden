@@ -175,3 +175,10 @@ GitHub Pages está preparado mediante workflow, pero no se publicó: la sesión 
 - Pendiente externo: Safari/iPhone y Android físicos, audio, temperatura y fluidez sostenida. Publicación excluida por indicación del usuario.
 - Se corrigieron metadatos de dos dependencias en package-lock.json para coincidir con sus paquetes instalados y URLs resueltas: rapier3d-compat 0.12.0 y @humanfs/types 0.15.0. No cambia su código ni integridad.
 - Tras conectar el sello del libro a gardenConfig.date, se repitieron las dos pruebas completas de ramo/cinta/libro (escritorio y móvil): 2/2 aprobadas. Paquete dist comprimido en test-results/yellow-garden-0.16.0.zip; esa carpeta es temporal y una futura prueba puede limpiarla.
+
+## 0.17.0 — Historia automática y recorrido guiado
+
+- Tipos: 0 errores y 0 advertencias; lint correcto; 23/23 pruebas unitarias; build correcto. Se mantiene la advertencia de tamaño del chunk Three.
+- 14 escenarios E2E seleccionados entre escritorio y móvil emulado: ramo, cinta, banco, reinicio y tres nuevos escenarios de recorrido por dispositivo. La primera ejecución aprobó 11 y encontró 3 fallos móviles; tras separar la cinta de los controles y habilitar los eventos de puntero del selector de modo, las 3 repeticiones aprobaron. No se declara una repetición completa de toda la suite anterior.
+- Verificado: avance automático hasta banco; espera de lectura superior a cinco segundos sin avanzar; regreso a carta; pausa durante crecimiento; pausa de espera automática; cambio a modo guiado que cancela avance pendiente; reinicio y cancelación de animaciones anteriores.
+- Revisión visual real de bienvenida, mapa, controles, carta y cierre en escritorio y 390 × 844. Capturas journey-*.png. Publicación no realizada; dispositivos físicos y rendimiento real conservan las limitaciones anteriores.

@@ -42,6 +42,8 @@
 
   let {
     stage,
+    navigation,
+    paused,
     seed,
     reducedMotion,
     oncomplete,
@@ -59,6 +61,8 @@
     onquality,
   }: {
     stage: GardenStage;
+    navigation: number;
+    paused: boolean;
     seed: string;
     reducedMotion: boolean;
     oncomplete: (event: SceneCompletion) => void;
@@ -464,8 +468,46 @@
       materials.forEach((m) => m.dispose());
     };
   });
+  // A chapter visit restores all dependent visual state before its animation starts.
   $effect(() => {
     if (!ready) return;
+    void navigation;
+    const current = untrack(() => stage);
+    for (const target of [
+      growth,
+      bloom,
+      gardenReveal,
+      gather,
+      unwrap,
+      cardOpen,
+      finale,
+      surprise,
+    ])
+      gsap.killTweensOf(target);
+    growth.value = current === 'INTRO' || current === 'GROWING' ? 0 : 1;
+    bloom.value = ['INTRO', 'GROWING', 'BLOOMING'].includes(current) ? 0 : 1;
+    gardenReveal.value = ['INTRO', 'GROWING', 'BLOOMING'].includes(current)
+      ? 0
+      : 1;
+    gather.value = ['BOUQUET', 'CARD_READY', 'UNWRAPPING'].includes(current)
+      ? 1
+      : 0;
+    unwrap.value = current === 'CARD_READY' ? 1 : 0;
+    cardOpen.value = 0;
+    const message = current === 'TEXT_FORMING';
+    Object.assign(finale, {
+      flight: message ? 1 : 0,
+      formation: message ? 1 : 0,
+      opacity: message ? 1 : 0,
+      fade: message ? 1 : 0,
+      lettering: 0,
+    });
+    surprise.value = 0;
+    wind.reset();
+  });
+  $effect(() => {
+    if (!ready) return;
+    void navigation;
     renderer.domElement.style.touchAction =
       stage === 'BOUQUET' ? 'none' : 'pan-y';
     gsap.killTweensOf(growth);
@@ -516,6 +558,7 @@
   });
   $effect(() => {
     if (!ready) return;
+    void navigation;
     gsap.killTweensOf(unwrap);
     if (stage === 'INTRO') unwrap.value = 0;
     if (stage === 'WIND')
@@ -571,6 +614,7 @@
   });
   $effect(() => {
     if (!ready) return;
+    void navigation;
     gsap.killTweensOf(surprise);
     if (stage === 'SECRET_BLOOM') {
       surprise.value = 0;
@@ -584,6 +628,7 @@
   });
   $effect(() => {
     if (!ready) return;
+    void navigation;
     gsap.killTweensOf(finale);
     if (stage === 'INTRO' || stage === 'FREE_EXPLORE' || stage === 'WIND') {
       finale.flight = 0;
@@ -634,8 +679,31 @@
         onComplete: () => oncomplete('MESSAGE_READY'),
       });
   });
+  $effect(() => {
+    if (!ready) return;
+    void stage;
+    void navigation;
+    void ribbonPull;
+    void reducedMotion;
+    for (const target of [
+      growth,
+      bloom,
+      gardenReveal,
+      gather,
+      unwrap,
+      cardOpen,
+      finale,
+      surprise,
+    ]) {
+      for (const tween of gsap.getTweensOf(target)) tween.paused(paused);
+    }
+  });
   useTask((delta) => {
     if (!ready) return;
+    if (paused) {
+      previousCameraTime = performance.now();
+      return;
+    }
     if (qualityMode === 'auto') {
       const level = monitor.sample(delta, !document.hidden);
       if (level) applyQuality(level);

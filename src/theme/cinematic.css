@@ -223,3 +223,182 @@ main.cinematic-opening[data-stage='CARD_READY'] .story {
     background-position: left center;
   }
 }
+/* Journey UI lives above the scene without covering the gift controls. */
+.journey-trigger {
+  background: transparent;
+  color: #f6e8c7;
+  border: 0;
+  text-align: left;
+  padding: 4px;
+  cursor: pointer;
+}
+.journey-trigger strong {
+  display: block;
+  font-family: Georgia, serif;
+  font-size: 21px;
+  font-weight: 400;
+}
+.journey-trigger span {
+  display: block;
+  font-size: 11px;
+  color: #c9c4b5;
+  margin-top: 3px;
+}
+.journey-controls {
+  position: absolute;
+  z-index: 5;
+  top: 118px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(90%, 440px);
+  text-align: center;
+  color: #e8dfcb;
+}
+.journey-controls p {
+  margin: 0 0 8px;
+  font-size: 12px;
+  text-shadow: 0 1px 8px #000;
+}
+.journey-controls > div {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.journey-controls button {
+  background: #0b111ee8;
+  border: 1px solid #a78b5266;
+  border-radius: 22px;
+  color: #f7dfaa;
+  min-height: 44px;
+  padding: 8px 17px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.journey-controls > span {
+  display: block;
+  margin-top: 5px;
+  font-size: 10px;
+  color: #c9c4b5;
+}
+.journey-controls button:disabled,
+.journey-dialog button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.cinematic-opening fieldset.journey-modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: min(100%, 490px);
+  margin: 0 auto 14px;
+  padding: 0;
+  border: 0;
+  text-align: left;
+}
+.journey-modes legend {
+  text-align: center;
+  font-size: 12px;
+  margin-bottom: 8px;
+  color: #e8dfcb;
+}
+.journey-modes label {
+  padding: 10px 12px;
+  border: 1px solid #a78b5266;
+  border-radius: 12px;
+  background: #090f1beb;
+  font-size: 12px;
+  color: #f5e6c3;
+  cursor: pointer;
+}
+.journey-modes label:has(input:checked) {
+  border-color: #eac477;
+  background: #28251bec;
+}
+.journey-modes input {
+  accent-color: #dfba70;
+  margin: 0 7px 0 0;
+}
+.journey-modes span {
+  display: block;
+  font-size: 10px;
+  line-height: 1.5;
+  margin-top: 5px;
+  color: #c8c1b2;
+}
+.journey-dialog {
+  width: min(480px, calc(100% - 32px));
+  max-height: 85dvh;
+  padding: 28px;
+  background: #0b1420;
+  color: #eee2c7;
+  border: 1px solid #b99c5b77;
+  border-radius: 18px;
+  overflow: auto;
+}
+.journey-dialog::backdrop {
+  background: #030710bb;
+}
+.journey-dialog h2 {
+  margin: 0 32px 8px 0;
+  font-family: Georgia, serif;
+  font-weight: 400;
+}
+.journey-dialog p {
+  font-size: 13px;
+  line-height: 1.5;
+}
+.journey-dialog ol {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0;
+}
+.journey-dialog li button {
+  width: 100%;
+  min-height: 44px;
+  padding: 9px 12px;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  color: inherit;
+  cursor: pointer;
+}
+.journey-dialog button[aria-current='step'] {
+  background: #c9a45822;
+  color: #ffe0a0;
+}
+.journey-mode-select {
+  display: grid;
+  gap: 8px;
+  font-size: 12px;
+}
+.journey-mode-select select {
+  min-height: 44px;
+  background: #142132;
+  border: 1px solid #b99c5b77;
+  border-radius: 8px;
+  color: #eee2c7;
+  padding: 8px;
+}
+@media (max-width: 719px) {
+  .journey-trigger strong {
+    font-size: 18px;
+  }
+  .journey-trigger span {
+    font-size: 10px;
+  }
+  .journey-controls {
+    top: 115px;
+  }
+  .journey-controls button {
+    padding: 8px 13px;
+  }
+}
+/* Keep the draggable ribbon clear of the journey controls and their hit area. */
+.cinematic-opening[data-stage='BOUQUET'] .scene-caption {
+  top: 215px;
+}
+/* The mobile story layer lets gestures reach the canvas; mode choices must opt in. */
+.cinematic-opening fieldset.journey-modes {
+  pointer-events: auto;
+}

@@ -105,3 +105,9 @@ Un hash espacial selecciona aproximadamente el 14 % de las partículas para expa
 `SoilGeometry` usa una retícula de 64 × 64 segmentos con ondulaciones atenuadas cerca de la semilla y el borde; conserva UV, transparencia radial y textura existentes. Las piedras siguen siendo instancias. Los segmentos de ramas de `BouquetFoliage` se fusionan con mergeGeometries al crear la escena; se liberan las geometrías temporales y la resultante participa en la limpieza de recursos.
 
 Las pruebas E2E se ejecutan en un worker para evitar competencia entre contextos WebGL. El tiempo máximo por recorrido es 60 segundos; se conservan las verificaciones de estados, arrastre, teclado y cancelación. `scripts/measure-performance.mjs` mide tiempos RAF locales, registra el renderer y el buffer en cada calidad y viewport; no representa rendimiento de teléfonos físicos.
+
+## Recorrido (0.17)
+
+`content/journey.ts` define las 12 etapas y agrupa estados transitorios bajo la misma etapa visible. El evento tipado `NAVIGATE` permite revisitar inicios de capítulo. App mantiene el máximo visitado, modo, pausa y revisión de navegación; el timer automático se destruye al cambiar de estado, modo, pausa o visibilidad.
+
+GardenScene restaura las variables de crecimiento, ramo, carta y partículas al cambiar la revisión de navegación, antes de iniciar las animaciones del destino. Mata sus propios tweens y conserva el canvas. La pausa actúa solo sobre tweens de los objetos de esta escena y sobre el bucle de actualización, sin pausar globalmente GSAP. El mapa usa un dialog modal nativo y devuelve el foco al disparador.
