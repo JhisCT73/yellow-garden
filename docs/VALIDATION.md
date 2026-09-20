@@ -125,3 +125,10 @@ GitHub Pages está preparado mediante workflow, pero no se publicó: la sesión 
 - Recarga y recorrido manual: plantar, jardín, reunión del ramo, desatar por atajo y tarjeta. Sin errores nuevos de consola.
 - Ramo completo en escritorio 1013 × 761 y móvil emulado 390 × 844. Tarjeta visible y controles despejados en móvil.
 - Capturas: `arrangement-desktop.png`, `arrangement-mobile.png`, `arrangement-comparison.png`. No se repitieron finales, suite E2E completa ni mediciones en teléfono físico.
+
+## 0.14.0 — Corazón
+
+- Tipos sin errores ni advertencias, lint, 19 pruebas y build correctos. Persiste el aviso de tamaño del chunk Three.
+- Nueva prueba de regresión: proporción de partículas del eje central y equilibrio izquierda/derecha sobre 6000 muestras reproducibles; siguen pasando límites y profundidad.
+- Navegador: jardín, viento por atajo, corazón y transformación en mensaje. Corazón revisado en 1013 × 761 y móvil emulado 390 × 844; mensaje legible en móvil. Sin errores nuevos de consola.
+- Capturas `heart-cloud-desktop.png`, `heart-cloud-mobile.png` y `heart-cloud-comparison.png`. No se ejecutó la suite E2E completa ni se midió rendimiento físico.

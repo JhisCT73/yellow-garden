@@ -69,3 +69,9 @@ Primera implementación del recorrido semilla → crecimiento → floración →
 - Dos girasoles principales de tamaño comparable, escalonados en diagonal; flores secundarias de menor tamaño.
 - Orientaciones más variadas y profundidad entre cabezas florales, conservando la transición desde el jardín.
 - Comparación con la referencia reenviada por el usuario y revisión móvil del ramo y tarjeta.
+
+## 0.14.0 — Corazón de polvo dorado
+
+- Distribución uniforme dentro de la silueta, eliminando la concentración vertical del muestreo radial y el contorno sobredimensionado.
+- Destellos de tamaños variados que recuperan su tamaño uniforme al formar el mensaje.
+- Prueba de regresión para concentración central y equilibrio entre ambas mitades.

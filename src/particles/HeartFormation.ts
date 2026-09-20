@@ -59,7 +59,8 @@ export function createHeartFormation(seed: string, count: number, dpr: number) {
         p.z+=sin(lettering*3.14159265)*scatter.z*.4*motion;
         vec4 mv=modelViewMatrix*vec4(p,1.); gl_Position=projectionMatrix*mv;
         sparkle=mix(.65+.35*sin(heart.x*30.+heart.y*20.+time*motion),1.,lettering);
-        gl_PointSize=clamp(mix(85.,58.,lettering)/-mv.z,3.5,10.)*dpr;
+        float grain=fract(sin(dot(heart.xy,vec2(12.9898,78.233)))*43758.5453);
+        gl_PointSize=clamp(mix(mix(28.,100.,grain*grain),58.,lettering)/-mv.z,1.5,11.)*dpr;
       }`,
     fragmentShader: `uniform float opacity; varying float sparkle;
       void main(){ float r=length(gl_PointCoord-.5)*2.; if(r>1.)discard;

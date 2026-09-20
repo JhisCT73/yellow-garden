@@ -123,3 +123,13 @@ Se corrige el dominio excesivo del girasol superior: dos protagonistas de tamañ
 P3 pendientes: materiales todavía estilizados, tallos y hojas menos orgánicos que la referencia e iluminación sin volumen fotográfico. El tablero completo contiene otras escenas cuya fidelidad no se certifica en esta pasada. Aprueba composición, encuadre y transición del alcance revisado; no equivalencia pixel a pixel.
 
 final result: passed
+
+## Octava pasada: corazón (0.14)
+
+Referencia actual: escena 11 del archivo reenviado `codex-clipboard-8c1a19dd-0dff-42b9-9a11-4a1fb82245af.png`. Comparación conjunta abierta: `docs/heart-cloud-comparison.png`; captura de escritorio 1013 × 761 y móvil 390 × 844. Se conservan las proporciones distintas de la viñeta y la interfaz completa.
+
+Corregidos el eje central excesivamente brillante y el borde de puntos regulares. El corazón tiene ahora relleno distribuido y tamaños de destello diversos. Se verificó su formación desde el viento y su transformación al mensaje, legible en móvil. Los controles quedan separados del corazón; tipografía, fondo y color dorado conservan el diseño existente.
+
+P3: la referencia presenta mayor halo luminoso y dispersión alrededor de la silueta; la implementación conserva un borde más limpio. Esta pasada aprueba distribución, encuadre y transición del alcance, no equivalencia fotográfica. No aumenta la cantidad de partículas.
+
+final result: passed

@@ -19,6 +19,21 @@ it('keeps a reproducible heart within the scene and gives it real depth', () => 
   expect(front && back).toBe(true);
 });
 
+it('fills the heart without accumulating particles along its vertical axis', () => {
+  const points = heartCloud('distribution', 6000);
+  let central = 0,
+    left = 0,
+    right = 0;
+  for (let i = 0; i < points.length; i += 3) {
+    if (Math.abs(points[i]) < 0.08) central++;
+    if (points[i] < 0) left++;
+    else right++;
+  }
+  expect(central / 6000).toBeLessThan(0.1);
+  expect(left / right).toBeGreaterThan(0.9);
+  expect(left / right).toBeLessThan(1.1);
+});
+
 it('finishes without discovering the ribbon, returns to exploration, and permits a second wish', () => {
   const actor = createActor(gardenMachine).start();
   for (const type of [

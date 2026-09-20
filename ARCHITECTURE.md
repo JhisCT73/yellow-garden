@@ -71,3 +71,7 @@ Los pétalos usan MeshPhysicalMaterial con rugosidad 0.78, sheen 0.25 y emisión
 ## Composición del ramo (0.13)
 
 `BouquetLayout` fija cuatro posiciones focales de girasol y conserva la distribución determinista de acompañamiento. `BouquetSystem` interpola hacia tamaños finales de cabeza independientes del tamaño original de jardín y compensa la escala del tallo. El tamaño de los dos protagonistas converge a 0.68, el de los girasoles secundarios a 0.46; las inclinaciones varían sin añadir geometrías ni trabajo de asignación por frame.
+
+## Distribución del corazón (0.14)
+
+`heartCloud` construye una silueta poligonal de 128 puntos y usa muestreo uniforme por rechazo en su interior. Este trabajo se realiza al crear la escena, no por frame. La profundidad conserva valores aleatorios reproducibles. El shader varía el tamaño del destello a partir de su destino y converge al tamaño del texto durante lettering. Se conserva la cantidad de 1800 partículas.
