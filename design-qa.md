@@ -173,3 +173,13 @@ Tres haces suaves introducen luz dorada desde arriba, detrás de la semilla y de
 P3 pendientes: semilla, suelo y vegetación todavía más estilizados que la referencia; los haces son más regulares que la iluminación del tablero. Aprueba iluminación atmosférica, legibilidad y transición del alcance; no equivalencia fotográfica ni rendimiento móvil físico.
 
 final result: passed
+
+## Decimotercera pasada: semilla (0.15.1)
+
+Comparación abierta: `docs/seed-shell-comparison.png`, escena 02 de la referencia reenviada frente a captura 1013 × 761; móvil 390 × 844 revisado por separado. Se conservan proporciones distintas de viñeta e interfaz.
+
+La semilla presenta ahora una punta reconocible y color ámbar más oscuro, reduciendo el amarillo uniforme anterior. Se mantienen luz ambiental, controles y encuadre. La hendidura y grano son sutiles a escala de pantalla; no se presentan como detalle fotorrealista conseguido. Plantar por botón lleva correctamente al jardín.
+
+P3: la referencia tiene más reflejo localizado y mayor riqueza en el suelo; nuestra semilla aún es estilizada. Aprueba silueta, contraste y transición del alcance; no equivalencia fotográfica.
+
+final result: passed

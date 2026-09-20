@@ -6,6 +6,7 @@
   import { createFlowers, createMeadow } from './botany';
   import { createBouquetFoliage } from './BouquetFoliage';
   import { createOpeningLight } from './OpeningLight';
+  import { createSeedGeometry } from './SeedGeometry';
   import { seededRandom } from '../utils/random';
   import { gardenConfig } from '../config/garden.config';
   import {
@@ -180,13 +181,14 @@
   let pointerX = 0,
     pointerY = 0;
   const seedMesh = new THREE.Mesh(
-    new THREE.SphereGeometry(0.14, 24, 16),
+    createSeedGeometry(),
     new THREE.MeshStandardMaterial({
-      color: '#c19346',
+      color: '#98764b',
+      vertexColors: true,
       emissive: '#ffb52e',
-      emissiveIntensity: 0.08,
-      roughness: 0.37,
-      metalness: 0.12,
+      emissiveIntensity: 0.02,
+      roughness: 0.58,
+      metalness: 0.25,
     }),
   );
   seedMesh.scale.set(1.25, 0.65, 0.75);

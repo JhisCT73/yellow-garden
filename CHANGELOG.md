@@ -95,3 +95,8 @@ Primera implementación del recorrido semilla → crecimiento → floración →
 
 - Tres haces dorados suaves detrás de semilla, brote y primera flor, con variación lenta de intensidad.
 - Visibilidad limitada a las escenas iniciales; oscilación detenida con movimiento reducido.
+
+## 0.15.1 — Forma y material de semilla
+
+- Silueta alargada con punta, hendidura longitudinal suave y variaciones de color por vértice.
+- Material ámbar más oscuro, menos emisión y mayor rugosidad.

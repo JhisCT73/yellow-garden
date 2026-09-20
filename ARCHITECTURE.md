@@ -91,3 +91,7 @@ Un hash espacial selecciona aproximadamente el 14 % de las partículas para expa
 ## Luz de apertura (0.15)
 
 `OpeningLight` crea tres planos que comparten geometría y material aditivo. El shader suaviza bordes y extremos, y modula la intensidad con el crecimiento. Es una aproximación atmosférica mediante planos, no iluminación volumétrica física ni rayos con oclusión. Su grupo se añade al recorrido de liberación existente y solo se muestra en INTRO, GROWING y BLOOMING; no requiere texturas ni otro pase de postprocesado.
+
+## Semilla (0.15.1)
+
+`SeedGeometry` deforma una esfera de 48 × 32 segmentos con estrechamiento longitudinal, depresión suave y variación fina de superficie. Calcula colores y normales una vez al crear la escena. El Mesh conserva las transformaciones, interacción y retirada al crecer existentes; su geometría y material se liberan con la escena.
