@@ -5,6 +5,7 @@
   import { gsap } from 'gsap';
   import { createFlowers, createMeadow } from './botany';
   import { createBouquetFoliage } from './BouquetFoliage';
+  import { createOpeningLight } from './OpeningLight';
   import { seededRandom } from '../utils/random';
   import { gardenConfig } from '../config/garden.config';
   import {
@@ -125,6 +126,7 @@
   const monitor = createPerformanceMonitor(initialLevel);
   const initialSeed = untrack(() => seed);
   const flowers = createFlowers(initialSeed, gardenConfig.flowerCount);
+  const openingLight = createOpeningLight();
   const bud = new THREE.Mesh(
     new THREE.SphereGeometry(0.36, 16, 12),
     new THREE.MeshStandardMaterial({ color: '#709144', roughness: 0.65 }),
@@ -292,6 +294,7 @@
       rim,
       ground,
       flowers.root,
+      openingLight.root,
       meadow,
       seedMesh,
       halo,
@@ -692,6 +695,12 @@
     seedbed.glow.material.uniforms.strength.value = 1 - growth.value * 0.8;
     seedbed.dust.material.uniforms.time.value = time;
     seedbed.dust.visible = ['INTRO', 'GROWING', 'BLOOMING'].includes(stage);
+    openingLight.update(
+      seedbed.dust.visible,
+      growth.value,
+      time,
+      !reducedMotion,
+    );
     backdrop.visible = seedbed.dust.visible;
     landscape.visible = !seedbed.dust.visible && gardenReveal.value > 0;
     landscape.material.opacity =

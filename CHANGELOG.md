@@ -90,3 +90,8 @@ Primera implementación del recorrido semilla → crecimiento → floración →
 
 - Una fracción de las partículas se expande alrededor del corazón y flota con menor brillo.
 - Se reintegran al formar el mensaje; el movimiento exterior se congela con movimiento reducido.
+
+## 0.15.0 — Luz de apertura
+
+- Tres haces dorados suaves detrás de semilla, brote y primera flor, con variación lenta de intensidad.
+- Visibilidad limitada a las escenas iniciales; oscilación detenida con movimiento reducido.

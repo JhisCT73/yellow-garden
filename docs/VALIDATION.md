@@ -151,3 +151,10 @@ GitHub Pages está preparado mediante workflow, pero no se publicó: la sesión 
 - Tipos sin errores/advertencias, lint, 19 pruebas y build correctos. Persiste aviso de tamaño de Three.
 - Recorrido manual semilla, jardín, viento por atajo, corazón y mensaje. Escritorio 1013 × 761 y móvil emulado 390 × 844; silueta completa y mensaje legible. Sin errores nuevos de consola.
 - Evidencia `heart-drift-desktop.png`, `heart-drift-mobile.png`, `heart-drift-comparison.png`. Movimiento reducido conservado por código, no repetido en navegador; suite E2E completa y rendimiento físico pendientes de nueva ejecución.
+
+## 0.15.0 — Luz de apertura
+
+- Tipos sin errores/advertencias, lint, 19 pruebas y build correctos; persiste aviso del chunk Three.
+- Recarga y recorrido de apertura: semilla y crecimiento en escritorio 1013 × 761 y móvil emulado 390 × 844. Retirada de haces al llegar al jardín comprobada en escritorio. Sin errores nuevos de consola.
+- Capturas `light-{seed,growth}-{desktop,mobile}.png` y `opening-light-comparison.png`. El crecimiento se capturó en instantes distintos en cada tamaño.
+- No se repitieron finales, suite E2E completa ni movimiento reducido en navegador. No se midió rendimiento físico.

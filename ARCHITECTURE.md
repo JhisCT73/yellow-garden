@@ -87,3 +87,7 @@ El muestreo por área pondera la aceptación según la distancia mínima a los s
 ## Destellos exteriores (0.14.3)
 
 Un hash espacial selecciona aproximadamente el 14 % de las partículas para expandirse desde su posición de corazón, con oscilaciones lentas y menor brillo. Se aplica antes de mezclar hacia el mensaje, por lo que lettering elimina el desplazamiento. Las oscilaciones usan el uniforme motion; no se añaden partículas, geometrías ni llamadas de dibujo.
+
+## Luz de apertura (0.15)
+
+`OpeningLight` crea tres planos que comparten geometría y material aditivo. El shader suaviza bordes y extremos, y modula la intensidad con el crecimiento. Es una aproximación atmosférica mediante planos, no iluminación volumétrica física ni rayos con oclusión. Su grupo se añade al recorrido de liberación existente y solo se muestra en INTRO, GROWING y BLOOMING; no requiere texturas ni otro pase de postprocesado.

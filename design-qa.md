@@ -163,3 +163,13 @@ Los destellos exteriores suavizan el límite con el cielo y conservan una siluet
 P3: la referencia conserva un halo ambiental más difuso y una distribución menos simétrica. Esta aproximación animada aprueba dispersión, encuadre y transición del alcance, sin certificar equivalencia fotográfica ni rendimiento móvil físico.
 
 final result: passed
+
+## Duodécima pasada: luz de apertura (0.15)
+
+Referencia: escenas 02 y 03 del tablero reenviado. Comparación conjunta abierta: `docs/opening-light-comparison.png`, escena 02 frente a semilla actual. Capturas completas de escritorio 1013 × 761 y móvil 390 × 844. Se revisaron también capturas de crecimiento; representan momentos distintos y no una comparación de geometría sincronizada.
+
+Tres haces suaves introducen luz dorada desde arriba, detrás de la semilla y del brote. No ocultan los controles y desaparecen en el jardín. Tipografía y composición conservan el diseño anterior. La aproximación usa planos transparentes; no simula dispersión volumétrica ni sombras físicas.
+
+P3 pendientes: semilla, suelo y vegetación todavía más estilizados que la referencia; los haces son más regulares que la iluminación del tablero. Aprueba iluminación atmosférica, legibilidad y transición del alcance; no equivalencia fotográfica ni rendimiento móvil físico.
+
+final result: passed
