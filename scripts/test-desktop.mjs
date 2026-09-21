@@ -1,4 +1,4 @@
-import { _electron as electron } from '@playwright/test';
+import { _electron as electron, expect } from '@playwright/test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { mkdir } from 'node:fs/promises';
@@ -48,6 +48,35 @@ try {
   await page.getByRole('button', { name: 'Abrir tu recorrido' }).click();
   await page.getByRole('heading', { name: 'Tu recorrido' }).waitFor();
   await page.getByRole('button', { name: 'Cerrar recorrido' }).click();
+  await page
+    .getByRole('button', { name: 'Activar sonido', exact: true })
+    .click();
+  const soundtrack = page.locator('audio[data-soundtrack]');
+  await expect
+    .poll(() => soundtrack.evaluate((audio) => audio.currentTime), {
+      timeout: 30000,
+    })
+    .toBeGreaterThan(0.5);
+  assert.equal(
+    await soundtrack.evaluate(
+      (audio) => audio.loop && audio.duration > 60 && !audio.paused,
+    ),
+    true,
+  );
+  await page
+    .getByRole('button', { name: 'Silenciar sonido', exact: true })
+    .click();
+  assert.equal(await soundtrack.evaluate((audio) => audio.paused), true);
+  const pausedAt = await soundtrack.evaluate((audio) => audio.currentTime);
+  await page
+    .getByRole('button', { name: 'Activar sonido', exact: true })
+    .click();
+  await expect
+    .poll(() => soundtrack.evaluate((audio) => audio.currentTime))
+    .toBeGreaterThan(pausedAt + 0.3);
+  await page
+    .getByRole('button', { name: 'Silenciar sonido', exact: true })
+    .click();
   await mkdir('test-results', { recursive: true });
   await page.screenshot({ path: 'test-results/desktop-app.png' });
   await page.getByRole('button', { name: 'Ajustes del jardín' }).click();

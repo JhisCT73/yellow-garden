@@ -207,3 +207,11 @@ Verificación final con marca: svelte-check sin errores ni advertencias, lint co
 - `npm run desktop:dist` completado usando Electron 44.4.3 y electron-builder 26.15.3. Instalador NSIS x64 de aproximadamente 115 MB. Authenticode: NotSigned.
 - `npm run test:desktop` aprobado con Electron de desarrollo y con `release/win-unpacked/Yellow Garden.exe`. La última comprobación del empaquetado desactiva la red antes de recargar: logo cargado, jardín WebGL, mapa y Acerca del proyecto, sin errores JS/consola. Verifica nodeIntegration=false, contextIsolation=true, sandbox=true y webSecurity=true.
 - No se instaló el producto en el perfil del usuario: instalación, desinstalación y accesos directos requieren revisión en equipo limpio. No hay publicación ni ejecución de workflows remotos. No se repitió la suite E2E completa del navegador para este cambio de distribución.
+
+## 0.19.1 — MP3 local
+
+- El MP3 incorporado coincide por SHA256 con el archivo aportado por el usuario. No se recodificó ni modificó.
+- Tipos sin errores/advertencias, lint correcto, 23/23 pruebas unitarias y build/instalador correctos.
+- 2/2 pruebas nuevas de navegador aprobadas: escritorio y móvil Chromium, inicio por acción explícita, avance de reproducción, pausa estable, reanudación y repetición configurada.
+- Prueba del ejecutable empaquetado aprobada con red desactivada: la canción carga, avanza, pausa y reanuda. Se corrigió el protocolo local con stream=true y transmisión de Range; antes de esa corrección la prueba detectó que el audio no avanzaba.
+- Se conservaron sandbox, aislamiento y seguridad web. Instalación/desinstalación en equipo limpio y firma digital siguen pendientes como en 0.19.0. No se publicó en GitHub.

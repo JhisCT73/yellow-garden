@@ -4,7 +4,7 @@ Todo vive en un repositorio: código fuente, web y configuración de la aplicaci
 
 ## Archivos
 
-- `release/YellowGarden-Setup-0.19.0-x64.exe`: instalador Windows x64 (aproximadamente 115 MB decimales).
+- `release/YellowGarden-Setup-0.19.1-x64.exe`: instalador Windows x64 (aproximadamente 120 MB decimales).
 - `release/SHA256SUMS.txt`: hash del instalador.
 - `release/win-unpacked/`: programa empaquetado para pruebas; conservar la carpeta completa.
 - `dist/`: web compilada, lista para servidor HTTP o GitHub Pages.

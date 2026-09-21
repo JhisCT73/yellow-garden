@@ -1,9 +1,10 @@
 import type { GardenCare } from './GardenCare';
-/** Local synthesized ambience. No recordings, requests or third-party assets. */
+/** Local soundtrack with quiet synthesized interaction effects. */
 export class AudioEngine {
   private context?: AudioContext;
   private master?: GainNode;
-  private voices: OscillatorNode[] = [];
+  private music?: HTMLAudioElement;
+  private playbackRequest = 0;
   private windSource?: AudioBufferSourceNode;
   private windGain?: GainNode;
   private care: GardenCare = 'light';
@@ -11,6 +12,17 @@ export class AudioEngine {
     this.care = care;
   }
   async enable() {
+    const request = ++this.playbackRequest;
+    if (!this.music) {
+      this.music = document.createElement('audio');
+      this.music.src = `${import.meta.env.BASE_URL}audio/dandelions.mp3`;
+      this.music.loop = true;
+      this.music.preload = 'none';
+      this.music.volume = 0.55;
+      this.music.hidden = true;
+      this.music.dataset.soundtrack = 'dandelions';
+      document.body.append(this.music);
+    }
     if (!this.context) {
       this.context = new AudioContext();
       this.master = this.context.createGain();
@@ -36,20 +48,21 @@ export class AudioEngine {
         .connect(this.windGain)
         .connect(this.master);
       this.windSource.start();
-      for (const frequency of [130.81, 196, 261.63]) {
-        const oscillator = this.context.createOscillator();
-        oscillator.frequency.value = frequency;
-        const gain = this.context.createGain();
-        gain.gain.value = 0.035;
-        oscillator.connect(gain).connect(this.master);
-        oscillator.start();
-        this.voices.push(oscillator);
-      }
     }
-    await this.context.resume();
-    this.master!.gain.setTargetAtTime(0.35, this.context.currentTime, 0.6);
+    try {
+      await Promise.all([this.context.resume(), this.music.play()]);
+      if (request !== this.playbackRequest) return false;
+      this.master!.gain.setTargetAtTime(0.12, this.context.currentTime, 0.6);
+      return true;
+    } catch (error) {
+      if (request !== this.playbackRequest) return false;
+      this.mute();
+      throw error;
+    }
   }
   mute() {
+    ++this.playbackRequest;
+    this.music?.pause();
     if (this.context && this.master)
       this.master.gain.setTargetAtTime(0, this.context.currentTime, 0.15);
   }
@@ -84,7 +97,10 @@ export class AudioEngine {
       );
   }
   dispose() {
-    this.voices.forEach((voice) => voice.stop());
+    this.mute();
+    this.music?.removeAttribute('src');
+    this.music?.load();
+    this.music?.remove();
     this.windSource?.stop();
     void this.context?.close();
   }

@@ -244,8 +244,7 @@
       return;
     }
     try {
-      await audio.enable();
-      muted = false;
+      muted = !(await audio.enable());
     } catch {
       message = 'El sonido no está disponible. El jardín sigue aquí para ti.';
     }

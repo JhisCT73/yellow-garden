@@ -1,7 +1,7 @@
 {
   "name": "yellow-garden",
   "private": true,
-  "version": "0.19.0",
+  "version": "0.19.1",
   "description": "Un jardín 3D interactivo de ZyXer Labs para web y Windows.",
   "author": "ZyXer Labs",
   "license": "MIT",

@@ -150,3 +150,7 @@ Símbolo de marca con transparencia en la esquina superior izquierda, seguido de
 - Workflow Windows con artefactos, hashes SHA256 y Releases en borrador para tags de versión.
 - Ajustes: Acerca del proyecto, descargas y código configurados automáticamente en GitHub.
 - README reescrito para visitantes, usuarios de Windows y desarrolladores. Se conserva MIT.
+
+## 0.19.1 — Nueva música
+
+Dandelions sustituye el acorde ambiental sintetizado. MP3 local bajo demanda, repetición y pausa/reanudación desde la misma posición. Efectos de interacción más suaves. Nuevo instalador Windows con el audio incluido y pruebas de reproducción en navegador y Electron.

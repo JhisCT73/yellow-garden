@@ -13,7 +13,12 @@ const { pathToFileURL } = require('node:url');
 protocol.registerSchemesAsPrivileged([
   {
     scheme: 'garden',
-    privileges: { standard: true, secure: true, supportFetchAPI: true },
+    privileges: {
+      standard: true,
+      secure: true,
+      supportFetchAPI: true,
+      stream: true,
+    },
   },
 ]);
 
@@ -86,7 +91,10 @@ else {
         const relative = path.relative(dist, file);
         if (relative.startsWith('..') || path.isAbsolute(relative))
           return new Response(null, { status: 403 });
-        const response = await net.fetch(pathToFileURL(file).href);
+        const range = request.headers.get('range');
+        const response = await net.fetch(pathToFileURL(file).href, {
+          headers: range ? { Range: range } : {},
+        });
         const headers = new Headers(response.headers);
         headers.set(
           'Content-Security-Policy',
