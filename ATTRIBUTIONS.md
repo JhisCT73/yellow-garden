@@ -11,3 +11,5 @@ Referencias de API: https://threlte.xyz/docs/ y https://svelte.dev/docs/ . El al
 - `public/textures/garden-path.jpg`: paisaje nocturno generado para este proyecto mediante ImageGen (1536 × 1024, JPEG, aproximadamente 427 KB). Se usa como fondo lejano, con protagonistas 3D animados delante; no se carga una API de imágenes durante la visita.
 
 - `public/textures/botanical-paper.jpg`: papel marfil botánico generado mediante ImageGen para este proyecto, 1536 × 1024, aproximadamente 225 KiB. Sin texto en el asset; las palabras se dibujan en la CanvasTexture de la portada y el contenido de lectura permanece como HTML seleccionable.
+
+Desde 0.19, Electron (MIT) aporta el runtime de escritorio y electron-builder (MIT) genera el instalador. Electron incluye los avisos de Chromium y otros componentes en su distribución. El empaquetado conserva LICENSE, ATTRIBUTIONS.md y los archivos de licencias del runtime. No se incluye un certificado de firma de código.

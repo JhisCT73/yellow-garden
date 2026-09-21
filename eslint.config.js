@@ -7,6 +7,7 @@ export default ts.config(
   {
     ignores: [
       'dist/**',
+      'release/**',
       'node_modules/**',
       'playwright-report/**',
       'test-results/**',
@@ -16,6 +17,10 @@ export default ts.config(
   ...ts.configs.recommended,
   ...svelte.configs['flat/recommended'],
   { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
+  {
+    files: ['electron/**/*.cjs'],
+    rules: { '@typescript-eslint/no-require-imports': 'off' },
+  },
   {
     files: ['**/*.svelte'],
     languageOptions: { parserOptions: { parser: ts.parser } },

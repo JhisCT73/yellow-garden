@@ -1,24 +1,26 @@
-# Entrega local · Yellow Garden 0.18
+# Entrega local · Yellow Garden 0.19
 
-La publicación queda a cargo del usuario. No se creó repositorio remoto ni se subió contenido.
+Todo vive en un repositorio: código fuente, web y configuración de la aplicación Windows. No se publicó en GitHub ni se creó un remoto.
 
-## Archivos de producción
+## Archivos
 
-Ejecuta `npm ci` y `npm run build`. El resultado está en `dist/`. `npm run preview` permite revisar exactamente esa compilación. Todos los assets viven junto al sitio; no necesita backend ni secretos. `base: './'` admite un subdirectorio como `/yellow-garden/`.
+- `release/YellowGarden-Setup-0.19.0-x64.exe`: instalador Windows x64 (aproximadamente 115 MB decimales).
+- `release/SHA256SUMS.txt`: hash del instalador.
+- `release/win-unpacked/`: programa empaquetado para pruebas; conservar la carpeta completa.
+- `dist/`: web compilada, lista para servidor HTTP o GitHub Pages.
+- `README.md`: uso para visitantes, instalación, desarrollo, personalización y publicación.
+- `docs/RELEASE-NOTES.md`: plantilla de notas para GitHub Releases.
 
-Para GitHub Pages, crea tu repositorio y configura Settings → Pages → Source → GitHub Actions. Los workflows existentes validan el código y publican `dist/` al enviar la rama `main`. Antes de hacerlo, revisa los textos en `src/content/messages.ts` y la fecha/título en `src/config/garden.config.ts`.
+`release/` y `dist/` no se versionan; los workflows los generan y el instalador se adjunta a Releases. Los comandos locales usan `--publish never`.
 
-## Validación que requiere dispositivos físicos
+## Estado
 
-No se dispone de un iPhone o Android conectado en esta sesión. La emulación Chromium no certifica Safari, consumo de batería, temperatura, altavoces, vibración o estabilidad de GPU en esos dispositivos.
+Compilación y empaquetado NSIS completados. Probado el ejecutable empaquetado con red desactivada: carga del logo, jardín WebGL, mapa de etapas y Acerca del proyecto. Renderer sin acceso a Node.js, sandbox/aislamiento/seguridad web activos. Captura en `docs/desktop-app.png`.
 
-En Safari/iPhone y Chrome/Android comprueba: apertura sin errores; un recorrido completo; gesto corto/largo de cinta; viento con toque y su cancelación al cambiar de app; diálogo de lectura y cierre; giro de pantalla; modo Ligera; preferencia de movimiento reducido; audio tras interacción; reinicio desde banco. Observa fluidez y temperatura durante varios minutos. Si hay lentitud, conserva Ligera y recoge modelo de teléfono, navegador y escena.
+El instalador se generó, pero no se ejecutó la instalación/desinstalación en el perfil personal del usuario. Los accesos directos están configurados en NSIS; falta comprobar la experiencia de instalación en un equipo limpio. No hay certificado de firma digital ni autoactualizaciones. La interfaz puede mostrar un aviso de editor desconocido al abrir el instalador.
 
-## Dirección visual
+Los workflows se prepararon y revisaron localmente; no se ejecutaron en GitHub porque la publicación sigue a cargo del usuario. GitHub Pages y las descargas públicas aparecerán después de subir el repositorio, activar Pages y publicar una Release. La ejecución manual de Windows solo crea artefactos; un tag de versión crea una Release en borrador.
 
-Se trata de una interpretación 3D animada del tablero, con terreno y paisaje geométricos, cielo procedural y nubes animadas. Los modelos conservan un acabado estilizado: no se certifica réplica fotográfica. `docs/complete-scenes-comparison.png` muestra libro, terminal y banco junto a sus referencias; `design-qa.md` documenta diferencias y validación.
+## Validación externa pendiente
 
-La entrega actual incluye `test-results/yellow-garden-0.18.0.zip` con el contenido de `dist/`. Cópialo a tu carpeta de entregas si deseas conservarlo: nuevas pruebas pueden limpiar `test-results/`. El sitio necesita un servidor HTTP; no abrir index.html directamente como archivo local.
-
-
-En la bienvenida elige Ver la historia para avanzar automáticamente, o Explorar a mi ritmo. El mapa Tu recorrido muestra el orden; permite cambiar de modo, volver a etapas visitadas o reiniciar. La carta espera Continuar la historia. Pausar detiene la escena; el sonido tiene su control independiente.
+Windows 10 en equipo limpio, instalación/desinstalación y accesos directos; Safari/iPhone y Android físicos; audio, temperatura y fluidez sostenida. No se certifican 60 FPS. Electron conserva el coste del jardín 3D, no lo elimina. El README explica calidad Ligera y los límites de compatibilidad.

@@ -1,86 +1,135 @@
-# Yellow Garden 🌻
+# Yellow Garden 🌻 · ZyXer Labs
 
-Un regalo de primavera en un jardín nocturno 3D. Planta una semilla, observa el crecimiento de los girasoles y descubre un mensaje para ti.
+Un jardín nocturno 3D para regalar un momento bonito. Planta una semilla, observa cómo florece, forma un ramo, descubre una carta y recorre un final entre luces.
 
-## Ejecutar
+**Un solo repositorio, tres formas de disfrutarlo:** web, aplicación de Windows y código para aprender o desarrollar.
 
-Requiere Node.js 22.12 o posterior y npm.
+| Quiero…                    | Qué necesito            | Dónde empezar                                                  |
+| -------------------------- | ----------------------- | -------------------------------------------------------------- |
+| Ver el jardín sin instalar | Un navegador con WebGL2 | La web de GitHub Pages indicada en About del repositorio       |
+| Guardarlo como programa    | Windows 10/11 x64       | [Releases](../../releases): descargar el instalador `.exe`     |
+| Modificarlo o aprender     | Node.js 22.12+ y npm    | [Desarrollo](#desarrollo) y [CONTRIBUTING.md](CONTRIBUTING.md) |
+
+> La publicación la realiza el propietario. Si todavía no hay una web o una Release publicada, esas opciones aún no están disponibles. No hay que descargar el código fuente para usar el instalador.
+
+## Qué puedes hacer
+
+- Elegir **Ver la historia**, que avanza automáticamente, o **Explorar a mi ritmo**.
+- Recorrer 12 etapas: semilla, crecimiento, primera flor, jardín, ramo, cinta, carta, viento, corazón, mensaje, gran flor y banco.
+- Pausar, volver a una etapa visitada y reiniciar desde el mapa. Pulsa **ZyXer Labs**, arriba a la izquierda, para abrirlo.
+- Elegir Luz, Agua o Música para tu semilla; activar sonido opcional.
+- Crear el ramo, arrastrar la cinta y leer la dedicatoria. La historia espera mientras lees la carta.
+- Descubrir mensajes en flores y el secreto del símbolo de marca.
+- Usar teclado y alternativas a arrastrar o mantener pulsado. Escape cierra los diálogos.
+- Ajustar calidad Automática, Ligera o Alta. Se respeta la preferencia de movimiento reducido del sistema.
+
+El entorno incluye terreno, flores, montañas, luna y objetos 3D, nubes animadas y luciérnagas. Es una interpretación estilizada, no una imagen fotográfica. Los recursos son locales, sin cuentas, backend ni servicios externos durante el recorrido. Los enlaces a GitHub sí necesitan internet.
+
+## Usar en el navegador
+
+Abre la dirección de GitHub Pages que el propietario coloque en **About → Website**. Funciona sin instalar Node.js ni descargar el ejecutable. En **Ajustes del jardín → Acerca del proyecto** encontrarás las descargas y el código cuando se haya configurado el repositorio.
+
+La web necesita conexión para su primera carga; no se ha implementado instalación PWA ni caché offline garantizada. Si no hay WebGL2, ofrece una alternativa de texto. Safari/iPhone y Android físicos todavía requieren comprobación; emular un móvil no certifica esos dispositivos.
+
+## Usar como programa en Windows
+
+1. Entra en [Releases](../../releases).
+2. En **Assets**, descarga `YellowGarden-Setup-0.19.0-x64.exe` (el número cambia en nuevas versiones).
+3. Abre el instalador, elige la carpeta y termina la instalación.
+4. Abre **Yellow Garden — ZyXer Labs** desde el escritorio o menú Inicio.
+
+No necesitas Node.js, terminal, navegador abierto ni conexión para disfrutar del jardín instalado. Puedes usar **Vista → Pantalla completa**. Para desinstalar, usa **Configuración de Windows → Aplicaciones**.
+
+La primera edición está preparada para **Windows 10/11 x64**. No se ofrecen instaladores de macOS, Linux ni ARM64. No hay actualizaciones automáticas: descarga el nuevo instalador desde Releases. El recorrido y los ajustes se reinician al cerrar/recargar; no se guardan partidas.
+
+**Firma del instalador:** esta edición no tiene certificado de firma de código. Windows puede mostrar un aviso de editor desconocido. Descarga únicamente desde el repositorio de confianza; no desactives las protecciones del equipo. Cada compilación de GitHub incluye `SHA256SUMS.txt` para comprobar la integridad con `Get-FileHash archivo.exe -Algorithm SHA256`. Un hash no acredita la identidad del editor.
+
+## Desarrollo
+
+Requisitos: **Node.js 22.12 o posterior**, npm y Git si vas a clonar. Para generar el instalador utiliza Windows x64. La primera instalación de dependencias y el primer empaquetado necesitan internet.
+
+Clona tu copia del repositorio o descarga el código y abre una terminal en su carpeta:
 
 ```sh
-npm install
+npm ci
 npm run dev
 ```
 
-```sh
-npm run check
-npm run lint
-npm test
-npm run build
-npx playwright install chromium
-npm run test:e2e
+Abre la dirección que indique Vite. No abras `index.html` directamente desde el explorador de archivos.
+
+| Comando                                       | Resultado                                                         |
+| --------------------------------------------- | ----------------------------------------------------------------- |
+| `npm run dev`                                 | Web con recarga durante desarrollo                                |
+| `npm run build`                               | Web lista para servir en `dist/`                                  |
+| `npm run preview`                             | Revisar la web compilada                                          |
+| `npm run desktop`                             | Compilar la web y abrirla con Electron                            |
+| `npm run desktop:pack`                        | Programa sin instalador en `release/win-unpacked/`                |
+| `npm run desktop:dist`                        | Instalador Windows x64 en `release/`                              |
+| `npm run test:desktop`                        | Comprobación de arranque de Electron con el `dist/` existente     |
+| `npm run check` / `npm run lint` / `npm test` | Tipos, análisis estático y pruebas unitarias                      |
+| `npm run test:e2e`                            | Pruebas del navegador; requiere `npx playwright install chromium` |
+
+Para probar el programa empaquetado en PowerShell:
+
+```powershell
+$env:DESKTOP_EXECUTABLE = 'release/win-unpacked/Yellow Garden.exe'
+npm run test:desktop
+Remove-Item Env:DESKTOP_EXECUTABLE
 ```
 
-`npm run preview` sirve la compilación de producción. No necesita backend, credenciales, Blender, CDN ni recursos remotos durante su ejecución.
+La carpeta `win-unpacked` se usa completa; su `.exe` solo no es un programa portable. Para usuarios, distribuye el instalador de la raíz de `release/`.
 
-## Personalizar
+### Personalizar
 
-- `src/config/garden.config.ts`: título, fecha, número de flores, audio y duración.
-- `src/content/messages.ts`: mensajes de las flores y nota final.
-- `src/theme/tokens.css`: colores, tipografía y estilos.
-- `?seed=ana`: comparte una composición reproducible. Las seeds distinguen mayúsculas.
+- `src/config/garden.config.ts`: fecha, opciones del jardín, cantidad de flores y duraciones.
+- `src/content/messages.ts`: mensajes y dedicatoria.
+- `src/theme/`: colores y tipografía.
+- `public/branding/zyxer-mark.png`: símbolo visual e icono del programa.
+- `electron-builder.json`: nombre, identificador y opciones de instalación.
+- `?seed=ana` en la web: composición reproducible.
 
-El sonido comienza desactivado y se genera con Web Audio en el dispositivo. El botón de descubrimiento ofrece una alternativa de teclado a tocar las flores. El movimiento reducido acorta crecimiento, floración, formación del ramo y revelado de la carta, y elimina el movimiento ambiental. Sin WebGL2, se muestra el mensaje del regalo y la opción de reintentar.
+Para activar enlaces al repositorio en builds locales, copia `.env.example` a `.env.local` y cambia `VITE_REPOSITORY_URL` por la URL real. GitHub Actions la configura automáticamente. La variable es pública: no introduzcas tokens ni secretos. Si falta, se muestra una explicación sin enlaces inventados.
 
-Antes de plantar puedes elegir **Luz**, **Agua** o **Música**. Luz refuerza la iluminación cálida; Agua añade gotas y una luz azul suave; Música añade un ritmo visual lento y armoniza los sonidos de las interacciones. Elegir Música no activa el sonido: usa el control **Activar sonido** si quieres escucharlo. Con movimiento reducido, las gotas quedan quietas y la luz no pulsa. La elección se conserva al reiniciar el recorrido y vuelve a Luz al recargar la página.
+## Publicar todo desde este repositorio
 
-El botón **Ajustes del jardín**, junto al sonido, permite elegir calidad **Automática**, **Ligera** o **Alta** sin perder el avance. Automática parte de una estimación según núcleos del dispositivo y reduce progresivamente la calidad si detecta lentitud sostenida; no vuelve a subirla por sí sola. Ligera reduce resolución, hierba, luces ambientales en forma de partículas y gotas. Se conservan todas las flores y los puntos del mensaje para mantener su legibilidad. La elección dura hasta recargar la página.
+No se publica nada al ejecutar los comandos locales de empaquetado: utilizan `--publish never`.
 
-Después de florecer, pulsa **Crear mi ramo**. Arrastra la cinta dorada o el control **Tira de la cinta** hacia la derecha. Un gesto corto vuelve a la posición inicial; un gesto completo revela la tarjeta. También puedes usar **Desatar sin arrastrar** o enfocar el control de cinta y pulsar Enter/Espacio. Toca la tarjeta o pulsa **Leer mi carta** para leerla; Escape cierra la nota y devuelve el foco al control. La dedicatoria sigue disponible directamente desde el jardín, sin obligar a completar el gesto.
+### Web: GitHub Pages
 
-**Un último deseo** inicia el viento desde el jardín o desde la tarjeta. Mantén pulsado y suelta, con dedo, ratón, Espacio o Enter. **Continuar sin mantener pulsado** ofrece una alternativa de un solo paso. Escape, la cancelación del puntero o salir de la pestaña cancelan la pulsación. Las partículas se dispersan y forman un corazón con profundidad; después puedes quedarte explorando el jardín, repetir el deseo o empezar de nuevo. Con movimiento reducido, el corazón aparece estático sin ráfaga ni pulso.
+1. Sube el repositorio cuando quieras publicarlo.
+2. En **Settings → Pages → Source**, selecciona **GitHub Actions**.
+3. Publica cambios en `main` o ejecuta **Actions → GitHub Pages → Run workflow**.
+4. Copia la URL indicada por el despliegue a **About → Website** del repositorio.
 
-Desde el corazón, **Un mensaje entre las luces** transforma los puntos en **FELIZ PRIMAVERA** y la fecha configurada. Se conserva una versión HTML legible para tecnologías de asistencia. El jardín combina girasoles, margaritas amarillas y pequeñas flores en copa; el girasol principal siempre se mantiene.
+`deploy.yml` valida y publica `dist/`. Las rutas relativas admiten servir la web bajo el nombre de tu repositorio.
 
-El símbolo dorado junto al título esconde una pequeña terminal de juguete. Se abre al tocarlo, mantenerlo pulsado o activarlo por teclado; no ejecuta comandos reales ni altera la historia. Puedes desactivarlo con `secrets: false`. Todos estos descubrimientos son opcionales.
+### Windows: instalador y Releases
 
-## Alcance de esta versión
+**Para probar sin publicar:** ejecuta **Actions → Windows application → Run workflow**. Al terminar, descarga el artefacto `yellow-garden-windows-x64`; contiene el instalador y los hashes. El artefacto `yellow-garden-web` contiene la web compilada. Los artefactos de Actions pueden caducar; no sustituyen una Release pública.
 
-La versión 0.16 completa la adaptación funcional del recorrido: semilla, crecimiento, floración, jardín, ramo, descubrimiento de flores, cinta, libro abierto, viento, corazón, mensaje, flor gigante, terminal secreto y cierre con banco 3D. El libro se despliega al desatar; la lectura HTML conserva teclado y restitución del foco. Después de la última flor, **Un momento más** lleva al banco; también puedes usar **Descansar en el jardín** desde exploración. El título del encabezado reinicia la experiencia sin recargar.
+**Para preparar una versión:** actualiza la versión con `npm version patch` (o `minor`/`major`) sobre un árbol limpio, y sube el commit y el tag que crea. El tag debe ser exactamente `v` seguido de la versión de `package.json`. Por ejemplo, la versión actual corresponde a `v0.19.0`.
 
-Los protagonistas son geometría animada; el paisaje lejano y el papel usan imágenes locales. El suelo tiene relieve y piedras próximas a la semilla. Las flores siguen una dirección estilizada: esta versión no es una réplica fotográfica del tablero. Los detalles técnicos y la evidencia de pruebas están en `docs/VALIDATION.md` y `design-qa.md`.
+El workflow `desktop.yml` compila, comprueba la aplicación empaquetada y crea una **Release en borrador** con el instalador y sus hashes. Revisa los archivos y las notas en GitHub; solo cuando pulses **Publish release** serán una descarga pública. El código fuente lo adjunta GitHub como ZIP/TAR de esa versión.
 
-La profundidad de campo se aplica a apertura y regalo en calidad media/alta y se omite en Ligera. Se unificaron los 50 segmentos de tallos del follaje del ramo en una malla; las flores pequeñas y hojas se dibujan mediante instancias. `node scripts/measure-performance.mjs` mide tiempos de cuadro locales con Chromium instalado y el servidor de desarrollo activo; la emulación móvil no sustituye pruebas en teléfonos físicos.
+Para distribuir con una identidad de editor verificada, será necesario contratar/configurar firma de código en una etapa posterior; este repositorio no contiene certificados ni credenciales.
 
-## Publicar en GitHub Pages
+## Estructura y tecnología
 
-El proyecto está listo para un repositorio llamado `yellow-garden`. Configura **Settings → Pages → Source → GitHub Actions** y publica la rama `main`. El workflow `deploy.yml` genera y publica `dist`. Las rutas relativas permiten servirlo bajo `/yellow-garden/`.
+```text
+src/                  Experiencia compartida Svelte + TypeScript + Three.js
+public/               Recursos locales y marca
+electron/             Ventana y seguridad de Electron (sin backend)
+scripts/              Herramientas y prueba de escritorio
+.github/workflows/    Validación, Pages y compilación Windows
+docs/                 Guías y evidencia de validación
+dist/                 Web compilada (no se versiona)
+release/              Ejecutable e instalador (no se versionan)
+```
 
-La publicación requiere una sesión válida en GitHub y un repositorio remoto. No se incluyen secretos. La CI valida tipos, lint, pruebas unitarias, build y recorrido en Chromium de escritorio y móvil emulado. Es necesario comprobar Safari/iPhone y Android reales antes de afirmar compatibilidad completa.
+Electron carga el mismo `dist/` mediante un protocolo local; no inicia Vite ni expone Node.js a la interfaz. Se bloquean navegación externa y permisos del dispositivo; únicamente los enlaces HTTPS a GitHub pueden abrirse en el navegador del sistema.
 
-## Diseño técnico
+Consulta [ARCHITECTURE.md](ARCHITECTURE.md), [docs/VALIDATION.md](docs/VALIDATION.md), [CHANGELOG.md](CHANGELOG.md) y [CONTRIBUTING.md](CONTRIBUTING.md).
 
-Svelte 5 + TypeScript + Vite; Three.js dentro de Threlte; XState para el recorrido; GSAP para crecimiento y floración. Consulta `ARCHITECTURE.md`.
+## Licencia y créditos
 
-Licencia MIT. Consulta `ATTRIBUTIONS.md` para las dependencias y recursos.
-
-### Jardín y ramo (0.9)
-
-La dirección visual se extiende a las escenas de jardín y ramo. Un paisaje nocturno generado se combina con las flores 3D animadas: estas se desplazan hacia los lados del sendero y después se reúnen. El fondo lejano sigue siendo una imagen sobre un plano; las flores interactivas, cinta y tarjeta son geometría. La composición se aproxima al tablero de referencia, aunque los modelos florales mantienen un acabado estilizado. Esta sección documenta el avance histórico de la versión 0.9.
-
-### Tarjeta y finales (0.10)
-
-La tarjeta incorpora papel marfil ilustrado y una vista de lectura accesible. El viento, corazón, mensaje y última flor mantienen el paisaje nocturno con encuadres centrales y controles inferiores. La comparación visual se encuentra en `docs/cinematic-finale-comparison.png`. Es una aproximación animada: el modelo floral sigue siendo estilizado y documenta la tarjeta cerrada de aquella versión, sustituida por un libro abierto en 0.16.
-
-### Detalle floral (0.11)
-
-Pétalos curvos con variación de orientación y color, hojas con nervaduras y centros con semillas de tamaño y tono variables. Se conserva la apertura animada. Comparación del ramo: `docs/botanical-comparison.png`. La mejora añade relieve al modelo; no equivale todavía al realismo fotográfico del tablero.
-
-### Follaje del ramo (0.12)
-
-El ramo incorpora pequeñas flores crema y ramitas con hojas que aparecen durante la reunión y se desvanecen en el final. Comparación con la escena 06: `docs/foliage-comparison.png`. Continúa siendo una interpretación 3D estilizada.
-
-## Recorrido de la historia (0.17)
-
-La bienvenida permite elegir **Ver la historia** o **Explorar a mi ritmo**. El modo automático recorre semilla, crecimiento, flor, jardín, ramo, cinta, carta, viento, corazón, mensaje, gran flor y banco. La carta se abre y espera una acción explícita: **Continuar la historia**. Cerrar con × o Escape deja la carta en su escena; **Siguiente** permite continuar.
-
-**Tu recorrido**, arriba a la izquierda, muestra la etapa actual y abre un mapa de 12 etapas. Permite volver a las visitadas, cambiar de modo y reiniciar. **Anterior / Pausar / Siguiente** permiten navegar sin aprender gestos. La pausa detiene los tweens de esta escena y sus actualizaciones; abrir el mapa o cambiar de pestaña también suspende el avance. Al reanudar, la espera automática entre escenas vuelve a empezar para dar tiempo a orientarse. El sonido conserva su control independiente.
+El proyecto conserva su [licencia MIT](LICENSE): puedes estudiar, modificar y redistribuir el código respetando sus condiciones y avisos. Consulta [ATTRIBUTIONS.md](ATTRIBUTIONS.md) para recursos y dependencias. La marca que aparece en esta edición es **ZyXer Labs**.

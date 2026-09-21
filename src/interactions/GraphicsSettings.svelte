@@ -10,6 +10,12 @@
   let dialog: HTMLDialogElement;
   let trigger: HTMLButtonElement;
   const labels = { low: 'Ligera', medium: 'Equilibrada', high: 'Alta' };
+  const configuredRepository = import.meta.env.VITE_REPOSITORY_URL ?? '';
+  const repository = /^https:\/\/github\.com\/[\w.-]+\/[\w.-]+\/?$/.test(
+    configuredRepository,
+  )
+    ? configuredRepository.replace(/\/$/, '')
+    : '';
   function close() {
     dialog.close();
     trigger.focus();
@@ -59,6 +65,28 @@
     flores y mensajes siguen aquí.
   </p>
   <p class="current" role="status">Calidad actual: {labels[level]}</p>
+  <details class="about-project">
+    <summary>Acerca del proyecto · ZyXer Labs</summary>
+    <p>
+      Un jardín para disfrutar en tu navegador o como aplicación de Windows. El
+      código también está disponible para aprender y crear tu propia versión.
+    </p>
+    {#if repository}
+      <a
+        href={`${repository}/releases`}
+        target="_blank"
+        rel="noopener noreferrer">Descargas para Windows ↗</a
+      >
+      <a href={repository} target="_blank" rel="noopener noreferrer"
+        >Código e instrucciones en GitHub ↗</a
+      >
+    {:else}
+      <p>
+        Edición local. Los enlaces de descarga estarán disponibles al publicar
+        el repositorio.
+      </p>
+    {/if}
+  </details>
   <button class="card-return" onclick={close}>Volver al jardín ↗</button>
 </dialog>
 
@@ -111,5 +139,20 @@
   }
   .current {
     font-size: 12px;
+  }
+  .about-project {
+    border-top: 1px solid #78643466;
+    padding-top: 16px;
+    margin: 20px 0;
+  }
+  summary {
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .about-project a {
+    display: block;
+    color: #74531a;
+    padding: 8px 0;
+    font-size: 14px;
   }
 </style>

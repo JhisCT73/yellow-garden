@@ -123,3 +123,11 @@ Solo se muestra al llegar al banco. El paisaje raster anterior queda oculto en e
 La apertura y el jardín comparten ahora el cielo procedural, luna, nubes, montañas y lago del cierre. Se retiraron las dos mallas con fotografías de fondo del mundo; la textura de tierra se conserva como material sobre geometría con relieve. El sendero despeja el eje central y tiene bordes elevados, piedras y plantas con tallos. Se reutilizan los modelos de girasol, margarita y flor pequeña para 120 flores lejanas, agrupadas por material e instanciadas; usan una geometría más sencilla que las flores interactivas.
 
 Crecimiento y floración se renderizan sin BokehPass, para que toda la cabeza del girasol quede enfocada. La cámara de floración está más lejos y las superficies de pétalos cercanos tienen más segmentos. La pausa, navegación y preferencia de movimiento reducido conservan el mismo reloj del mundo.
+
+## Escritorio y distribución (0.19)
+
+La web y Windows comparten exactamente `dist/`. Electron carga `garden://app/index.html` mediante un protocolo seguro y estándar que resuelve exclusivamente archivos bajo `dist/`; no utiliza un servidor HTTP ni Vite. Se conserva sandbox, aislamiento de contexto y seguridad web; no hay preload ni puente IPC que exponga Node.js al renderer. Se deniegan permisos, webviews y navegación. Los enlaces externos solo se abren en el navegador del sistema si son HTTPS en github.com. Una CSP limita scripts y conexiones a recursos locales.
+
+`electron-builder.json` crea un instalador NSIS x64 por usuario, con acceso directo en escritorio/Inicio, selección de carpeta y desinstalación. La copia de Electron instalada se prepara con `desktop:runtime` y se reutiliza mediante `electronDist`, evitando una segunda extracción/renombrado que falló con EPERM en esta máquina. No hay autoactualizador ni firma digital configurada.
+
+`desktop.yml` compila en Windows al recibir un tag v* o una ejecución manual, prueba el ejecutable empaquetado y guarda instalador/hashes como artefactos. Solo los tags generan una Release en borrador. `deploy.yml` sigue publicando Pages independientemente. Ambos builds reciben VITE_REPOSITORY_URL desde el contexto de GitHub; la interfaz valida la URL antes de mostrar enlaces. No se incluye un repositorio ficticio en la distribución local.

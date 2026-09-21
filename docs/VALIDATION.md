@@ -200,3 +200,10 @@ El paisaje fotográfico del mundo se reemplazó por terreno con relieve, piedras
 La ejecución seleccionada de 12 pruebas (bench, garden y quality; escritorio y móvil Chromium) terminó con `.last-run.json` en estado passed. Las primeras ejecuciones con 60 s agotaron el tiempo en el recorrido del banco; se repitió con 120 s por prueba. Los dos escenarios de banco en escritorio tardaron aproximadamente 72 y 78 s. No se certifica fluidez ni rendimiento en GPU física. Se mantiene la limitación de dispositivos físicos documentada arriba.
 
 Verificación final con marca: svelte-check sin errores ni advertencias, lint correcto, 23/23 pruebas unitarias y build correcto. Se mantiene la advertencia de tamaño de Three (704,09 kB). Revisión visual de marca transparente en escritorio y móvil, apertura/cierre del mapa y del secreto comprobados en navegador. No se repitió toda la suite E2E tras el cambio de marca.
+
+## 0.19.0 — Windows
+
+- svelte-check: 0 errores/advertencias; lint correcto; 23/23 pruebas unitarias; build Vite correcto (advertencia habitual de tamaño de Three).
+- `npm run desktop:dist` completado usando Electron 44.4.3 y electron-builder 26.15.3. Instalador NSIS x64 de aproximadamente 115 MB. Authenticode: NotSigned.
+- `npm run test:desktop` aprobado con Electron de desarrollo y con `release/win-unpacked/Yellow Garden.exe`. La última comprobación del empaquetado desactiva la red antes de recargar: logo cargado, jardín WebGL, mapa y Acerca del proyecto, sin errores JS/consola. Verifica nodeIntegration=false, contextIsolation=true, sandbox=true y webSecurity=true.
+- No se instaló el producto en el perfil del usuario: instalación, desinstalación y accesos directos requieren revisión en equipo limpio. No hay publicación ni ejecución de workflows remotos. No se repitió la suite E2E completa del navegador para este cambio de distribución.

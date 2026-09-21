@@ -1,0 +1,35 @@
+{
+  "appId": "com.zyxerlabs.yellowgarden",
+  "productName": "Yellow Garden",
+  "copyright": "Copyright © 2026 ZyXer Labs",
+  "directories": { "output": "release" },
+  "files": [
+    "dist/**/*",
+    "electron/**/*",
+    "public/branding/zyxer-mark.png",
+    "package.json",
+    "LICENSE",
+    "ATTRIBUTIONS.md",
+    "!node_modules/**/*"
+  ],
+  "asar": true,
+  "electronDist": "node_modules/electron/dist",
+  "npmRebuild": false,
+  "win": {
+    "target": [{ "target": "nsis", "arch": ["x64"] }],
+    "icon": "public/branding/zyxer-mark.png",
+    "artifactName": "YellowGarden-Setup-${version}-${arch}.${ext}"
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "allowElevation": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": "always",
+    "createStartMenuShortcut": true,
+    "shortcutName": "Yellow Garden — ZyXer Labs",
+    "deleteAppDataOnUninstall": false,
+    "installerLanguages": ["es_ES", "en_US"],
+    "language": "3082"
+  }
+}

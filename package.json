@@ -1,7 +1,11 @@
 {
   "name": "yellow-garden",
   "private": true,
-  "version": "0.18.0",
+  "version": "0.19.0",
+  "description": "Un jardín 3D interactivo de ZyXer Labs para web y Windows.",
+  "author": "ZyXer Labs",
+  "license": "MIT",
+  "main": "electron/main.cjs",
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
@@ -11,7 +15,12 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "desktop": "npm run build && electron .",
+    "desktop:runtime": "node node_modules/electron/install.js",
+    "desktop:pack": "npm run build && npm run desktop:runtime && electron-builder --win --x64 --dir --publish never",
+    "desktop:dist": "npm run build && npm run desktop:runtime && electron-builder --win --x64 --publish never",
+    "test:desktop": "node scripts/test-desktop.mjs"
   },
   "dependencies": {
     "@threlte/core": "^8.0.0",
@@ -27,6 +36,8 @@
     "@tsconfig/svelte": "^5.0.0",
     "@types/node": "^22.0.0",
     "@types/three": "^0.180.0",
+    "electron": "^44.4.3",
+    "electron-builder": "^26.15.3",
     "eslint": "^9.0.0",
     "eslint-plugin-svelte": "^3.0.0",
     "globals": "^16.0.0",

@@ -141,3 +141,12 @@ Primera implementación del recorrido semilla → crecimiento → floración →
 ## Marca ZyXer Labs
 
 Símbolo de marca con transparencia en la esquina superior izquierda, seguido de ZyXer Labs. Se conserva el indicador de etapa y la apertura del mapa, así como el secreto al tocar el símbolo.
+
+## 0.19.0 — Web y Windows en un repositorio
+
+- Aplicación Electron con recursos locales, aislamiento del renderer y protocolo seguro para assets.
+- Instalador NSIS x64 con icono ZyXer Labs y accesos directos; ejecución sin conexión.
+- Comandos para abrir, empaquetar, generar instalador y verificar el ejecutable.
+- Workflow Windows con artefactos, hashes SHA256 y Releases en borrador para tags de versión.
+- Ajustes: Acerca del proyecto, descargas y código configurados automáticamente en GitHub.
+- README reescrito para visitantes, usuarios de Windows y desarrolladores. Se conserva MIT.
