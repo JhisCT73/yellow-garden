@@ -8,9 +8,34 @@ test('local soundtrack starts on demand, pauses and resumes', async ({
   await page.goto('/');
   await expect(page.locator('audio[data-soundtrack]')).toHaveCount(0);
   await page.getByLabel('Elegir música', { exact: true }).click();
-  await page
-    .getByLabel('Elegir archivo de audio')
-    .setInputFiles(audioFixture());
+  const zone = page.getByRole('button', { name: /Arrastra tu canción aquí/ });
+  const invalidDrop = await page.evaluateHandle(() => {
+    const data = new DataTransfer();
+    data.items.add(new File(['text'], 'notes.txt', { type: 'text/plain' }));
+    return data;
+  });
+  await zone.dispatchEvent('drop', { dataTransfer: invalidDrop });
+  await expect(page.getByRole('alert')).toContainText('no es de audio');
+  await expect(page.locator('audio[data-soundtrack]')).toHaveCount(0);
+  const fixture = audioFixture();
+  const dataTransfer = await page.evaluateHandle(
+    (bytes) => {
+      const data = new DataTransfer();
+      data.items.add(
+        new File([new Uint8Array(bytes)], 'test.wav', { type: 'audio/wav' }),
+      );
+      return data;
+    },
+    [...fixture.buffer],
+  );
+  await zone.dispatchEvent('drop', { dataTransfer });
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  await expect(page.locator('.filename')).toHaveText('test.wav');
+  await invalidDrop.dispose();
+  await dataTransfer.dispose();
+  await page.screenshot({
+    path: `test-results/music-picker-${test.info().project.name}.png`,
+  });
   await page.getByLabel('Elegir música', { exact: true }).click();
   await page
     .getByRole('button', { name: 'Activar sonido', exact: true })
