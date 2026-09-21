@@ -117,3 +117,9 @@ GardenScene restaura las variables de crecimiento, ramo, carta y partículas al 
 La escena BENCH ahora tiene un entorno propio en Three.js: cielo procedural y capas de nubes con desplazamiento, luna esférica, tres cordilleras con geometría, lago con ondas y reflejo estilizado, pinos instanciados, árbol lateral, flores y vegetación baja, vallas y faroles con luces puntuales. El banco conserva su malla y añade vetas procedurales. La textura de suelo existente se reutiliza para terreno y madera de la valla.
 
 Solo se muestra al llegar al banco. El paisaje raster anterior queda oculto en esa etapa. Todas las animaciones nuevas usan el reloj de GardenScene: pausa, pestaña oculta y movimiento reducido conservan el comportamiento existente. Geometrías y materiales quedan bajo el recorrido de limpieza habitual.
+
+## Jardín continuo en 3D
+
+La apertura y el jardín comparten ahora el cielo procedural, luna, nubes, montañas y lago del cierre. Se retiraron las dos mallas con fotografías de fondo del mundo; la textura de tierra se conserva como material sobre geometría con relieve. El sendero despeja el eje central y tiene bordes elevados, piedras y plantas con tallos. Se reutilizan los modelos de girasol, margarita y flor pequeña para 120 flores lejanas, agrupadas por material e instanciadas; usan una geometría más sencilla que las flores interactivas.
+
+Crecimiento y floración se renderizan sin BokehPass, para que toda la cabeza del girasol quede enfocada. La cámara de floración está más lejos y las superficies de pétalos cercanos tienen más segmentos. La pausa, navegación y preferencia de movimiento reducido conservan el mismo reloj del mundo.

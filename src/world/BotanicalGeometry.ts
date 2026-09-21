@@ -1,9 +1,14 @@
 import * as THREE from 'three';
 
 /** Shared curved surfaces; their detail is baked once rather than rebuilt per frame. */
-export function botanicalSurface(length: number, width: number, leaf = false) {
-  const rows = leaf ? 24 : 16;
-  const columns = leaf ? 12 : 8;
+export function botanicalSurface(
+  length: number,
+  width: number,
+  leaf = false,
+  distant = false,
+) {
+  const rows = distant ? 8 : leaf ? 24 : 32;
+  const columns = distant ? 4 : 12;
   const positions: number[] = [],
     colors: number[] = [],
     indices: number[] = [];

@@ -219,3 +219,9 @@ Referencia: segunda imagen adjunta del usuario (banco frente al lago, faroles, l
 Capturas reales: docs/lakeside-desktop.png y docs/lakeside-mobile.png. Revisión de controles y texto en 1294 × 856 y 390 × 844. Ajustada la luna en móvil para separarla de la columna de navegación. P3: la vegetación, las montañas y los materiales mantienen un acabado estilizado, bastante menos fotográfico que la referencia; no se presenta como réplica. El cartel del árbol no se reprodujo.
 
 final result: passed
+
+## Jardín continuo — propuesta con sendero central
+
+Referencia: propuesta del usuario con girasol a la izquierda, camino, luna y vegetación a ambos lados. Terreno, flores, piedras, cercas, faroles, árboles y montañas comparten espacio 3D. Se reutilizan los modelos existentes en tres especies y con geometría reducida a distancia. Nubes procedurales animadas; fotografía de fondo retirada del mundo.
+
+Capturas: docs/garden-3d-desktop.png y docs/garden-3d-mobile.png. El girasol protagonista cabe completo en la vista móvil del jardín; flores periféricas pueden salir del encuadre como parte de la composición. Capturas de floración: docs/bloom-sharp-desktop.png y docs/bloom-sharp-mobile.png. Acabado estilizado, aún lejos del realismo, densidad y riqueza de materiales de la propuesta. No se presenta como reproducción exacta.

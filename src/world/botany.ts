@@ -4,12 +4,12 @@ import { flowerSpecies, speciesProfiles } from '../objects/flowerSpecies';
 
 import { botanicalSurface } from './BotanicalGeometry';
 
-export function createFlowers(seed: string, count: number) {
+export function createFlowers(seed: string, count: number, distant = false) {
   const root = new THREE.Group();
-  const petal = botanicalSurface(0.79, 0.165);
-  const daisyPetal = botanicalSurface(0.64, 0.085);
-  const cupPetal = botanicalSurface(0.46, 0.22);
-  const leaf = botanicalSurface(0.9, 0.25, true);
+  const petal = botanicalSurface(0.79, 0.165, false, distant);
+  const daisyPetal = botanicalSurface(0.64, 0.085, false, distant);
+  const cupPetal = botanicalSurface(0.46, 0.22, false, distant);
+  const leaf = botanicalSurface(0.9, 0.25, true, distant);
   const gold = new THREE.MeshPhysicalMaterial({
     color: '#ffffff',
     vertexColors: true,

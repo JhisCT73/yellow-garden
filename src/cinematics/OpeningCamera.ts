@@ -19,8 +19,8 @@ export function openingFrame(
     };
   if (stage === 'BLOOMING')
     return {
-      position: [1.5, 3.9, mobile ? 5.5 : 3.8] as const,
-      focus: [0, 3.05, -0.2] as const,
+      position: [0.85, 3.6, mobile ? 7 : 5.5] as const,
+      focus: [0, 2.75, -0.2] as const,
       fov: mobile ? 44 : 39,
     };
   return null;
@@ -54,7 +54,7 @@ export function gardenFrame(
     position: [
       0.35 * t,
       3.2,
-      (mobile ? 12 : 10) - t * (mobile ? 0.2 : 0.6),
+      (mobile ? 14 : 10) - t * (mobile ? 2.2 : 0.6),
     ] as const,
     focus: [0, 1.5 + t * 0.7, -1.5 + t * 1.5] as const,
     fov: mobile ? 44 : 39,

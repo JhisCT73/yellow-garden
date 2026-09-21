@@ -100,6 +100,28 @@ header {
   align-items: center;
   gap: 9px;
 }
+.brand-mark {
+  display: block;
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+.journey-trigger strong.brand-name {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.6px;
+  color: #f3f5fc;
+}
+@media (max-width: 719px) {
+  .brand-mark {
+    width: 36px;
+    height: 36px;
+  }
+  .journey-trigger strong.brand-name {
+    font-size: 17px;
+  }
+}
 .header-controls {
   display: flex;
   align-items: center;

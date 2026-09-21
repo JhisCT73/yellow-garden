@@ -1,18 +1,25 @@
 import * as THREE from 'three';
 import { seededRandom } from '../utils/random';
+import { createGardenTerrain, terrainHeight } from './GardenTerrain';
+import { createFlowerField } from './FlowerField';
+import { botanicalSurface } from './BotanicalGeometry';
 import { createFlowers } from './botany';
 
-/** The final clearing is geometry in world space, not a screenshot behind the bench. */
+/** Shared world-space landscape for the journey, with furniture reserved for the ending. */
 export function createBenchEnvironment(seed: string, soil: THREE.Texture) {
   const root = new THREE.Group();
   root.visible = false;
+  const furniture = new THREE.Group();
+  const tree = new THREE.Group();
+  root.add(furniture, tree);
+  tree.position.set(-2, 0.6, -1);
   const random = seededRandom(seed + '-lakeside');
   const uniforms = { time: { value: 0 } };
   const noise = `
     float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
     float noise(vec2 p){ vec2 i=floor(p),f=fract(p); f=f*f*(3.-2.*f);
       return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+1.),f.x),f.y); }
-    float fbm(vec2 p){ float v=0.,a=.5; for(int i=0;i<5;i++){v+=a*noise(p);p=p*2.03+7.1;a*=.5;} return v; }
+    float fbm(vec2 p){ float v=0.,a=.5; for(int i=0;i<3;i++){v+=a*noise(p);p=p*2.03+7.1;a*=.5;} return v; }
   `;
   const sky = new THREE.Mesh(
     new THREE.SphereGeometry(65, 40, 24),
@@ -105,17 +112,14 @@ export function createBenchEnvironment(seed: string, soil: THREE.Texture) {
   lake.rotation.x = -Math.PI / 2;
   lake.position.set(0, -0.65, -21);
   root.add(lake);
-  const land = new THREE.Mesh(
-    new THREE.PlaneGeometry(20, 16, 30, 25),
-    new THREE.MeshStandardMaterial({
-      map: soil,
-      color: '#69513a',
-      roughness: 1,
-    }),
-  );
-  land.rotation.x = -Math.PI / 2;
-  land.position.set(0, -0.07, -0.6);
-  root.add(land);
+  const land = createGardenTerrain(soil);
+  root.add(land, createFlowerField(seed));
+  for (const z of [-2]) {
+    const glow = new THREE.PointLight('#ffc16b', 10, 20, 2);
+    glow.position.set(0.3, 1.3, z);
+    root.add(glow);
+  }
+
   // Pines frame a clear central view toward the water.
   const pines = new THREE.InstancedMesh(
     new THREE.LatheGeometry(
@@ -168,12 +172,12 @@ export function createBenchEnvironment(seed: string, soil: THREE.Texture) {
     ),
   );
 
-  const borderFlowers = createFlowers(seed + '-bench-flowers', 24);
+  const borderFlowers = createFlowers(seed + '-bench-flowers', 24, true);
   borderFlowers.update(1, 1, 0, false);
   borderFlowers.flowers.forEach((f, i) => {
     f.group.position.set(
       (i % 2 ? 1 : -1) * (1.8 + random() * 2.7),
-      -0.02,
+      terrainHeight((i % 2 ? 1 : -1) * 3, -2),
       -4 + random() * 7,
     );
     f.group.scale.setScalar(0.2 + random() * 0.35);
@@ -194,22 +198,53 @@ export function createBenchEnvironment(seed: string, soil: THREE.Texture) {
     }),
     600,
   );
+  const smallStems = new THREE.InstancedMesh(
+    new THREE.CylinderGeometry(0.006, 0.009, 1, 4),
+    new THREE.MeshStandardMaterial({ color: '#344323', roughness: 1 }),
+    600,
+  );
   for (let i = 0; i < 700; i++) {
     const z = -7 + random() * 11,
       x = (i % 2 ? 1 : -1) * (1.3 + random() * 4);
-    dummy.position.set(x, random() * 0.4, z);
+    dummy.position.set(x, terrainHeight(x, z) + 0.05 + random() * 0.12, z);
     dummy.rotation.set(random() * 3, random() * 6, random() * 3);
     dummy.scale.set(1 + random(), 0.5 + random(), 2 + random() * 2);
     dummy.updateMatrix();
     undergrowth.setMatrixAt(i, dummy.matrix);
     if (i < 600) {
-      dummy.position.y = 0.12 + random() * 0.5;
+      const height = 0.12 + random() * 0.5;
+      dummy.position.y = terrainHeight(x, z) + height;
       dummy.scale.set(1.4, 0.5, 1.4);
       dummy.updateMatrix();
       smallFlowers.setMatrixAt(i, dummy.matrix);
+      dummy.rotation.set(0, 0, 0);
+      dummy.position.y = terrainHeight(x, z) + height / 2;
+      dummy.scale.set(1, height, 1);
+      dummy.updateMatrix();
+      smallStems.setMatrixAt(i, dummy.matrix);
     }
   }
-  root.add(undergrowth, smallFlowers);
+  root.add(undergrowth, smallFlowers, smallStems);
+  const rocks = new THREE.InstancedMesh(
+    new THREE.IcosahedronGeometry(1, 1),
+    new THREE.MeshStandardMaterial({
+      map: soil,
+      color: '#514a37',
+      roughness: 1,
+    }),
+    90,
+  );
+  for (let i = 0; i < 90; i++) {
+    const z = -15 + random() * 21,
+      x = (i % 2 ? 1 : -1) * (1.2 + random() * 1.2);
+    dummy.position.set(x, terrainHeight(x, z), z);
+    dummy.rotation.set(random() * 2, random() * 6, random());
+    const size = 0.06 + random() * 0.2;
+    dummy.scale.set(size * 1.4, size * 0.65, size);
+    dummy.updateMatrix();
+    rocks.setMatrixAt(i, dummy.matrix);
+  }
+  root.add(rocks);
   const wood = new THREE.MeshStandardMaterial({
     color: '#49321e',
     map: soil,
@@ -232,7 +267,7 @@ export function createBenchEnvironment(seed: string, soil: THREE.Texture) {
       new THREE.Vector3(0, 1, 0),
       b.clone().sub(a).normalize(),
     );
-    root.add(mesh);
+    furniture.add(mesh);
   }
   for (const side of [-1, 1]) {
     for (let i = 0; i < 4; i++) {
@@ -284,8 +319,9 @@ export function createBenchEnvironment(seed: string, soil: THREE.Texture) {
     lantern.add(flame);
     const light = new THREE.PointLight('#ffbc50', 5, 5, 2);
     lantern.add(light);
-    root.add(lantern);
+    furniture.add(lantern);
   }
+  const fence = [...furniture.children];
   // A real trunk and arching branches frame the left edge.
   beam(new THREE.Vector3(-4, 0, -1), new THREE.Vector3(-3.7, 6, -1), 0.38);
   beam(
@@ -295,8 +331,13 @@ export function createBenchEnvironment(seed: string, soil: THREE.Texture) {
   );
   beam(new THREE.Vector3(-3.8, 5, -1), new THREE.Vector3(-5, 6.5, -3), 0.16);
   const leaves = new THREE.InstancedMesh(
-    new THREE.SphereGeometry(1, 6, 4),
-    new THREE.MeshStandardMaterial({ color: '#344323', roughness: 0.9 }),
+    botanicalSurface(1, 0.3, true),
+    new THREE.MeshStandardMaterial({
+      color: '#ffffff',
+      vertexColors: true,
+      side: THREE.DoubleSide,
+      roughness: 0.9,
+    }),
     180,
   );
   for (let i = 0; i < 180; i++) {
@@ -305,12 +346,14 @@ export function createBenchEnvironment(seed: string, soil: THREE.Texture) {
       3.7 + random() * 1.2,
       -2 + random() * 2,
     );
-    dummy.scale.set(0.12, 0.045, 0.25);
+    dummy.scale.setScalar(0.35 + random() * 0.25);
     dummy.rotation.set(random(), random() * 6, random() * 3);
     dummy.updateMatrix();
     leaves.setMatrixAt(i, dummy.matrix);
   }
-  root.add(leaves);
+  tree.add(leaves);
+  for (const child of [...furniture.children])
+    if (!fence.includes(child)) tree.add(child);
   const motes = new THREE.BufferGeometry();
   const points = [];
   for (let i = 0; i < 160; i++)
@@ -330,11 +373,13 @@ export function createBenchEnvironment(seed: string, soil: THREE.Texture) {
   root.add(fireflies);
   return {
     root,
-    update(active: boolean, time: number, mobile: boolean) {
-      root.visible = active;
-      moon.position.x = mobile ? 0 : 7;
-      if (active) uniforms.time.value = time;
+    update(_ending: boolean, time: number, mobile: boolean, opening: boolean) {
+      root.visible = true;
+      furniture.visible = !opening;
+      tree.visible = !opening;
+      borderFlowers.root.visible = !opening;
+      moon.position.x = mobile ? (opening ? -3 : 0) : 7;
+      uniforms.time.value = time;
     },
   };
 }
-

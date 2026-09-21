@@ -45,7 +45,14 @@
   onpointercancel={cancel}
   onblur={cancel}
   oncontextmenu={(event) => event.preventDefault()}
-  onclick={reveal}>✳</button
+  onclick={reveal}
+  ><img
+    class="brand-mark"
+    src={`${import.meta.env.BASE_URL}branding/zyxer-mark.png`}
+    alt=""
+    width="44"
+    height="44"
+  /></button
 >
 
 <dialog

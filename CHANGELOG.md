@@ -130,3 +130,14 @@ Primera implementación del recorrido semilla → crecimiento → floración →
 - Sustituido el paisaje plano del cierre por un entorno con geometría, cielo procedural, nubes animadas, lago, montañas, pinos, flores, cercas y faroles.
 - Vetas de madera en el banco y luces cálidas en el sendero.
 - Animación vinculada a pausa y movimiento reducido. Interpretación 3D estilizada de la nueva referencia; no réplica fotográfica.
+
+## Jardín y primera flor — entorno 3D continuo
+
+- Fondos fotográficos retirados del mundo; cielo animado y paisaje del cierre compartidos por el recorrido.
+- Terreno con sendero, relieve, piedras, vegetación y flores instanciadas a distintas distancias.
+- Primera flor sin desenfoque de profundidad, cámara más amplia y pétalos más suaves.
+- Geometría simplificada en flores lejanas para limitar el coste de renderizado.
+
+## Marca ZyXer Labs
+
+Símbolo de marca con transparencia en la esquina superior izquierda, seguido de ZyXer Labs. Se conserva el indicador de etapa y la apertura del mapa, así como el secreto al tocar el símbolo.

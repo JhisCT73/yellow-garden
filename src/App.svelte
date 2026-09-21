@@ -393,7 +393,13 @@
           {seed}
           onfound={() => audio.chime(4)}
         />
-      {:else}<span class="brand-symbol">✳</span>{/if}
+      {:else}<img
+          class="brand-mark"
+          src={`${import.meta.env.BASE_URL}branding/zyxer-mark.png`}
+          alt=""
+          width="44"
+          height="44"
+        />{/if}
       <button
         class="journey-trigger"
         bind:this={flowButton}
@@ -401,7 +407,7 @@
         aria-haspopup="dialog"
         aria-label="Abrir tu recorrido"
       >
-        <strong>Tu recorrido</strong><span
+        <strong class="brand-name">ZyXer Labs</strong><span
           >{stepIndex + 1} de {journey.length} · {journey[stepIndex]
             .title}</span
         >

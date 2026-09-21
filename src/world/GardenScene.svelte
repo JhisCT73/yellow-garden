@@ -98,36 +98,6 @@
   soil.colorSpace = THREE.SRGBColorSpace;
   soil.wrapS = soil.wrapT = THREE.RepeatWrapping;
   soil.repeat.set(2, 2);
-  const gardenBackdrop = new THREE.TextureLoader().load(
-    `${import.meta.env.BASE_URL}textures/night-garden.jpg`,
-  );
-  gardenBackdrop.colorSpace = THREE.SRGBColorSpace;
-  const backdrop = new THREE.Mesh(
-    new THREE.PlaneGeometry(30, 20),
-    new THREE.MeshBasicMaterial({
-      map: gardenBackdrop,
-      color: '#b0a597',
-      fog: false,
-      depthWrite: false,
-    }),
-  );
-  backdrop.position.set(0, -0.5, -7);
-  const landscapeTexture = new THREE.TextureLoader().load(
-    `${import.meta.env.BASE_URL}textures/garden-path.jpg`,
-  );
-  landscapeTexture.colorSpace = THREE.SRGBColorSpace;
-  const landscape = new THREE.Mesh(
-    new THREE.PlaneGeometry(24, 16),
-    new THREE.MeshBasicMaterial({
-      map: landscapeTexture,
-      color: '#9ba4b7',
-      fog: false,
-      depthWrite: false,
-      transparent: true,
-      opacity: 0,
-    }),
-  );
-  landscape.position.set(0, -0.6, -10);
   const gardenReveal = { value: 0 };
   const initialLevel = initialQuality(navigator.hardwareConcurrency || 4);
   const quality = qualityProfile('high', window.devicePixelRatio);
@@ -265,7 +235,7 @@
     composer.addPass(bokeh);
     composer.addPass(output);
     scene.background = new THREE.Color('#080c18');
-    scene.fog = new THREE.FogExp2('#080c18', 0.09);
+    scene.fog = new THREE.FogExp2('#080c18', 0.045);
     renderer.setPixelRatio(quality.dpr);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.35;
@@ -323,8 +293,6 @@
       careEffect.rain,
       seedbed.root,
       sprouts.root,
-      backdrop,
-      landscape,
     );
     scene.add(root);
     const canvas = renderer.domElement;
@@ -441,8 +409,6 @@
       gsap.killTweensOf(surprise);
       gift.dispose();
       soil.dispose();
-      gardenBackdrop.dispose();
-      landscapeTexture.dispose();
       composer.dispose();
       renderPass.dispose();
       bokeh.dispose();
@@ -760,7 +726,12 @@
       material.depthWrite = !transparent;
     }
     bench.visible = stage === 'BENCH';
-    benchEnvironment.update(stage === 'BENCH', time, size.current.width < 720);
+    benchEnvironment.update(
+      stage === 'BENCH',
+      time,
+      size.current.width < 720,
+      ['INTRO', 'GROWING', 'BLOOMING'].includes(stage),
+    );
     meadow.visible = stage !== 'BENCH';
     flowers.root.visible = finale.fade < 0.999 && stage !== 'BENCH';
     gift.root.visible = gift.root.visible && finale.fade < 0.999;
@@ -784,12 +755,7 @@
       time,
       !reducedMotion,
     );
-    backdrop.visible = seedbed.dust.visible;
-    landscape.visible =
-      stage !== 'BENCH' && !seedbed.dust.visible && gardenReveal.value > 0;
-    landscape.material.opacity =
-      gardenReveal.value * (1 - finale.opacity * 0.35);
-    soilSurface.opacity = 1 - gardenReveal.value * 0.9;
+    soilSurface.opacity = 1 - gardenReveal.value;
     seedbed.root.visible = gardenReveal.value < 0.9;
     sprouts.root.visible = gardenReveal.value < 0.9;
     halo.scale.setScalar(1 + Math.sin(time * 1.6) * 0.08);
@@ -797,9 +763,6 @@
     careEffect.update(care, time, reducedMotion, finale.opacity === 0, light);
     (particles.material as THREE.ShaderMaterial).uniforms.time.value = time;
     const mobile = size.current.width < 720;
-    landscape.scale.setScalar(
-      1 + (mobile ? 0.25 : 0) + gather.value * (mobile ? 0.15 : 0.12),
-    );
     const cam = camera.current as THREE.PerspectiveCamera;
     const shift = mobile ? 0 : -2.65;
     const opening =
@@ -840,15 +803,9 @@
     () => {
       if (!ready) return;
       if (
+        !reducedMotion &&
         effectiveLevel !== 'low' &&
-        [
-          'INTRO',
-          'GROWING',
-          'BLOOMING',
-          'BOUQUET',
-          'UNWRAPPING',
-          'CARD_READY',
-        ].includes(stage)
+        ['INTRO', 'BOUQUET', 'UNWRAPPING', 'CARD_READY'].includes(stage)
       ) {
         if (
           renderWidth !== size.current.width ||

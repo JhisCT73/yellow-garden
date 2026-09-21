@@ -192,3 +192,11 @@ Build correcto; rutas de fuentes relativas comprobadas en dist. Dos pruebas de r
 - Tipos sin errores/advertencias, lint y build correctos; advertencia de tamaño de Three conservada.
 - 4/4 pruebas del banco aprobadas: entrada/salida/reinicio y comparación de capturas del canvas durante pausa y tras reanudar, tanto en escritorio como móvil emulado. Consola sin errores de shaders durante esas pruebas.
 - Ajuste posterior de encuadre de la luna para móvil verificado visualmente. Movimiento reducido usa el reloj inmóvil existente. Sin medición nueva en hardware físico: los nuevos objetos pueden aumentar el coste de renderizado.
+
+## 0.18.0 — Jardín continuo en 3D y marca
+
+El paisaje fotográfico del mundo se reemplazó por terreno con relieve, piedras, flores instanciadas y el cielo del cierre. Verificado el encuadre de jardín en 1294 × 856 y 390 × 844. Se retiró el desenfoque de crecimiento y floración.
+
+La ejecución seleccionada de 12 pruebas (bench, garden y quality; escritorio y móvil Chromium) terminó con `.last-run.json` en estado passed. Las primeras ejecuciones con 60 s agotaron el tiempo en el recorrido del banco; se repitió con 120 s por prueba. Los dos escenarios de banco en escritorio tardaron aproximadamente 72 y 78 s. No se certifica fluidez ni rendimiento en GPU física. Se mantiene la limitación de dispositivos físicos documentada arriba.
+
+Verificación final con marca: svelte-check sin errores ni advertencias, lint correcto, 23/23 pruebas unitarias y build correcto. Se mantiene la advertencia de tamaño de Three (704,09 kB). Revisión visual de marca transparente en escritorio y móvil, apertura/cierre del mapa y del secreto comprobados en navegador. No se repitió toda la suite E2E tras el cambio de marca.
