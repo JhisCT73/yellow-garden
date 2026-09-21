@@ -18,6 +18,7 @@
   import { gardenLayout } from './utils/random';
   import CareChoice from './interactions/CareChoice.svelte';
   import type { GardenCare } from './systems/GardenCare';
+  import MusicPicker from './interactions/MusicPicker.svelte';
   import GraphicsSettings from './interactions/GraphicsSettings.svelte';
   import {
     initialQuality,
@@ -416,6 +417,12 @@
     <div class="header-controls">
       <GraphicsSettings bind:mode={qualityMode} level={qualityLevel} />
       {#if gardenConfig.audio}
+        <MusicPicker
+          onselect={(file) => {
+            audio.setMusic(file);
+            muted = true;
+          }}
+        />
         <button
           class="sound"
           onclick={toggleAudio}

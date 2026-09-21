@@ -1,3 +1,13 @@
+# Validación 0.19.2
+
+- Selector de música local mediante URL temporal, sin subida ni persistencia.
+- MP3 comercial retirado de los archivos actuales.
+- Audio E2E: 2/2 pruebas correctas (escritorio y móvil), incluida retirada y recarga sin selección persistente.
+- Check: 0 errores y 0 advertencias; lint y 23 pruebas unitarias correctas.
+- Build web e instalador Windows generados.
+- Ejecutable empaquetado probado sin conexión: selección local, reproducción, pausa y reanudación correctas.
+- El commit de eliminación no retira la grabación de commits históricos ni de descargas ya realizadas.
+
 # Validación de las entregas
 
 ## Octava entrega — 0.8.0

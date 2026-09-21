@@ -14,4 +14,4 @@ Referencias de API: https://threlte.xyz/docs/ y https://svelte.dev/docs/ . El al
 
 Desde 0.19, Electron (MIT) aporta el runtime de escritorio y electron-builder (MIT) genera el instalador. Electron incluye los avisos de Chromium y otros componentes en su distribución. El empaquetado conserva LICENSE, ATTRIBUTIONS.md y los archivos de licencias del runtime. No se incluye un certificado de firma de código.
 
-`public/audio/dandelions.mp3`: Dandelions, interpretada por Ruth B.; archivo aportado por el usuario para esta edición local. No fue generado por el proyecto ni está cubierto por su licencia MIT. La inclusión local no acredita una licencia de redistribución pública de la grabación.
+Desde 0.19.2 no se incluyen grabaciones musicales de terceros. El visitante puede seleccionar audio local, que no se sube ni se distribuye con el proyecto.

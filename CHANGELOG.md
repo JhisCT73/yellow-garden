@@ -1,3 +1,7 @@
+# 0.19.2
+
+- Retira la grabación comercial y añade selección privada de audio local para web y Windows.
+
 # Changelog
 
 ## 0.8.0

@@ -1,3 +1,4 @@
+import { audioFixture } from '../../scripts/audio-fixture.mjs';
 import { test, expect } from '@playwright/test';
 
 test('local soundtrack starts on demand, pauses and resumes', async ({
@@ -6,6 +7,11 @@ test('local soundtrack starts on demand, pauses and resumes', async ({
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   await expect(page.locator('audio[data-soundtrack]')).toHaveCount(0);
+  await page.getByLabel('Elegir música', { exact: true }).click();
+  await page
+    .getByLabel('Elegir archivo de audio')
+    .setInputFiles(audioFixture());
+  await page.getByLabel('Elegir música', { exact: true }).click();
   await page
     .getByRole('button', { name: 'Activar sonido', exact: true })
     .click();
@@ -18,7 +24,7 @@ test('local soundtrack starts on demand, pauses and resumes', async ({
     .toBeGreaterThan(0.5);
   expect(
     await audio.evaluate(
-      (element: HTMLAudioElement) => element.duration > 60 && element.loop,
+      (element: HTMLAudioElement) => element.duration >= 4 && element.loop,
     ),
   ).toBe(true);
   await page
@@ -45,4 +51,9 @@ test('local soundtrack starts on demand, pauses and resumes', async ({
   await page
     .getByRole('button', { name: 'Silenciar sonido', exact: true })
     .click();
+  await page.getByLabel('Elegir música', { exact: true }).click();
+  await page.getByRole('button', { name: 'Quitar música' }).click();
+  await expect(audio).toHaveCount(0);
+  await page.reload();
+  await expect(page.locator('audio[data-soundtrack]')).toHaveCount(0);
 });

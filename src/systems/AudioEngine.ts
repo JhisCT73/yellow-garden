@@ -11,18 +11,28 @@ export class AudioEngine {
   setCare(care: GardenCare) {
     this.care = care;
   }
-  async enable() {
-    const request = ++this.playbackRequest;
-    if (!this.music) {
+  private musicUrl?: string;
+  setMusic(file?: File) {
+    this.mute();
+    this.music?.removeAttribute('src');
+    this.music?.load();
+    this.music?.remove();
+    this.music = undefined;
+    if (this.musicUrl) URL.revokeObjectURL(this.musicUrl);
+    this.musicUrl = undefined;
+    if (file) {
+      this.musicUrl = URL.createObjectURL(file);
       this.music = document.createElement('audio');
-      this.music.src = `${import.meta.env.BASE_URL}audio/dandelions.mp3`;
+      this.music.src = this.musicUrl;
       this.music.loop = true;
-      this.music.preload = 'none';
       this.music.volume = 0.55;
       this.music.hidden = true;
-      this.music.dataset.soundtrack = 'dandelions';
+      this.music.dataset.soundtrack = 'local';
       document.body.append(this.music);
     }
+  }
+  async enable() {
+    const request = ++this.playbackRequest;
     if (!this.context) {
       this.context = new AudioContext();
       this.master = this.context.createGain();
@@ -50,7 +60,7 @@ export class AudioEngine {
       this.windSource.start();
     }
     try {
-      await Promise.all([this.context.resume(), this.music.play()]);
+      await Promise.all([this.context.resume(), this.music?.play()]);
       if (request !== this.playbackRequest) return false;
       this.master!.gain.setTargetAtTime(0.12, this.context.currentTime, 0.6);
       return true;
@@ -98,9 +108,7 @@ export class AudioEngine {
   }
   dispose() {
     this.mute();
-    this.music?.removeAttribute('src');
-    this.music?.load();
-    this.music?.remove();
+    this.setMusic();
     this.windSource?.stop();
     void this.context?.close();
   }

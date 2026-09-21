@@ -34,7 +34,7 @@ La web necesita conexión para su primera carga; no se ha implementado instalaci
 ## Usar como programa en Windows
 
 1. Entra en [Releases](../../releases).
-2. En **Assets**, descarga `YellowGarden-Setup-0.19.1-x64.exe` (el número cambia en nuevas versiones).
+2. En **Assets**, descarga `YellowGarden-Setup-0.19.2-x64.exe` (el número cambia en nuevas versiones).
 3. Abre el instalador, elige la carpeta y termina la instalación.
 4. Abre **Yellow Garden — ZyXer Labs** desde el escritorio o menú Inicio.
 
@@ -107,7 +107,7 @@ No se publica nada al ejecutar los comandos locales de empaquetado: utilizan `--
 
 **Para probar sin publicar:** ejecuta **Actions → Windows application → Run workflow**. Al terminar, descarga el artefacto `yellow-garden-windows-x64`; contiene el instalador y los hashes. El artefacto `yellow-garden-web` contiene la web compilada. Los artefactos de Actions pueden caducar; no sustituyen una Release pública.
 
-**Para preparar una versión:** actualiza la versión con `npm version patch` (o `minor`/`major`) sobre un árbol limpio, y sube el commit y el tag que crea. El tag debe ser exactamente `v` seguido de la versión de `package.json`. Por ejemplo, la versión actual corresponde a `v0.19.1`.
+**Para preparar una versión:** actualiza la versión con `npm version patch` (o `minor`/`major`) sobre un árbol limpio, y sube el commit y el tag que crea. El tag debe ser exactamente `v` seguido de la versión de `package.json`. Por ejemplo, la versión actual corresponde a `v0.19.2`.
 
 El workflow `desktop.yml` compila, comprueba la aplicación empaquetada y crea una **Release en borrador** con el instalador y sus hashes. Revisa los archivos y las notas en GitHub; solo cuando pulses **Publish release** serán una descarga pública. El código fuente lo adjunta GitHub como ZIP/TAR de esa versión.
 
@@ -134,8 +134,8 @@ Consulta [ARCHITECTURE.md](ARCHITECTURE.md), [docs/VALIDATION.md](docs/VALIDATIO
 
 El proyecto conserva su [licencia MIT](LICENSE): puedes estudiar, modificar y redistribuir el código respetando sus condiciones y avisos. Consulta [ATTRIBUTIONS.md](ATTRIBUTIONS.md) para recursos y dependencias. La marca que aparece en esta edición es **ZyXer Labs**.
 
-## Música de esta edición local
+## Música personal
 
-La pista es **Dandelions — Ruth B.**, a partir del MP3 aportado por el propietario, guardado en `public/audio/dandelions.mp3`. Se carga al activar Sonido, con volumen moderado y repetición. Silenciar pausa la canción; volver a activar continúa desde ese punto. Al ocultar la pestaña se silencia y requiere reactivación explícita. La pausa de la historia y el control de sonido siguen siendo independientes. Los efectos de interacción se mantienen a menor volumen; se eliminó el acorde ambiental continuo anterior.
+La música aporta una dimensión especial a la experiencia. Usa el botón ♫ para elegir un archivo de tu equipo y activa Sonido. El archivo se reproduce localmente: no se sube ni se guarda en el proyecto. Al cerrar o recargar debes seleccionarlo otra vez. Puedes quitarlo desde el mismo panel. Sin archivo, siguen disponibles los efectos sintetizados de interacción.
 
-La grabación es un recurso de terceros y no forma parte de la licencia MIT del código. Esta incorporación es local; no se ha publicado el audio en GitHub. Su redistribución pública debe tratarse por separado antes de publicar la versión.
+Esta edición no distribuye canciones comerciales. Para publicar una adaptación con música incluida, utiliza una grabación y composición con los permisos correspondientes. Reconocer al artista no sustituye esos permisos.

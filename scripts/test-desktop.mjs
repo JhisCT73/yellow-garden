@@ -1,3 +1,4 @@
+import { audioFixture } from './audio-fixture.mjs';
 import { _electron as electron, expect } from '@playwright/test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
@@ -48,6 +49,11 @@ try {
   await page.getByRole('button', { name: 'Abrir tu recorrido' }).click();
   await page.getByRole('heading', { name: 'Tu recorrido' }).waitFor();
   await page.getByRole('button', { name: 'Cerrar recorrido' }).click();
+  await page.getByLabel('Elegir música', { exact: true }).click();
+  await page
+    .getByLabel('Elegir archivo de audio')
+    .setInputFiles(audioFixture());
+  await page.getByLabel('Elegir música', { exact: true }).click();
   await page
     .getByRole('button', { name: 'Activar sonido', exact: true })
     .click();
@@ -59,7 +65,7 @@ try {
     .toBeGreaterThan(0.5);
   assert.equal(
     await soundtrack.evaluate(
-      (audio) => audio.loop && audio.duration > 60 && !audio.paused,
+      (audio) => audio.loop && audio.duration >= 4 && !audio.paused,
     ),
     true,
   );
