@@ -48,14 +48,34 @@ La primera edición está preparada para **Windows 10/11 x64**. No se ofrecen in
 
 Requisitos: **Node.js 22.12 o posterior**, npm y Git si vas a clonar. Para generar el instalador utiliza Windows x64. La primera instalación de dependencias y el primer empaquetado necesitan internet.
 
+### Instalación
+
 Clona tu copia del repositorio o descarga el código y abre una terminal en su carpeta:
 
 ```sh
-npm ci
+npm install
 npm run dev
 ```
 
+> También puedes usar `npm ci` para instalaciones reproducibles en CI o entornos locales limpios.
+
 Abre la dirección que indique Vite. No abras `index.html` directamente desde el explorador de archivos.
+
+### Pruebas E2E (Playwright)
+
+Los binarios de los navegadores de Playwright no se almacenan en el repositorio de Git por tamaño y compatibilidad entre plataformas. Deben descargarse una vez en cada entorno antes de ejecutar las pruebas.
+
+1. **Preparar el navegador Chromium para E2E:**
+
+```sh
+npm run test:e2e:install
+```
+
+2. **Ejecutar las pruebas E2E:**
+
+```sh
+npm run test:e2e
+```
 
 | Comando                                       | Resultado                                                         |
 | --------------------------------------------- | ----------------------------------------------------------------- |
@@ -67,7 +87,8 @@ Abre la dirección que indique Vite. No abras `index.html` directamente desde el
 | `npm run desktop:dist`                        | Instalador Windows x64 en `release/`                              |
 | `npm run test:desktop`                        | Comprobación de arranque de Electron con el `dist/` existente     |
 | `npm run check` / `npm run lint` / `npm test` | Tipos, análisis estático y pruebas unitarias                      |
-| `npm run test:e2e`                            | Pruebas del navegador; requiere `npx playwright install chromium` |
+| `npm run test:e2e:install`                    | Descarga el navegador Chromium necesario para Playwright          |
+| `npm run test:e2e`                            | Pruebas E2E del navegador (requiere haber ejecutado el install)   |
 
 Para probar el programa empaquetado en PowerShell:
 

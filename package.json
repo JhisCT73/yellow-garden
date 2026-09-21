@@ -16,6 +16,7 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "test:e2e:install": "playwright install chromium",
     "desktop": "npm run build && electron .",
     "desktop:runtime": "node node_modules/electron/install.js",
     "desktop:pack": "npm run build && npm run desktop:runtime && electron-builder --win --x64 --dir --publish never",
